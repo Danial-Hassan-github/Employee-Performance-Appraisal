@@ -34,7 +34,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         [HttpDelete]
         public void DeleteKPI(int id)
         {
-            db.KPIs.Remove(db.KPIs.Where(x=>x.KpiID==id).FirstOrDefault());
+
         }
     }
 }

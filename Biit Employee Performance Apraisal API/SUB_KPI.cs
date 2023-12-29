@@ -12,22 +12,20 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class KPI
+    public partial class SUB_KPI
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public KPI()
+        public SUB_KPI()
         {
-            this.KPI_WEIGHTAGE = new HashSet<KPI_WEIGHTAGE>();
-            this.SUB_KPI = new HashSet<SUB_KPI>();
+            this.SUB_KPI_WEIGHTAGE = new HashSet<SUB_KPI_WEIGHTAGE>();
         }
     
         public int ID { get; set; }
+        public int KPI_ID { get; set; }
         public string Name { get; set; }
-        public int status { get; set; }
     
+        public virtual KPI KPI { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SUB_KPI> SUB_KPI { get; set; }
+        public virtual ICollection<SUB_KPI_WEIGHTAGE> SUB_KPI_WEIGHTAGE { get; set; }
     }
 }

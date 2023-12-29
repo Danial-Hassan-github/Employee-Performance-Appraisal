@@ -31,7 +31,6 @@ namespace Biit_Employee_Performance_Apraisal_API
         public virtual DbSet<ENROLLMENT> ENROLLMENTs { get; set; }
         public virtual DbSet<EVALUATOR> EVALUATORs { get; set; }
         public virtual DbSet<KPI> KPIs { get; set; }
-        public virtual DbSet<KPI_SCORE> KPI_SCORE { get; set; }
         public virtual DbSet<PEER_EVALUATION> PEER_EVALUATION { get; set; }
         public virtual DbSet<QUESTIONAIRE> QUESTIONAIREs { get; set; }
         public virtual DbSet<SESSION> SESSIONs { get; set; }
@@ -39,5 +38,8 @@ namespace Biit_Employee_Performance_Apraisal_API
         public virtual DbSet<STUDENT_EVALUATION> STUDENT_EVALUATION { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TASK> TASKs { get; set; }
+        public virtual DbSet<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
+        public virtual DbSet<SUB_KPI> SUB_KPI { get; set; }
+        public virtual DbSet<SUB_KPI_WEIGHTAGE> SUB_KPI_WEIGHTAGE { get; set; }
     }
 }

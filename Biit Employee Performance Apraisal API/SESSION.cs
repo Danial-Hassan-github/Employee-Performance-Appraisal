@@ -20,8 +20,9 @@ namespace Biit_Employee_Performance_Apraisal_API
             this.CLASS_HELD_REPORT = new HashSet<CLASS_HELD_REPORT>();
             this.ENROLLMENTs = new HashSet<ENROLLMENT>();
             this.EVALUATORs = new HashSet<EVALUATOR>();
-            this.KPI_SCORE = new HashSet<KPI_SCORE>();
             this.STUDENT_EVALUATION = new HashSet<STUDENT_EVALUATION>();
+            this.KPI_WEIGHTAGE = new HashSet<KPI_WEIGHTAGE>();
+            this.SUB_KPI_WEIGHTAGE = new HashSet<SUB_KPI_WEIGHTAGE>();
         }
     
         public int SessionID { get; set; }
@@ -34,8 +35,10 @@ namespace Biit_Employee_Performance_Apraisal_API
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EVALUATOR> EVALUATORs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KPI_SCORE> KPI_SCORE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<STUDENT_EVALUATION> STUDENT_EVALUATION { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SUB_KPI_WEIGHTAGE> SUB_KPI_WEIGHTAGE { get; set; }
     }
 }
