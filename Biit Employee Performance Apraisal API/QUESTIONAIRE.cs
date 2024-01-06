@@ -24,6 +24,7 @@ namespace Biit_Employee_Performance_Apraisal_API
         public int QuestionID { get; set; }
         public string Question { get; set; }
         public string Type { get; set; }
+        public Nullable<bool> Deleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PEER_EVALUATION> PEER_EVALUATION { get; set; }

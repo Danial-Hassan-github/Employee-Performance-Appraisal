@@ -43,8 +43,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                         emp.Email = employee.Email;
                         emp.Password = employee.Password;
                         emp.Designation = employee.Designation;
-                        emp.Department = employee.Department;
                         emp.Salary = employee.Salary;
+                        emp.EmployeeTypeID = employee.EmployeeTypeID;
                         emp.DOJ = employee.DOJ;
                         db.SaveChanges();
                         return true;

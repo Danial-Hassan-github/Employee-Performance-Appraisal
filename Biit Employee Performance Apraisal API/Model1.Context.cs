@@ -41,5 +41,8 @@ namespace Biit_Employee_Performance_Apraisal_API
         public virtual DbSet<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
         public virtual DbSet<SUB_KPI> SUB_KPI { get; set; }
         public virtual DbSet<SUB_KPI_WEIGHTAGE> SUB_KPI_WEIGHTAGE { get; set; }
+        public virtual DbSet<EMPLOYEE_TYPE> EMPLOYEE_TYPE { get; set; }
+        public virtual DbSet<KPI_EMPLOYEE_SCORE> KPI_EMPLOYEE_SCORE { get; set; }
+        public virtual DbSet<SUBKPI_EMPLOYEE_SCORE> SUBKPI_EMPLOYEE_SCORE { get; set; }
     }
 }

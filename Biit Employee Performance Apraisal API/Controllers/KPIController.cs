@@ -11,30 +11,64 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
     public class KPIController : ApiController
     {
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
-        SqlConnection connection = null;
         [HttpGet]
-        public IEnumerable<KPI> GetKPIs()
-        {   
-            return db.KPIs;
+        public HttpResponseMessage GetKPIs()
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK,db.KPIs);
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
         }
 
         [HttpPost]
-        public HttpResponseMessage PostKPI([FromBody] KPI kPI)
+        public HttpResponseMessage PostKPI([FromBody] KPI kPI,KPI_WEIGHTAGE kPI_WEIGHTAGE)
         {
-            db.KPIs.Add(kPI);
-            int i=db.SaveChanges();
-            return Request.CreateResponse(HttpStatusCode.OK,i);
+            try
+            {
+                db.KPIs.Add(kPI);
+                db.KPI_WEIGHTAGE.Add(kPI_WEIGHTAGE);
+                int i = db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, kPI);
+            }catch(Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
         }
 
         [HttpPut]
-        public void PutKPI(int id, [FromBody] KPI kPI)
+        public HttpResponseMessage PutKPI(int id, [FromBody] KPI kPI,int weightage)
         {
+            try
+            {
+                var kpi = db.KPIs.Find(id);
+                kpi.Name = kPI.Name;
+                var kpi_weightage = db.KPI_WEIGHTAGE.Find(id);
+                kpi_weightage.Weightage = weightage;
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, kpi);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK,ex.Message);
+            }
         }
 
         [HttpDelete]
-        public void DeleteKPI(int id)
+        public HttpResponseMessage DeleteKPI(int id)
         {
-
+            try
+            {
+                var kpi = db.KPIs.Find(id);
+                kpi.status = 1;
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK,"Deleted Successfully");
+            }catch(Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
         }
     }
 }

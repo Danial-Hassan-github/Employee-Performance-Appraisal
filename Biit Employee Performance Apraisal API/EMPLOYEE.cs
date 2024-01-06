@@ -25,6 +25,8 @@ namespace Biit_Employee_Performance_Apraisal_API
             this.STUDENT_EVALUATION = new HashSet<STUDENT_EVALUATION>();
             this.TASKs = new HashSet<TASK>();
             this.TASKs1 = new HashSet<TASK>();
+            this.KPI_EMPLOYEE_SCORE = new HashSet<KPI_EMPLOYEE_SCORE>();
+            this.SUBKPI_EMPLOYEE_SCORE = new HashSet<SUBKPI_EMPLOYEE_SCORE>();
         }
     
         public int EmployeeID { get; set; }
@@ -32,9 +34,9 @@ namespace Biit_Employee_Performance_Apraisal_API
         public string Email { get; set; }
         public string Password { get; set; }
         public string Designation { get; set; }
-        public string Department { get; set; }
         public Nullable<decimal> Salary { get; set; }
         public Nullable<System.DateTime> DOJ { get; set; }
+        public Nullable<int> EmployeeTypeID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CLASS_HELD_REPORT> CLASS_HELD_REPORT { get; set; }
@@ -52,5 +54,10 @@ namespace Biit_Employee_Performance_Apraisal_API
         public virtual ICollection<TASK> TASKs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TASK> TASKs1 { get; set; }
+        public virtual EMPLOYEE_TYPE EMPLOYEE_TYPE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<KPI_EMPLOYEE_SCORE> KPI_EMPLOYEE_SCORE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SUBKPI_EMPLOYEE_SCORE> SUBKPI_EMPLOYEE_SCORE { get; set; }
     }
 }

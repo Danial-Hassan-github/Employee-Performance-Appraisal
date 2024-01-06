@@ -12,26 +12,18 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class STUDENT
+    public partial class EMPLOYEE_TYPE
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public STUDENT()
+        public EMPLOYEE_TYPE()
         {
-            this.ENROLLMENTs = new HashSet<ENROLLMENT>();
-            this.STUDENT_EVALUATION = new HashSet<STUDENT_EVALUATION>();
+            this.EMPLOYEEs = new HashSet<EMPLOYEE>();
         }
     
-        public int StudentID { get; set; }
-        public string Name { get; set; }
-        public string AridNO { get; set; }
-        public Nullable<int> Semester { get; set; }
-        public string Section { get; set; }
-        public Nullable<double> CGPA { get; set; }
-        public string Discipline { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ENROLLMENT> ENROLLMENTs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<STUDENT_EVALUATION> STUDENT_EVALUATION { get; set; }
+        public virtual ICollection<EMPLOYEE> EMPLOYEEs { get; set; }
     }
 }

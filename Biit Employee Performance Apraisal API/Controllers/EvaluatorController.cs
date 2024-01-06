@@ -53,15 +53,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         // POST: api/Evaluator
         [HttpPost]
         [ResponseType(typeof(EVALUATOR))]
-        public HttpResponseMessage PostEVALUATOR(EMPLOYEE eMPLOYEE,int sessionID,EMPLOYEE eMPLOYEE1)
+        public HttpResponseMessage PostEVALUATOR(List<EVALUATOR> eVALUATORs,int sessionID)
         {
             EVALUATOR eVALUATOR = new EVALUATOR();
             try
             {
-                eVALUATOR.EvaluatorID = eMPLOYEE.EmployeeID;
-                eVALUATOR.SessionID = sessionID;
-                eVALUATOR.EvaluateeID = eMPLOYEE1.EmployeeID;
-                db.EVALUATORs.Add(eVALUATOR);
+                db.EVALUATORs.AddRange(eVALUATORs);
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, eVALUATOR);
             }
