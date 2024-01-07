@@ -14,13 +14,13 @@ namespace Biit_Employee_Performance_Apraisal_API
     
     public partial class SUBKPI_EMPLOYEE_SCORE
     {
-        public int KPI_ID { get; set; }
+        public int SUBKPI_ID { get; set; }
         public int EmployeeID { get; set; }
         public int SessionID { get; set; }
         public Nullable<double> Score { get; set; }
     
         public virtual EMPLOYEE EMPLOYEE { get; set; }
-        public virtual KPI KPI { get; set; }
         public virtual SESSION SESSION { get; set; }
+        public virtual SUB_KPI SUB_KPI { get; set; }
     }
 }

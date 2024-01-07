@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -28,10 +29,13 @@ namespace Biit_Employee_Performance_Apraisal_API
         public string Section { get; set; }
         public Nullable<double> CGPA { get; set; }
         public string Discipline { get; set; }
+        public string Password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<ENROLLMENT> ENROLLMENTs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<STUDENT_EVALUATION> STUDENT_EVALUATION { get; set; }
     }
 }

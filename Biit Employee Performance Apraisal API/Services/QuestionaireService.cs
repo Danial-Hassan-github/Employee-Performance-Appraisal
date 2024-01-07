@@ -37,6 +37,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                     var qs = db.QUESTIONAIREs.Find(question.QuestionID);
                     qs.Question = question.Question;
                     qs.Type = question.Type;
+                    qs.Deleted = question.Deleted;
                     db.SaveChanges();
                     return true;
                 }

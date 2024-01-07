@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -20,10 +21,10 @@ namespace Biit_Employee_Performance_Apraisal_API
             this.CLASS_HELD_REPORT = new HashSet<CLASS_HELD_REPORT>();
             this.ENROLLMENTs = new HashSet<ENROLLMENT>();
             this.EVALUATORs = new HashSet<EVALUATOR>();
-            this.STUDENT_EVALUATION = new HashSet<STUDENT_EVALUATION>();
-            this.KPI_WEIGHTAGE = new HashSet<KPI_WEIGHTAGE>();
-            this.SUB_KPI_WEIGHTAGE = new HashSet<SUB_KPI_WEIGHTAGE>();
             this.KPI_EMPLOYEE_SCORE = new HashSet<KPI_EMPLOYEE_SCORE>();
+            this.KPI_WEIGHTAGE = new HashSet<KPI_WEIGHTAGE>();
+            this.STUDENT_EVALUATION = new HashSet<STUDENT_EVALUATION>();
+            this.SUB_KPI_WEIGHTAGE = new HashSet<SUB_KPI_WEIGHTAGE>();
             this.SUBKPI_EMPLOYEE_SCORE = new HashSet<SUBKPI_EMPLOYEE_SCORE>();
         }
     
@@ -31,20 +32,28 @@ namespace Biit_Employee_Performance_Apraisal_API
         public string Title { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<CLASS_HELD_REPORT> CLASS_HELD_REPORT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<ENROLLMENT> ENROLLMENTs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<EVALUATOR> EVALUATORs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<STUDENT_EVALUATION> STUDENT_EVALUATION { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SUB_KPI_WEIGHTAGE> SUB_KPI_WEIGHTAGE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<KPI_EMPLOYEE_SCORE> KPI_EMPLOYEE_SCORE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        public virtual ICollection<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        public virtual ICollection<STUDENT_EVALUATION> STUDENT_EVALUATION { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        public virtual ICollection<SUB_KPI_WEIGHTAGE> SUB_KPI_WEIGHTAGE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<SUBKPI_EMPLOYEE_SCORE> SUBKPI_EMPLOYEE_SCORE { get; set; }
     }
 }

@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -17,10 +18,9 @@ namespace Biit_Employee_Performance_Apraisal_API
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public KPI()
         {
+            this.KPI_EMPLOYEE_SCORE = new HashSet<KPI_EMPLOYEE_SCORE>();
             this.KPI_WEIGHTAGE = new HashSet<KPI_WEIGHTAGE>();
             this.SUB_KPI = new HashSet<SUB_KPI>();
-            this.KPI_EMPLOYEE_SCORE = new HashSet<KPI_EMPLOYEE_SCORE>();
-            this.SUBKPI_EMPLOYEE_SCORE = new HashSet<SUBKPI_EMPLOYEE_SCORE>();
         }
     
         public int ID { get; set; }
@@ -28,12 +28,13 @@ namespace Biit_Employee_Performance_Apraisal_API
         public int status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SUB_KPI> SUB_KPI { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<KPI_EMPLOYEE_SCORE> KPI_EMPLOYEE_SCORE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SUBKPI_EMPLOYEE_SCORE> SUBKPI_EMPLOYEE_SCORE { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        public virtual ICollection<SUB_KPI> SUB_KPI { get; set; }
     }
 }

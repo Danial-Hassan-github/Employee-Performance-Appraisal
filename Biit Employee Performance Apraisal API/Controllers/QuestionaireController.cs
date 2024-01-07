@@ -19,7 +19,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.QUESTIONAIREs.Where(question => question.Type.Equals("student")));
+                return Request.CreateResponse(HttpStatusCode.OK, db.QUESTIONAIREs.Where(question => question.Type.Equals("student") && question.Deleted == false));
             }catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
@@ -32,7 +32,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.QUESTIONAIREs.Where(question => question.Type.Equals("peer")));
+                return Request.CreateResponse(HttpStatusCode.OK, db.QUESTIONAIREs.Where(question => question.Type.Equals("peer") && question.Deleted == false));
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.QUESTIONAIREs.Where(question=>question.Type.Equals("confidential")));
+                return Request.CreateResponse(HttpStatusCode.OK, db.QUESTIONAIREs.Where(question=>question.Type.Equals("confidential") && question.Deleted==false));
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage PutQuestion(int id, [FromBody] QUESTIONAIRE question)
+        public HttpResponseMessage PutQuestion([FromBody] QUESTIONAIRE question)
         {
             if (questionaire.UpdateQuestion(question))
             {
@@ -79,7 +79,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                db.QUESTIONAIREs.Remove(db.QUESTIONAIREs.Where(x=>x.QuestionID==id).FirstOrDefault());
+                var qs=db.QUESTIONAIREs.Find(id);
+                qs.Deleted=true;
+                db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "Deleted");
             }
             catch (Exception ex)

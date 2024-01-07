@@ -24,8 +24,6 @@
     <EntitySetMapping Name="EMPLOYEEs">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.EMPLOYEE">
         <MappingFragment StoreEntitySet="EMPLOYEE">
-          <ScalarProperty Name="Department" ColumnName="Department" />
-          <ScalarProperty Name="EmployeeTypeID" ColumnName="EmployeeTypeID" />
           <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Email" ColumnName="Email" />
@@ -33,6 +31,16 @@
           <ScalarProperty Name="Designation" ColumnName="Designation" />
           <ScalarProperty Name="Salary" ColumnName="Salary" />
           <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+          <ScalarProperty Name="EmployeeTypeID" ColumnName="EmployeeTypeID" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EMPLOYEE_TYPE">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.EMPLOYEE_TYPE">
+        <MappingFragment StoreEntitySet="EMPLOYEE_TYPE">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -49,19 +57,38 @@
     <EntitySetMapping Name="EVALUATORs">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.EVALUATOR">
         <MappingFragment StoreEntitySet="EVALUATOR">
-          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
           <ScalarProperty Name="EvaluatorID" ColumnName="EvaluatorID" />
           <ScalarProperty Name="SessionID" ColumnName="SessionID" />
           <ScalarProperty Name="EvaluateeID" ColumnName="EvaluateeID" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="KPIs">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.KPI">
         <MappingFragment StoreEntitySet="KPI">
-          <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KPI_EMPLOYEE_SCORE">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.KPI_EMPLOYEE_SCORE">
+        <MappingFragment StoreEntitySet="KPI_EMPLOYEE_SCORE">
+          <ScalarProperty Name="KPI_ID" ColumnName="KPI_ID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KPI_WEIGHTAGE">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.KPI_WEIGHTAGE">
+        <MappingFragment StoreEntitySet="KPI_WEIGHTAGE">
+          <ScalarProperty Name="KPI_ID" ColumnName="KPI_ID" />
+          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+          <ScalarProperty Name="Weightage" ColumnName="Weightage" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -80,10 +107,10 @@
     <EntitySetMapping Name="QUESTIONAIREs">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.QUESTIONAIRE">
         <MappingFragment StoreEntitySet="QUESTIONAIRE">
-          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
           <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
           <ScalarProperty Name="Question" ColumnName="Question" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -98,14 +125,14 @@
     <EntitySetMapping Name="STUDENTs">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.STUDENT">
         <MappingFragment StoreEntitySet="STUDENT">
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Discipline" ColumnName="Discipline" />
           <ScalarProperty Name="StudentID" ColumnName="StudentID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="AridNO" ColumnName="AridNO" />
           <ScalarProperty Name="Semester" ColumnName="Semester" />
           <ScalarProperty Name="Section" ColumnName="Section" />
           <ScalarProperty Name="CGPA" ColumnName="CGPA" />
+          <ScalarProperty Name="Discipline" ColumnName="Discipline" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -116,6 +143,34 @@
           <ScalarProperty Name="SessionID" ColumnName="SessionID" />
           <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
           <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SUB_KPI">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SUB_KPI">
+        <MappingFragment StoreEntitySet="SUB_KPI">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="KPI_ID" ColumnName="KPI_ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SUB_KPI_WEIGHTAGE">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SUB_KPI_WEIGHTAGE">
+        <MappingFragment StoreEntitySet="SUB_KPI_WEIGHTAGE">
+          <ScalarProperty Name="SUB_KPI_ID" ColumnName="SUB_KPI_ID" />
+          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+          <ScalarProperty Name="Weightage" ColumnName="Weightage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SUBKPI_EMPLOYEE_SCORE">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SUBKPI_EMPLOYEE_SCORE">
+        <MappingFragment StoreEntitySet="SUBKPI_EMPLOYEE_SCORE">
+          <ScalarProperty Name="SUBKPI_ID" ColumnName="SUBKPI_ID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
           <ScalarProperty Name="Score" ColumnName="Score" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -134,7 +189,6 @@
     <EntitySetMapping Name="TASKs">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.TASK">
         <MappingFragment StoreEntitySet="TASK">
-          <ScalarProperty Name="AssignedDate" ColumnName="AssignedDate" />
           <ScalarProperty Name="TaskID" ColumnName="TaskID" />
           <ScalarProperty Name="AssignedToID" ColumnName="AssignedToID" />
           <ScalarProperty Name="AssignedByID" ColumnName="AssignedByID" />
@@ -143,61 +197,7 @@
           <ScalarProperty Name="Weightage" ColumnName="Weightage" />
           <ScalarProperty Name="DueDate" ColumnName="DueDate" />
           <ScalarProperty Name="Score" ColumnName="Score" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="KPI_WEIGHTAGE">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.KPI_WEIGHTAGE">
-        <MappingFragment StoreEntitySet="KPI_WEIGHTAGE">
-          <ScalarProperty Name="Weightage" ColumnName="Weightage" />
-          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-          <ScalarProperty Name="KPI_ID" ColumnName="KPI_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SUB_KPI">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SUB_KPI">
-        <MappingFragment StoreEntitySet="SUB_KPI">
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="KPI_ID" ColumnName="KPI_ID" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SUB_KPI_WEIGHTAGE">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SUB_KPI_WEIGHTAGE">
-        <MappingFragment StoreEntitySet="SUB_KPI_WEIGHTAGE">
-          <ScalarProperty Name="Weightage" ColumnName="Weightage" />
-          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-          <ScalarProperty Name="SUB_KPI_ID" ColumnName="SUB_KPI_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EMPLOYEE_TYPE">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.EMPLOYEE_TYPE">
-        <MappingFragment StoreEntitySet="EMPLOYEE_TYPE">
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="KPI_EMPLOYEE_SCORE">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.KPI_EMPLOYEE_SCORE">
-        <MappingFragment StoreEntitySet="KPI_EMPLOYEE_SCORE">
-          <ScalarProperty Name="Score" ColumnName="Score" />
-          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-          <ScalarProperty Name="KPI_ID" ColumnName="KPI_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SUBKPI_EMPLOYEE_SCORE">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SUBKPI_EMPLOYEE_SCORE">
-        <MappingFragment StoreEntitySet="SUBKPI_EMPLOYEE_SCORE">
-          <ScalarProperty Name="SUBKPI_ID" ColumnName="SUBKPI_ID" />
-          <ScalarProperty Name="Score" ColumnName="Score" />
-          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="AssignedDate" ColumnName="AssignedDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

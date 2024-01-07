@@ -12,11 +12,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
     {
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
         [HttpGet]
-        public HttpResponseMessage GetKPIs()
+        public HttpResponseMessage GetKPIs(int sessionID)
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK,db.KPIs);
+                return Request.CreateResponse(HttpStatusCode.OK,db.KPIs.Where(kpi => kpi.status==1));
             }catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);

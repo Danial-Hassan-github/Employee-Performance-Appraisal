@@ -36,12 +36,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
         // GET: api/Evaluator/5
-        [ActionName("GetEvaluator")]
-        [Route("api/Evaluator/GetEvaluator/{id:int}")]
+        [ActionName("GetEVALUATEEs")]
+        [Route("api/Evaluator/GetEVALUATEEs/{id:int}")]
         [ResponseType(typeof(EVALUATOR))]
-        public IHttpActionResult GetEVALUATOR(int id)
+        public IHttpActionResult GetEVALUATEEs(int id,int sessionID)
         {
-            EVALUATOR eVALUATOR = db.EVALUATORs.Find(id);
+            var eVALUATOR = db.EVALUATORs.Where(evaluator => evaluator.EvaluatorID == id && evaluator.SessionID == sessionID).ToList();
             if (eVALUATOR == null)
             {
                 return NotFound();
