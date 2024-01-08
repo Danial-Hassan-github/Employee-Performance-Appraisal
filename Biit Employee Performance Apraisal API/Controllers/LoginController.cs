@@ -28,9 +28,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 }
                 if (student!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, student);
+                    return Request.CreateResponse(HttpStatusCode.OK, student);
                 }
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, employee);
+                return Request.CreateResponse(HttpStatusCode.OK, employee);
             }
             catch (Exception ex) {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,ex.Message);

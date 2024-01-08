@@ -24,11 +24,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                var result = db.EMPLOYEEs
-    .Join(db.EVALUATORs, employee => employee.EmployeeID, evaluator => evaluator.EvaluatorID, (employee, evaluator) => new { employee, evaluator })
+                var result= db.EVALUATORs.Where(evaluator => evaluator.Deleted == false && evaluator.SessionID == sessionID).ToList();
+                /*var result = db.EMPLOYEEs
+    .Join(db.EVALUATORs, employee => employee.EmployeeID, evaluator => evaluator.EvaluatorID, (employee, evaluator) => new { employee, evaluator }).Where(evaluator => evaluator.evaluator.Deleted==false)
     .Join(db.SESSIONs, combined => combined.evaluator.SessionID, session => session.SessionID, (combined, session) => new { combined.employee, combined.evaluator, session })
     .Where(combined => combined.session.SessionID == sessionID)
-    .Select(combined => combined.employee);
+    .Select(combined => combined.employee);*/
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }catch(Exception ex)
             {
@@ -53,14 +54,25 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         // POST: api/Evaluator
         [HttpPost]
         [ResponseType(typeof(EVALUATOR))]
-        public HttpResponseMessage PostEVALUATOR(List<EVALUATOR> eVALUATORs,int sessionID)
+        public HttpResponseMessage PostEVALUATOR(EVALUATOR eVALUATOR, List<int> EvaluateesID)
         {
-            EVALUATOR eVALUATOR = new EVALUATOR();
             try
             {
-                db.EVALUATORs.AddRange(eVALUATORs);
-                db.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, eVALUATOR);
+                for (int i = 0; i < EvaluateesID.Count; i++)
+                {
+                    eVALUATOR.EvaluateeID = EvaluateesID[i];
+                    var evaluator = db.EVALUATORs.Find(eVALUATOR);
+                    if (evaluator!=null)
+                    {
+                        evaluator.Deleted = false;
+                    }
+                    else
+                    {
+                        db.EVALUATORs.Add(eVALUATOR);
+                    }
+                    db.SaveChanges();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, "Evaluator Added Successfully");
             }
             catch (Exception ex)
             {

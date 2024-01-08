@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -20,9 +21,12 @@ namespace Biit_Employee_Performance_Apraisal_API
         public int CourseID { get; set; }
         public int SessionID { get; set; }
         public int Score { get; set; }
-    
+
+        [JsonIgnore]
         public virtual COURSE COURSE { get; set; }
+        [JsonIgnore]
         public virtual EMPLOYEE EMPLOYEE { get; set; }
+        [JsonIgnore]
         public virtual EVALUATOR EVALUATOR { get; set; }
         public virtual QUESTIONAIRE QUESTIONAIRE { get; set; }
     }

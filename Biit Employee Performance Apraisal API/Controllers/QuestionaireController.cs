@@ -82,7 +82,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 var qs=db.QUESTIONAIREs.Find(id);
                 qs.Deleted=true;
                 db.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Deleted");
+                return Request.CreateResponse(HttpStatusCode.OK, "Deleted");
             }
             catch (Exception ex)
             {
