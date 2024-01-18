@@ -9,32 +9,30 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
-    public partial class KPI
+    public partial class Kpi
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public KPI()
+        public Kpi()
         {
-            this.KPI_EMPLOYEE_SCORE = new HashSet<KPI_EMPLOYEE_SCORE>();
-            this.KPI_WEIGHTAGE = new HashSet<KPI_WEIGHTAGE>();
-            this.SUB_KPI = new HashSet<SUB_KPI>();
+            this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
+            this.KpiWeightages = new HashSet<KpiWeightage>();
+            this.SubKpis = new HashSet<SubKpi>();
         }
     
-        public int ID { get; set; }
-        public string Name { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
         public int status { get; set; }
+        public Nullable<int> employee_type_id { get; set; }
     
+        public virtual EmployeeType EmployeeType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<KPI_EMPLOYEE_SCORE> KPI_EMPLOYEE_SCORE { get; set; }
+        public virtual ICollection<KpiEmployeeScore> KpiEmployeeScores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
+        public virtual ICollection<KpiWeightage> KpiWeightages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<SUB_KPI> SUB_KPI { get; set; }
+        public virtual ICollection<SubKpi> SubKpis { get; set; }
     }
 }

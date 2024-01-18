@@ -10,13 +10,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
         public string message = string.Empty;
 
-        public bool AddTask(TASK task)
+        public bool AddTask(Task task)
         {
             if (ValidateTaskData(task))
             {
                 try
                 {
-                    db.TASKs.Add(task);
+                    db.Tasks.Add(task);
                     int i = db.SaveChanges();
                     return true;
                 }
@@ -32,17 +32,17 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         {
             try
             {
-                TASK task = db.TASKs.Find(id);
+                Task task = db.Tasks.Find(id);
                 if(task != null)
                 {
-                    if (task.Status == 0)
+                    if (task.status == 0)
                     {
-                        db.TASKs.Remove(task);
+                        db.Tasks.Remove(task);
                         db.SaveChanges();
                     }
                     else
                     {
-                        task.Status = 2;
+                        task.status = 2;
                         db.SaveChanges();
                     }
                     return true;
@@ -55,18 +55,18 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return false;
         }
 
-        public bool UpdateTask(TASK task)
+        public bool UpdateTask(Task task)
         {
             if (ValidateTaskData(task))
             {
                 try
                 {
-                    var t = db.TASKs.Find(task);
-                    t.TaskDescription = task.TaskDescription;
-                    t.AssignedByID = task.AssignedByID;
-                    t.AssignedToID = task.AssignedToID;
-                    t.Weightage = task.Weightage;
-                    t.DueDate = task.DueDate;
+                    var t = db.Tasks.Find(task);
+                    t.task_description = task.task_description;
+                    t.assigned_by_id = task.assigned_by_id;
+                    t.assigned_to_id = task.assigned_to_id;
+                    t.weightage = task.weightage;
+                    t.due_date = task.due_date;
                     db.SaveChanges();
                     return true;
                 }
@@ -78,20 +78,20 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return false;
         }
 
-        public bool ValidateTaskData(TASK task) 
+        public bool ValidateTaskData(Task task) 
         {
-            if (task.TaskDescription == null)
+            if (task.task_description == null)
             {
                 message = "Please Enter Task Description";
             }
-            else if(task.AssignedToID == 0)
+            else if(task.assigned_to_id == 0)
             {
                 message = "Please select person";
-            }else if (task.Weightage==0)
+            }else if (task.weightage==0)
             {
                 message = "Please Enter Weightage";
             }
-            else if (task.DueDate == null)
+            else if (task.due_date == null)
             {
                 message = "Please Select Due Date";
             }

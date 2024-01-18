@@ -12,16 +12,16 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class ENROLLMENT
+    public partial class Enrollment
     {
-        public int SessionID { get; set; }
-        public int TeacherID { get; set; }
-        public int StudentID { get; set; }
-        public int CourseID { get; set; }
+        public int session_id { get; set; }
+        public int teacher_id { get; set; }
+        public int student_id { get; set; }
+        public int course_id { get; set; }
     
-        public virtual COURSE COURSE { get; set; }
-        public virtual EMPLOYEE EMPLOYEE { get; set; }
-        public virtual SESSION SESSION { get; set; }
-        public virtual STUDENT STUDENT { get; set; }
+        public virtual Course Course { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Session Session { get; set; }
+        public virtual Student Student { get; set; }
     }
 }

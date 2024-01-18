@@ -9,29 +9,24 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
-    public partial class SUB_KPI
+    public partial class EmployeeType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SUB_KPI()
+        public EmployeeType()
         {
-            this.SUB_KPI_WEIGHTAGE = new HashSet<SUB_KPI_WEIGHTAGE>();
-            this.SUBKPI_EMPLOYEE_SCORE = new HashSet<SUBKPI_EMPLOYEE_SCORE>();
+            this.Employees = new HashSet<Employee>();
+            this.Kpis = new HashSet<Kpi>();
         }
     
-        public int ID { get; set; }
-        public int KPI_ID { get; set; }
-        public string Name { get; set; }
+        public int id { get; set; }
+        public string title { get; set; }
     
-        public virtual KPI KPI { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<SUB_KPI_WEIGHTAGE> SUB_KPI_WEIGHTAGE { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<SUBKPI_EMPLOYEE_SCORE> SUBKPI_EMPLOYEE_SCORE { get; set; }
+        public virtual ICollection<Kpi> Kpis { get; set; }
     }
 }

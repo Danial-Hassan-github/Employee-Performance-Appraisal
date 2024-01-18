@@ -12,13 +12,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
     {
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
         public string message = string.Empty;
-        public bool AddEmployee(EMPLOYEE employee)
+        public bool AddEmployee(Employee employee)
         {
             if (ValidateEmployeeData(employee))
             {
                 try
                 {
-                    db.EMPLOYEEs.Add(employee);
+                    db.Employees.Add(employee);
                     int i = db.SaveChanges();
                     return true;
                 }
@@ -30,22 +30,23 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return false;
         }
 
-        public bool UpdateEmployee(EMPLOYEE employee)
+        public bool UpdateEmployee(Employee employee)
         {
             if (ValidateEmployeeData(employee))
             {
                 try
                 {
-                    var emp = db.EMPLOYEEs.Find(employee.EmployeeID);
+                    var emp = db.Employees.Find(employee.id);
                     if (emp!=null)
                     {
-                        emp.Name = employee.Name;
-                        emp.Email = employee.Email;
-                        emp.Password = employee.Password;
-                        emp.Designation = employee.Designation;
-                        emp.Salary = employee.Salary;
-                        emp.EmployeeTypeID = employee.EmployeeTypeID;
-                        emp.DOJ = employee.DOJ;
+                        emp.name = employee.name;
+                        emp.email = employee.email;
+                        emp.password = employee.password;
+                        emp.designation = employee.designation;
+                        emp.salary = employee.salary;
+                        emp.department = employee.department;
+                        emp.employee_type_id = employee.employee_type_id;
+                        emp.doj = employee.doj;
                         db.SaveChanges();
                         return true;
                     }
@@ -58,42 +59,42 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return false;
         }
 
-        public bool ValidateEmployeeData(EMPLOYEE employee)
+        public bool ValidateEmployeeData(Employee employee)
         {
-            /*if (employee.Name == string.Empty)
+            if (employee.name == string.Empty)
             {
                 message = "Please Enter Name";
             }
-            else if (Regex.IsMatch(employee.Email, @""))
+            else if (!Regex.IsMatch(employee.email, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"))
             {
-                if (string.IsNullOrEmpty(employee.Name))
+                if (string.IsNullOrEmpty(employee.email))
                     message = "Please Enter Email";
                 else
                     message = "Email is not valid";
             }
-            else if (Regex.IsMatch(employee.Password, @""))
+            else if (!Regex.IsMatch(employee.password, @".{6,10}$"))
             {
-                if (string.IsNullOrEmpty(employee.Name))
+                if (string.IsNullOrEmpty(employee.name))
                     message = "Please Enter Password";
                 else
                     message = "Password should be of 6 to 12 characters";
             }
-            else if (employee.Designation == string.Empty)
+            else if (employee.designation == string.Empty)
             {
                 message = "Please Select Designation";
             }
-            else if (employee.Department == string.Empty)
+            else if (employee.department == string.Empty)
             {
                 message = "Please Select Department";
             }
-            else if (employee.Salary == null)
+            else if (employee.salary == null)
             {
                 message = "Please Enter Salary";
             }
-            else if (employee.DOJ == null)
+            else if (employee.doj == null)
             {
                 message = "Please Enter Date of Joining";
-            }*/
+            }
 
             if (message==string.Empty)
                 return true;

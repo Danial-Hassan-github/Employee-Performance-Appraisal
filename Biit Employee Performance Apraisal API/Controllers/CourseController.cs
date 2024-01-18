@@ -15,7 +15,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         public HttpResponseMessage GetCourses()
         {
             Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
-            var courses = db.COURSEs;
+            var courses = db.Courses;
             return Request.CreateResponse(HttpStatusCode.OK, courses);
         }
 

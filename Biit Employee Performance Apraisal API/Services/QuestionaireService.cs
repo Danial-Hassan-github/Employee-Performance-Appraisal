@@ -10,13 +10,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
         public string message=string.Empty;
 
-        public bool AddQuestion(QUESTIONAIRE question)
+        public bool AddQuestion(Questionaire question)
         {
             if (ValidateQuestionData(question))
             {
                 try
                 {
-                    db.QUESTIONAIREs.Add(question);
+                    db.Questionaires.Add(question);
                     int i = db.SaveChanges();
                     return true;
                 }
@@ -28,16 +28,16 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return false;
         }
 
-        public bool UpdateQuestion(QUESTIONAIRE question)
+        public bool UpdateQuestion(Questionaire question)
         {
             if (ValidateQuestionData(question))
             {
                 try
                 {
-                    var qs = db.QUESTIONAIREs.Find(question.QuestionID);
-                    qs.Question = question.Question;
-                    qs.Type = question.Type;
-                    qs.Deleted = question.Deleted;
+                    var qs = db.Questionaires.Find(question.id);
+                    qs.question = question.question;
+                    qs.type = question.type;
+                    qs.deleted = question.deleted;
                     db.SaveChanges();
                     return true;
                 }
@@ -49,9 +49,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return false;
         }
 
-        private bool ValidateQuestionData(QUESTIONAIRE question)
+        private bool ValidateQuestionData(Questionaire question)
         {
-            if (question.Question==null)
+            if (question.question==null)
             {
                 message = "Please Enter Question";
                 return false;

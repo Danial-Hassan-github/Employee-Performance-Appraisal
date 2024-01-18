@@ -9,33 +9,30 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
-    public partial class STUDENT
+    public partial class Student
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public STUDENT()
+        public Student()
         {
-            this.ENROLLMENTs = new HashSet<ENROLLMENT>();
-            this.STUDENT_EVALUATION = new HashSet<STUDENT_EVALUATION>();
+            this.Enrollments = new HashSet<Enrollment>();
+            this.StudentEvaluations = new HashSet<StudentEvaluation>();
         }
     
-        public int StudentID { get; set; }
-        public string Name { get; set; }
-        public string AridNO { get; set; }
-        public Nullable<int> Semester { get; set; }
-        public string Section { get; set; }
-        public Nullable<double> CGPA { get; set; }
-        public string Discipline { get; set; }
-        public string Password { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string arid_no { get; set; }
+        public Nullable<int> semester { get; set; }
+        public string section { get; set; }
+        public Nullable<double> cgpa { get; set; }
+        public string discipline { get; set; }
+        public string password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<ENROLLMENT> ENROLLMENTs { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<STUDENT_EVALUATION> STUDENT_EVALUATION { get; set; }
+        public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
     }
 }

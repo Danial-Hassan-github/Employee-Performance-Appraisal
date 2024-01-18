@@ -9,28 +9,25 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
-    public partial class COURSE
+    public partial class Course
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public COURSE()
+        public Course()
         {
-            this.ENROLLMENTs = new HashSet<ENROLLMENT>();
-            this.PEER_EVALUATION = new HashSet<PEER_EVALUATION>();
+            this.Enrollments = new HashSet<Enrollment>();
+            this.PeerEvaluations = new HashSet<PeerEvaluation>();
         }
     
-        public int CourseID { get; set; }
-        public string Title { get; set; }
-        public string CourseCode { get; set; }
+        public int id { get; set; }
+        public string title { get; set; }
+        public string course_code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<ENROLLMENT> ENROLLMENTs { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<PEER_EVALUATION> PEER_EVALUATION { get; set; }
+        public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
     }
 }

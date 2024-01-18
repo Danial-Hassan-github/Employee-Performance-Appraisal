@@ -12,15 +12,17 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class SUBKPI_EMPLOYEE_SCORE
+    public partial class ClassHeldReport
     {
-        public int SUBKPI_ID { get; set; }
-        public int EmployeeID { get; set; }
-        public int SessionID { get; set; }
-        public Nullable<double> Score { get; set; }
-    
-        public virtual EMPLOYEE EMPLOYEE { get; set; }
-        public virtual SESSION SESSION { get; set; }
-        public virtual SUB_KPI SUB_KPI { get; set; }
+        public int id { get; set; }
+        public string course { get; set; }
+        public string teacher { get; set; }
+        public string discipline { get; set; }
+        public string venue { get; set; }
+        public string status { get; set; }
+        public Nullable<int> late_in { get; set; }
+        public Nullable<int> left_early { get; set; }
+        public string remarks { get; set; }
+        public string session { get; set; }
     }
 }

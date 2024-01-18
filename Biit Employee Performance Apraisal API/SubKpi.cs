@@ -9,23 +9,26 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
-    public partial class EMPLOYEE_TYPE
+    public partial class SubKpi
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EMPLOYEE_TYPE()
+        public SubKpi()
         {
-            this.EMPLOYEEs = new HashSet<EMPLOYEE>();
+            this.SubKpiWeightages = new HashSet<SubKpiWeightage>();
+            this.SubkpiEmployeeScores = new HashSet<SubkpiEmployeeScore>();
         }
     
-        public int Id { get; set; }
-        public string Title { get; set; }
+        public int id { get; set; }
+        public int kpi_id { get; set; }
+        public string name { get; set; }
     
+        public virtual Kpi Kpi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<EMPLOYEE> EMPLOYEEs { get; set; }
+        public virtual ICollection<SubKpiWeightage> SubKpiWeightages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
     }
 }

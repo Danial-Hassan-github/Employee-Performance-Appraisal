@@ -12,13 +12,15 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class SUB_KPI_WEIGHTAGE
+    public partial class SubkpiEmployeeScore
     {
-        public int SUB_KPI_ID { get; set; }
-        public int SessionID { get; set; }
-        public int Weightage { get; set; }
+        public int subkpi_id { get; set; }
+        public int employee_id { get; set; }
+        public int session_id { get; set; }
+        public Nullable<double> score { get; set; }
     
-        public virtual SESSION SESSION { get; set; }
-        public virtual SUB_KPI SUB_KPI { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Session Session { get; set; }
+        public virtual SubKpi SubKpi { get; set; }
     }
 }

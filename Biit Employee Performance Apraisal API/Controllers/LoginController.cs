@@ -10,8 +10,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 {
     public class LoginController : ApiController
     {
-        EMPLOYEE employee;
-        STUDENT student;
+        Employee employee;
+        Student student;
         [HttpGet]
         public HttpResponseMessage Login(string username, string password)
         {
@@ -20,11 +20,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 if (username.Contains('@'))
                 {
-                    employee=db.EMPLOYEEs.Where(emp => emp.Email.Equals(username) && emp.Password.Equals(password)).FirstOrDefault();
+                    employee=db.Employees.Where(emp => emp.email.Equals(username) && emp.password.Equals(password)).FirstOrDefault();
                 }
                 else
                 {
-                    student=db.STUDENTs.Where(std => std.AridNO.Equals(username) && std.Password.Equals(password)).FirstOrDefault();
+                    student=db.Students.Where(std => std.arid_no.Equals(username) && std.password.Equals(password)).FirstOrDefault();
                 }
                 if (student!=null)
                 {

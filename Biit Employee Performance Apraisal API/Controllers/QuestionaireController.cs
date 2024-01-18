@@ -19,7 +19,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.QUESTIONAIREs.Where(question => question.Type.Equals("student") && question.Deleted == false));
+                return Request.CreateResponse(HttpStatusCode.OK, db.Questionaires.Where(question => question.type.Equals("student") && question.deleted == false));
             }catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
@@ -32,7 +32,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.QUESTIONAIREs.Where(question => question.Type.Equals("peer") && question.Deleted == false));
+                return Request.CreateResponse(HttpStatusCode.OK, db.Questionaires.Where(question => question.type.Equals("peer") && question.deleted == false));
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.QUESTIONAIREs.Where(question=>question.Type.Equals("confidential") && question.Deleted==false));
+                return Request.CreateResponse(HttpStatusCode.OK, db.Questionaires.Where(question=>question.type.Equals("confidential") && question.deleted==false));
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage PostQuestion([FromBody] QUESTIONAIRE question)
+        public HttpResponseMessage PostQuestion([FromBody] Questionaire question)
         {
             if (questionaire.AddQuestion(question))
             {
@@ -65,7 +65,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage PutQuestion([FromBody] QUESTIONAIRE question)
+        public HttpResponseMessage PutQuestion([FromBody] Questionaire question)
         {
             if (questionaire.UpdateQuestion(question))
             {
@@ -79,8 +79,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                var qs=db.QUESTIONAIREs.Find(id);
-                qs.Deleted=true;
+                var qs=db.Questionaires.Find(id);
+                qs.deleted=true;
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, "Deleted");
             }

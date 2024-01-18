@@ -12,13 +12,14 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class KPI_WEIGHTAGE
+    public partial class EvaluationPin
     {
-        public int KPI_ID { get; set; }
-        public int SessionID { get; set; }
-        public int Weightage { get; set; }
+        public int id { get; set; }
+        public string pin { get; set; }
+        public int session_id { get; set; }
+        public Nullable<System.DateTime> start_time { get; set; }
+        public Nullable<System.DateTime> end_time { get; set; }
     
-        public virtual KPI KPI { get; set; }
-        public virtual SESSION SESSION { get; set; }
+        public virtual Session Session { get; set; }
     }
 }

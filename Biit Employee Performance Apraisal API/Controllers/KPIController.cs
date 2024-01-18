@@ -16,7 +16,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK,db.KPIs.Where(kpi => kpi.status==1));
+                return Request.CreateResponse(HttpStatusCode.OK,db.Kpis.Where(kpi => kpi.status==1));
             }catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
@@ -24,12 +24,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage PostKPI([FromBody] KPI kPI,KPI_WEIGHTAGE kPI_WEIGHTAGE)
+        public HttpResponseMessage PostKPI([FromBody] Kpi kPI,KpiWeightage kPI_WEIGHTAGE)
         {
             try
             {
-                db.KPIs.Add(kPI);
-                db.KPI_WEIGHTAGE.Add(kPI_WEIGHTAGE);
+                db.Kpis.Add(kPI);
+                db.KpiWeightages.Add(kPI_WEIGHTAGE);
                 int i = db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, kPI);
             }catch(Exception ex)
@@ -39,14 +39,14 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage PutKPI(int id, [FromBody] KPI kPI,int weightage)
+        public HttpResponseMessage PutKPI(int id, [FromBody] Kpi kPI,int weightage)
         {
             try
             {
-                var kpi = db.KPIs.Find(id);
-                kpi.Name = kPI.Name;
-                var kpi_weightage = db.KPI_WEIGHTAGE.Find(id);
-                kpi_weightage.Weightage = weightage;
+                var kpi = db.Kpis.Find(id);
+                kpi.name = kPI.name;
+                var kpi_weightage = db.KpiWeightages.Find(id);
+                kpi_weightage.weightage = weightage;
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, kpi);
             }
@@ -61,7 +61,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                var kpi = db.KPIs.Find(id);
+                var kpi = db.Kpis.Find(id);
                 kpi.status = 1;
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK,"Deleted Successfully");

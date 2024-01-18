@@ -19,7 +19,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.EMPLOYEEs);
+                return Request.CreateResponse(HttpStatusCode.OK, db.Employees);
             }catch(Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
@@ -27,7 +27,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage PostEmployee([FromBody] EMPLOYEE employee)
+        public HttpResponseMessage PostEmployee([FromBody] Employee employee)
         {
             if (EmployeeService.AddEmployee(employee))
             {
@@ -37,18 +37,28 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage PutEmployee([FromBody] EMPLOYEE employee)
+        public HttpResponseMessage PutEmployee([FromBody] Employee employee)
         {
             if (EmployeeService.UpdateEmployee(employee))
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.EMPLOYEEs);
+                return Request.CreateResponse(HttpStatusCode.OK, db.Employees);
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError, EmployeeService.message);
         }
 
         [HttpDelete]
-        public void DeleteEmployee(int id)
+        public HttpResponseMessage DeleteEmployee(int id)
         {
+            try
+            {
+                var employee = db.Employees.Find(id);
+                employee.deleted = true;
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "Deleted Successfully");
+            }catch(Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }

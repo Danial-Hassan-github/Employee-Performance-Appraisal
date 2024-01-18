@@ -12,11 +12,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
         [HttpPost]
         [Route("api/Evaluation/PostPeerEvaluation")]
-        public HttpResponseMessage PostPeerEvaluation(List<PEER_EVALUATION> pEER_EVALUATIONs)
+        public HttpResponseMessage PostPeerEvaluation(List<PeerEvaluation> pEER_EVALUATIONs)
         {
             try
             {
-                db.PEER_EVALUATION.AddRange(pEER_EVALUATIONs);
+                db.PeerEvaluations.AddRange(pEER_EVALUATIONs);
                 return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
             }
             catch (Exception ex)
@@ -27,11 +27,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 
         [HttpPost]
         [Route("api/Evaluation/PostStudentEvaluation")]
-        public HttpResponseMessage PostStudentEvaluation(List<STUDENT_EVALUATION> sTUDENT_EVALUATIONs)
+        public HttpResponseMessage PostStudentEvaluation(List<StudentEvaluation> sTUDENT_EVALUATIONs)
         {
             try
             {
-                db.STUDENT_EVALUATION.AddRange(sTUDENT_EVALUATIONs);
+                db.StudentEvaluations.AddRange(sTUDENT_EVALUATIONs);
                 return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
             }
             catch (Exception ex)

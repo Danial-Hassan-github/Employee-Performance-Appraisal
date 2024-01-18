@@ -163,14 +163,15 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="CLASS_HELD_REPORT.cs">
+    <Compile Include="ClassHeldReport.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\CLASS_HELD_REPORTController.cs" />
+    <Compile Include="Controllers\ClassHeldReportController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EmployeeKpiPerformanceController.cs" />
     <Compile Include="Controllers\EmployeeQuestionsScoreController.cs" />
+    <Compile Include="Controllers\EmployeeScoreController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\EvaluatorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -179,31 +180,34 @@
     <Compile Include="Controllers\QuestionaireController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="COURSE.cs">
+    <Compile Include="Course.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="EMPLOYEE.cs">
+    <Compile Include="Employee.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="EMPLOYEE_TYPE.cs">
+    <Compile Include="EmployeeType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="ENROLLMENT.cs">
+    <Compile Include="Enrollment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="EVALUATOR.cs">
+    <Compile Include="EvaluationPin.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluator.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="KPI.cs">
+    <Compile Include="Kpi.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="KPI_EMPLOYEE_SCORE.cs">
+    <Compile Include="KpiEmployeeScore.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="KPI_WEIGHTAGE.cs">
+    <Compile Include="KpiWeightage.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model.Context.cs">
@@ -221,38 +225,39 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
-    <Compile Include="PEER_EVALUATION.cs">
+    <Compile Include="PeerEvaluation.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QUESTIONAIRE.cs">
+    <Compile Include="Questionaire.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\EmployeeScoreService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\QuestionaireService.cs" />
     <Compile Include="Services\TaskService.cs" />
-    <Compile Include="SESSION.cs">
+    <Compile Include="Session.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="STUDENT.cs">
+    <Compile Include="Student.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="STUDENT_EVALUATION.cs">
+    <Compile Include="StudentEvaluation.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="SUBKPI_EMPLOYEE_SCORE.cs">
+    <Compile Include="SubKpi.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="SUB_KPI.cs">
+    <Compile Include="SubkpiEmployeeScore.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="SUB_KPI_WEIGHTAGE.cs">
+    <Compile Include="SubKpiWeightage.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagram.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="TASK.cs">
+    <Compile Include="Task.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -341,6 +346,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CHR_Excel_Sheet\" />
+    <Folder Include="Course Assignment Excel Sheet\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

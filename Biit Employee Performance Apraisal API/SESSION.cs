@@ -9,51 +9,42 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
-    public partial class SESSION
+    public partial class Session
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SESSION()
+        public Session()
         {
-            this.CLASS_HELD_REPORT = new HashSet<CLASS_HELD_REPORT>();
-            this.ENROLLMENTs = new HashSet<ENROLLMENT>();
-            this.EVALUATORs = new HashSet<EVALUATOR>();
-            this.KPI_EMPLOYEE_SCORE = new HashSet<KPI_EMPLOYEE_SCORE>();
-            this.KPI_WEIGHTAGE = new HashSet<KPI_WEIGHTAGE>();
-            this.STUDENT_EVALUATION = new HashSet<STUDENT_EVALUATION>();
-            this.SUB_KPI_WEIGHTAGE = new HashSet<SUB_KPI_WEIGHTAGE>();
-            this.SUBKPI_EMPLOYEE_SCORE = new HashSet<SUBKPI_EMPLOYEE_SCORE>();
+            this.Enrollments = new HashSet<Enrollment>();
+            this.EvaluationPins = new HashSet<EvaluationPin>();
+            this.Evaluators = new HashSet<Evaluator>();
+            this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
+            this.KpiWeightages = new HashSet<KpiWeightage>();
+            this.StudentEvaluations = new HashSet<StudentEvaluation>();
+            this.SubKpiWeightages = new HashSet<SubKpiWeightage>();
+            this.SubkpiEmployeeScores = new HashSet<SubkpiEmployeeScore>();
         }
     
-        public int SessionID { get; set; }
-        public string Title { get; set; }
+        public int id { get; set; }
+        public string title { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<CLASS_HELD_REPORT> CLASS_HELD_REPORT { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<ENROLLMENT> ENROLLMENTs { get; set; }
+        public virtual ICollection<EvaluationPin> EvaluationPins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<EVALUATOR> EVALUATORs { get; set; }
+        public virtual ICollection<Evaluator> Evaluators { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<KPI_EMPLOYEE_SCORE> KPI_EMPLOYEE_SCORE { get; set; }
+        public virtual ICollection<KpiEmployeeScore> KpiEmployeeScores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<KPI_WEIGHTAGE> KPI_WEIGHTAGE { get; set; }
+        public virtual ICollection<KpiWeightage> KpiWeightages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<STUDENT_EVALUATION> STUDENT_EVALUATION { get; set; }
+        public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<SUB_KPI_WEIGHTAGE> SUB_KPI_WEIGHTAGE { get; set; }
+        public virtual ICollection<SubKpiWeightage> SubKpiWeightages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<SUBKPI_EMPLOYEE_SCORE> SUBKPI_EMPLOYEE_SCORE { get; set; }
+        public virtual ICollection<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
     }
 }

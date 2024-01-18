@@ -19,7 +19,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.TASKs);
+                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks);
             }
             catch (Exception ex)
             {
@@ -33,7 +33,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.TASKs.Where(task=>task.Status==0));
+                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks.Where(task=>task.status==0));
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.TASKs.Where(task => task.Status == 1));
+                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks.Where(task => task.status == 1));
             }
             catch (Exception ex)
             {
@@ -61,7 +61,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.TASKs.Where(task => task.Status == 0 && task.AssignedToID==teacherID));
+                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks.Where(task => task.status == 0 && task.assigned_to_id==teacherID));
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage PostTask([FromBody] TASK task)
+        public HttpResponseMessage PostTask([FromBody] Task task)
         {
             if (taskService.AddTask(task))
             {
@@ -80,7 +80,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage PutTask(int id, [FromBody] TASK task)
+        public HttpResponseMessage PutTask(int id, [FromBody] Task task)
         {
             if (taskService.UpdateTask(task))
             {

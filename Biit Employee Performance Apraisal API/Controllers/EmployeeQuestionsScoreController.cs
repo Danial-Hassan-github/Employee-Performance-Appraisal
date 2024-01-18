@@ -15,7 +15,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                var result = db.PEER_EVALUATION.Join(db.STUDENT_EVALUATION, peer => peer.EvaluateeID, std => std.TeacherID, (peer, std) => new { peer, std });
+                var result = db.PeerEvaluations.Join(db.StudentEvaluations, peer => peer.evaluatee_id, std => std.teacher_id, (peer, std) => new { peer, std });
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)

@@ -12,19 +12,18 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class Task
+    public partial class PeerEvaluation
     {
-        public int id { get; set; }
-        public int assigned_to_id { get; set; }
-        public int assigned_by_id { get; set; }
-        public string task_description { get; set; }
-        public int status { get; set; }
-        public int weightage { get; set; }
-        public Nullable<System.DateTime> due_date { get; set; }
-        public Nullable<int> score { get; set; }
-        public Nullable<System.DateTime> assigned_date { get; set; }
+        public int evaluator_id { get; set; }
+        public int evaluatee_id { get; set; }
+        public int question_id { get; set; }
+        public int course_id { get; set; }
+        public int session_id { get; set; }
+        public int score { get; set; }
     
+        public virtual Course Course { get; set; }
         public virtual Employee Employee { get; set; }
-        public virtual Employee Employee1 { get; set; }
+        public virtual Evaluator Evaluator { get; set; }
+        public virtual Questionaire Questionaire { get; set; }
     }
 }
