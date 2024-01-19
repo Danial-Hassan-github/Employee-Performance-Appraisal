@@ -24,9 +24,16 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         {
             try
             {
-                var employeeScore=db.KpiEmployeeScores.Find(kpiEmployeeScore);
+                var employeeScore=db.KpiEmployeeScores.Find(kpiEmployeeScore.kpi_id, kpiEmployeeScore.employee_id, kpiEmployeeScore.session_id);
                 employeeScore.score += kpiEmployeeScore.score;
-                employeeScore.total_score += kpiEmployeeScore.total_score;
+                if (employeeScore.total_score!=null)
+                {
+                    employeeScore.total_score += kpiEmployeeScore.total_score;
+                }
+                else
+                {
+                    employeeScore.total_score = kpiEmployeeScore.total_score;
+                }
                 db.SaveChanges();
                 return true;
             }
@@ -38,12 +45,43 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 
         public bool isEmployeeScoreExists(KpiEmployeeScore kpiEmployeeScore)
         {
-            var employeeScore=db.KpiEmployeeScores.Find(kpiEmployeeScore);
+            var employeeScore=db.KpiEmployeeScores.Find(kpiEmployeeScore.kpi_id,kpiEmployeeScore.employee_id,kpiEmployeeScore.session_id);
             if (employeeScore!=null)
             {
                 return true;
             }
             return false;
+        }
+
+        public bool AddEvaluationScores(int sessionID,int sub_kpi_id,int employeeID,double score)
+        {
+            try
+            {
+                KpiEmployeeScore kpiEmployeeScores = new KpiEmployeeScore();
+                SubkpiEmployeeScore subkpiEmployeeScores = new SubkpiEmployeeScore();
+                subkpiEmployeeScores.subkpi_id = sub_kpi_id;
+                subkpiEmployeeScores.employee_id = employeeID;
+                subkpiEmployeeScores.session_id = sessionID;
+                subkpiEmployeeScores.score = score;
+                db.SubkpiEmployeeScores.Add(subkpiEmployeeScores);
+                kpiEmployeeScores.kpi_id = db.SubKpis.Where(x=>x.id==sub_kpi_id).First().kpi_id;
+                kpiEmployeeScores.employee_id = employeeID;
+                kpiEmployeeScores.session_id = sessionID;
+                kpiEmployeeScores.score = score;
+                if (isEmployeeScoreExists(kpiEmployeeScores))
+                {
+                    UpdateEmployeeKpiScore(kpiEmployeeScores);
+                }
+                else
+                {
+                    AddEmployeeKpiScore(kpiEmployeeScores);
+                }
+                db.SaveChanges();
+                return true;
+            }catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

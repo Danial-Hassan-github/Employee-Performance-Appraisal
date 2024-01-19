@@ -167,17 +167,16 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ClassHeldReportController.cs" />
-    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EmployeeKpiPerformanceController.cs" />
     <Compile Include="Controllers\EmployeeQuestionsScoreController.cs" />
-    <Compile Include="Controllers\EmployeeScoreController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\EvaluatorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KPIController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\QuestionaireController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Course.cs">
@@ -234,6 +233,7 @@
     </Compile>
     <Compile Include="Services\EmployeeScoreService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
+    <Compile Include="Services\KpiService.cs" />
     <Compile Include="Services\QuestionaireService.cs" />
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="Session.cs">

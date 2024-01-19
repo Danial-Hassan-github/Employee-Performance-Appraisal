@@ -28,12 +28,12 @@
     <NavigationProperty Name="Enrollments" Relationship="Self.FK__ENROLLMEN__Teach__65370702" FromRole="Employee" ToRole="Enrollment" />
     <NavigationProperty Name="Evaluators" Relationship="Self.FK__EVALUATOR__Evalu__18B6AB08" FromRole="Employee" ToRole="Evaluator" />
     <NavigationProperty Name="Evaluators1" Relationship="Self.FK__EVALUATOR__Evalu__19AACF41" FromRole="Employee" ToRole="Evaluator" />
-    <NavigationProperty Name="KpiEmployeeScores" Relationship="Self.FK__KPI_EMPLO__Emplo__762C88DA" FromRole="Employee" ToRole="KpiEmployeeScore" />
     <NavigationProperty Name="PeerEvaluations" Relationship="Self.FK__PEER_EVAL__Evalu__1E6F845E" FromRole="Employee" ToRole="PeerEvaluation" />
     <NavigationProperty Name="StudentEvaluations" Relationship="Self.FK__STUDENT_E__Teach__13F1F5EB" FromRole="Employee" ToRole="StudentEvaluation" />
-    <NavigationProperty Name="SubkpiEmployeeScores" Relationship="Self.FK__SUBKPI_EM__Emplo__0E04126B" FromRole="Employee" ToRole="SubkpiEmployeeScore" />
     <NavigationProperty Name="Tasks" Relationship="Self.FK__TASK__AssignedBy__2F9A1060" FromRole="Employee" ToRole="Task" />
     <NavigationProperty Name="Tasks1" Relationship="Self.FK__TASK__AssignedTo__2EA5EC27" FromRole="Employee" ToRole="Task" />
+    <NavigationProperty Name="KpiEmployeeScores" Relationship="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__Emplo__762C88DA" FromRole="Employee" ToRole="KpiEmployeeScore" />
+    <NavigationProperty Name="SubkpiEmployeeScores" Relationship="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__Emplo__0E04126B" FromRole="Employee" ToRole="SubkpiEmployeeScore" />
   </EntityType>
   <EntityType Name="EmployeeType">
     <Key>
@@ -96,22 +96,9 @@
     <Property Name="status" Type="Int32" Nullable="false" />
     <Property Name="employee_type_id" Type="Int32" />
     <NavigationProperty Name="EmployeeType" Relationship="Self.FK__KPI__EmployeeTyp__324172E1" FromRole="Kpi" ToRole="EmployeeType" />
-    <NavigationProperty Name="KpiEmployeeScores" Relationship="Self.FK__KPI_EMPLO__KPI_I__7720AD13" FromRole="Kpi" ToRole="KpiEmployeeScore" />
     <NavigationProperty Name="KpiWeightages" Relationship="Self.FK__KPI_WEIGH__KPI_I__5006DFF2" FromRole="Kpi" ToRole="KpiWeightage" />
     <NavigationProperty Name="SubKpis" Relationship="Self.FK__SUB_KPI__KPI_ID__52E34C9D" FromRole="Kpi" ToRole="SubKpi" />
-  </EntityType>
-  <EntityType Name="KpiEmployeeScore">
-    <Key>
-      <PropertyRef Name="kpi_id" />
-      <PropertyRef Name="employee_id" />
-    </Key>
-    <Property Name="kpi_id" Type="Int32" Nullable="false" />
-    <Property Name="employee_id" Type="Int32" Nullable="false" />
-    <Property Name="session_id" Type="Int32" Nullable="false" />
-    <Property Name="score" Type="Double" />
-    <NavigationProperty Name="Employee" Relationship="Self.FK__KPI_EMPLO__Emplo__762C88DA" FromRole="KpiEmployeeScore" ToRole="Employee" />
-    <NavigationProperty Name="Kpi" Relationship="Self.FK__KPI_EMPLO__KPI_I__7720AD13" FromRole="KpiEmployeeScore" ToRole="Kpi" />
-    <NavigationProperty Name="Session" Relationship="Self.FK__KPI_EMPLO__Sessi__7814D14C" FromRole="KpiEmployeeScore" ToRole="Session" />
+    <NavigationProperty Name="KpiEmployeeScores" Relationship="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__KPI_I__7720AD13" FromRole="Kpi" ToRole="KpiEmployeeScore" />
   </EntityType>
   <EntityType Name="KpiWeightage">
     <Key>
@@ -163,11 +150,11 @@
     <NavigationProperty Name="Enrollments" Relationship="Self.FK__ENROLLMEN__Sessi__6442E2C9" FromRole="Session" ToRole="Enrollment" />
     <NavigationProperty Name="EvaluationPins" Relationship="Self.FK__EVALUATIO__Sessi__351DDF8C" FromRole="Session" ToRole="EvaluationPin" />
     <NavigationProperty Name="Evaluators" Relationship="Self.FK__EVALUATOR__Sessi__1A9EF37A" FromRole="Session" ToRole="Evaluator" />
-    <NavigationProperty Name="KpiEmployeeScores" Relationship="Self.FK__KPI_EMPLO__Sessi__7814D14C" FromRole="Session" ToRole="KpiEmployeeScore" />
     <NavigationProperty Name="KpiWeightages" Relationship="Self.FK__KPI_WEIGH__Sessi__4F12BBB9" FromRole="Session" ToRole="KpiWeightage" />
     <NavigationProperty Name="StudentEvaluations" Relationship="Self.FK__STUDENT_E__Sessi__12FDD1B2" FromRole="Session" ToRole="StudentEvaluation" />
     <NavigationProperty Name="SubKpiWeightages" Relationship="Self.FK__SUB_KPI_W__Sessi__55BFB948" FromRole="Session" ToRole="SubKpiWeightage" />
-    <NavigationProperty Name="SubkpiEmployeeScores" Relationship="Self.FK__SUBKPI_EM__Sessi__0FEC5ADD" FromRole="Session" ToRole="SubkpiEmployeeScore" />
+    <NavigationProperty Name="KpiEmployeeScores" Relationship="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__Sessi__7814D14C" FromRole="Session" ToRole="KpiEmployeeScore" />
+    <NavigationProperty Name="SubkpiEmployeeScores" Relationship="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__Sessi__0FEC5ADD" FromRole="Session" ToRole="SubkpiEmployeeScore" />
   </EntityType>
   <EntityType Name="Student">
     <Key>
@@ -209,20 +196,7 @@
     <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="Kpi" Relationship="Self.FK__SUB_KPI__KPI_ID__52E34C9D" FromRole="SubKpi" ToRole="Kpi" />
     <NavigationProperty Name="SubKpiWeightages" Relationship="Self.FK__SUB_KPI_W__SUB_K__56B3DD81" FromRole="SubKpi" ToRole="SubKpiWeightage" />
-    <NavigationProperty Name="SubkpiEmployeeScores" Relationship="Self.FK__SUBKPI_EM__SUBKP__0EF836A4" FromRole="SubKpi" ToRole="SubkpiEmployeeScore" />
-  </EntityType>
-  <EntityType Name="SubkpiEmployeeScore">
-    <Key>
-      <PropertyRef Name="subkpi_id" />
-      <PropertyRef Name="employee_id" />
-    </Key>
-    <Property Name="subkpi_id" Type="Int32" Nullable="false" />
-    <Property Name="employee_id" Type="Int32" Nullable="false" />
-    <Property Name="session_id" Type="Int32" Nullable="false" />
-    <Property Name="score" Type="Double" />
-    <NavigationProperty Name="Employee" Relationship="Self.FK__SUBKPI_EM__Emplo__0E04126B" FromRole="SubkpiEmployeeScore" ToRole="Employee" />
-    <NavigationProperty Name="Session" Relationship="Self.FK__SUBKPI_EM__Sessi__0FEC5ADD" FromRole="SubkpiEmployeeScore" ToRole="Session" />
-    <NavigationProperty Name="SubKpi" Relationship="Self.FK__SUBKPI_EM__SUBKP__0EF836A4" FromRole="SubkpiEmployeeScore" ToRole="SubKpi" />
+    <NavigationProperty Name="SubkpiEmployeeScores" Relationship="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__SUBKP__0EF836A4" FromRole="SubKpi" ToRole="SubkpiEmployeeScore" />
   </EntityType>
   <EntityType Name="SubKpiWeightage">
     <Key>
@@ -333,18 +307,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__KPI_EMPLO__Emplo__762C88DA">
-    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-    <End Role="KpiEmployeeScore" Type="Self.KpiEmployeeScore" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiEmployeeScore">
-        <PropertyRef Name="employee_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__PEER_EVAL__Evalu__1E6F845E">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
@@ -366,18 +328,6 @@
       </Principal>
       <Dependent Role="StudentEvaluation">
         <PropertyRef Name="teacher_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__SUBKPI_EM__Emplo__0E04126B">
-    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-    <End Role="SubkpiEmployeeScore" Type="Self.SubkpiEmployeeScore" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="SubkpiEmployeeScore">
-        <PropertyRef Name="employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -481,18 +431,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__KPI_EMPLO__KPI_I__7720AD13">
-    <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
-    <End Role="KpiEmployeeScore" Type="Self.KpiEmployeeScore" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Kpi">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiEmployeeScore">
-        <PropertyRef Name="kpi_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__KPI_WEIGH__KPI_I__5006DFF2">
     <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
     <End Role="KpiWeightage" Type="Self.KpiWeightage" Multiplicity="*" />
@@ -514,18 +452,6 @@
       </Principal>
       <Dependent Role="SubKpi">
         <PropertyRef Name="kpi_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KPI_EMPLO__Sessi__7814D14C">
-    <End Role="Session" Type="Self.Session" Multiplicity="1" />
-    <End Role="KpiEmployeeScore" Type="Self.KpiEmployeeScore" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Session">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiEmployeeScore">
-        <PropertyRef Name="session_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -589,18 +515,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SUBKPI_EM__Sessi__0FEC5ADD">
-    <End Role="Session" Type="Self.Session" Multiplicity="1" />
-    <End Role="SubkpiEmployeeScore" Type="Self.SubkpiEmployeeScore" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Session">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="SubkpiEmployeeScore">
-        <PropertyRef Name="session_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__STUDENT_E__Stude__1209AD79">
     <End Role="Student" Type="Self.Student" Multiplicity="1" />
     <End Role="StudentEvaluation" Type="Self.StudentEvaluation" Multiplicity="*" />
@@ -625,18 +539,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SUBKPI_EM__SUBKP__0EF836A4">
-    <End Role="SubKpi" Type="Self.SubKpi" Multiplicity="1" />
-    <End Role="SubkpiEmployeeScore" Type="Self.SubkpiEmployeeScore" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SubKpi">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="SubkpiEmployeeScore">
-        <PropertyRef Name="subkpi_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="Biit_Employee_Performance_AppraisalEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Courses" EntityType="Self.Course" />
     <EntitySet Name="Employees" EntityType="Self.Employee" />
@@ -645,7 +547,6 @@
     <EntitySet Name="EvaluationPins" EntityType="Self.EvaluationPin" />
     <EntitySet Name="Evaluators" EntityType="Self.Evaluator" />
     <EntitySet Name="Kpis" EntityType="Self.Kpi" />
-    <EntitySet Name="KpiEmployeeScores" EntityType="Self.KpiEmployeeScore" />
     <EntitySet Name="KpiWeightages" EntityType="Self.KpiWeightage" />
     <EntitySet Name="PeerEvaluations" EntityType="Self.PeerEvaluation" />
     <EntitySet Name="Questionaires" EntityType="Self.Questionaire" />
@@ -653,7 +554,6 @@
     <EntitySet Name="Students" EntityType="Self.Student" />
     <EntitySet Name="StudentEvaluations" EntityType="Self.StudentEvaluation" />
     <EntitySet Name="SubKpis" EntityType="Self.SubKpi" />
-    <EntitySet Name="SubkpiEmployeeScores" EntityType="Self.SubkpiEmployeeScore" />
     <EntitySet Name="SubKpiWeightages" EntityType="Self.SubKpiWeightage" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="Tasks" EntityType="Self.Task" />
@@ -681,10 +581,6 @@
       <End Role="Employee" EntitySet="Employees" />
       <End Role="Evaluator" EntitySet="Evaluators" />
     </AssociationSet>
-    <AssociationSet Name="FK__KPI_EMPLO__Emplo__762C88DA" Association="Self.FK__KPI_EMPLO__Emplo__762C88DA">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="KpiEmployeeScore" EntitySet="KpiEmployeeScores" />
-    </AssociationSet>
     <AssociationSet Name="FK__PEER_EVAL__Evalu__1E6F845E" Association="Self.FK__PEER_EVAL__Evalu__1E6F845E">
       <End Role="Employee" EntitySet="Employees" />
       <End Role="PeerEvaluation" EntitySet="PeerEvaluations" />
@@ -692,10 +588,6 @@
     <AssociationSet Name="FK__STUDENT_E__Teach__13F1F5EB" Association="Self.FK__STUDENT_E__Teach__13F1F5EB">
       <End Role="Employee" EntitySet="Employees" />
       <End Role="StudentEvaluation" EntitySet="StudentEvaluations" />
-    </AssociationSet>
-    <AssociationSet Name="FK__SUBKPI_EM__Emplo__0E04126B" Association="Self.FK__SUBKPI_EM__Emplo__0E04126B">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="SubkpiEmployeeScore" EntitySet="SubkpiEmployeeScores" />
     </AssociationSet>
     <AssociationSet Name="FK__TASK__AssignedBy__2F9A1060" Association="Self.FK__TASK__AssignedBy__2F9A1060">
       <End Role="Employee" EntitySet="Employees" />
@@ -729,10 +621,6 @@
       <End Role="Evaluator" EntitySet="Evaluators" />
       <End Role="PeerEvaluation" EntitySet="PeerEvaluations" />
     </AssociationSet>
-    <AssociationSet Name="FK__KPI_EMPLO__KPI_I__7720AD13" Association="Self.FK__KPI_EMPLO__KPI_I__7720AD13">
-      <End Role="Kpi" EntitySet="Kpis" />
-      <End Role="KpiEmployeeScore" EntitySet="KpiEmployeeScores" />
-    </AssociationSet>
     <AssociationSet Name="FK__KPI_WEIGH__KPI_I__5006DFF2" Association="Self.FK__KPI_WEIGH__KPI_I__5006DFF2">
       <End Role="Kpi" EntitySet="Kpis" />
       <End Role="KpiWeightage" EntitySet="KpiWeightages" />
@@ -740,10 +628,6 @@
     <AssociationSet Name="FK__SUB_KPI__KPI_ID__52E34C9D" Association="Self.FK__SUB_KPI__KPI_ID__52E34C9D">
       <End Role="Kpi" EntitySet="Kpis" />
       <End Role="SubKpi" EntitySet="SubKpis" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KPI_EMPLO__Sessi__7814D14C" Association="Self.FK__KPI_EMPLO__Sessi__7814D14C">
-      <End Role="Session" EntitySet="Sessions" />
-      <End Role="KpiEmployeeScore" EntitySet="KpiEmployeeScores" />
     </AssociationSet>
     <AssociationSet Name="FK__KPI_WEIGH__Sessi__4F12BBB9" Association="Self.FK__KPI_WEIGH__Sessi__4F12BBB9">
       <End Role="Session" EntitySet="Sessions" />
@@ -765,10 +649,6 @@
       <End Role="Session" EntitySet="Sessions" />
       <End Role="SubKpiWeightage" EntitySet="SubKpiWeightages" />
     </AssociationSet>
-    <AssociationSet Name="FK__SUBKPI_EM__Sessi__0FEC5ADD" Association="Self.FK__SUBKPI_EM__Sessi__0FEC5ADD">
-      <End Role="Session" EntitySet="Sessions" />
-      <End Role="SubkpiEmployeeScore" EntitySet="SubkpiEmployeeScores" />
-    </AssociationSet>
     <AssociationSet Name="FK__STUDENT_E__Stude__1209AD79" Association="Self.FK__STUDENT_E__Stude__1209AD79">
       <End Role="Student" EntitySet="Students" />
       <End Role="StudentEvaluation" EntitySet="StudentEvaluations" />
@@ -777,11 +657,33 @@
       <End Role="SubKpi" EntitySet="SubKpis" />
       <End Role="SubKpiWeightage" EntitySet="SubKpiWeightages" />
     </AssociationSet>
-    <AssociationSet Name="FK__SUBKPI_EM__SUBKP__0EF836A4" Association="Self.FK__SUBKPI_EM__SUBKP__0EF836A4">
+    <EntitySet Name="ClassHeldReports" EntityType="Biit_Employee_Performance_AppraisalModel.ClassHeldReport" />
+    <EntitySet Name="KpiEmployeeScores" EntityType="Biit_Employee_Performance_AppraisalModel.KpiEmployeeScore" />
+    <EntitySet Name="SubkpiEmployeeScores" EntityType="Biit_Employee_Performance_AppraisalModel.SubkpiEmployeeScore" />
+    <AssociationSet Name="FK__KPI_EMPLO__Emplo__762C88DA" Association="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__Emplo__762C88DA">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="KpiEmployeeScore" EntitySet="KpiEmployeeScores" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SUBKPI_EM__Emplo__0E04126B" Association="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__Emplo__0E04126B">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="SubkpiEmployeeScore" EntitySet="SubkpiEmployeeScores" />
+    </AssociationSet>
+    <AssociationSet Name="FK__KPI_EMPLO__KPI_I__7720AD13" Association="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__KPI_I__7720AD13">
+      <End Role="Kpi" EntitySet="Kpis" />
+      <End Role="KpiEmployeeScore" EntitySet="KpiEmployeeScores" />
+    </AssociationSet>
+    <AssociationSet Name="FK__KPI_EMPLO__Sessi__7814D14C" Association="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__Sessi__7814D14C">
+      <End Role="Session" EntitySet="Sessions" />
+      <End Role="KpiEmployeeScore" EntitySet="KpiEmployeeScores" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SUBKPI_EM__Sessi__0FEC5ADD" Association="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__Sessi__0FEC5ADD">
+      <End Role="Session" EntitySet="Sessions" />
+      <End Role="SubkpiEmployeeScore" EntitySet="SubkpiEmployeeScores" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SUBKPI_EM__SUBKP__0EF836A4" Association="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__SUBKP__0EF836A4">
       <End Role="SubKpi" EntitySet="SubKpis" />
       <End Role="SubkpiEmployeeScore" EntitySet="SubkpiEmployeeScores" />
     </AssociationSet>
-    <EntitySet Name="ClassHeldReports" EntityType="Biit_Employee_Performance_AppraisalModel.ClassHeldReport" />
   </EntityContainer>
   <EntityType Name="ClassHeldReport">
     <Key>
@@ -798,4 +700,105 @@
     <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="session" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
+  <EntityType Name="KpiEmployeeScore">
+    <Key>
+      <PropertyRef Name="kpi_id" />
+      <PropertyRef Name="employee_id" />
+      <PropertyRef Name="session_id" />
+    </Key>
+    <Property Name="kpi_id" Type="Int32" Nullable="false" />
+    <Property Name="employee_id" Type="Int32" Nullable="false" />
+    <Property Name="session_id" Type="Int32" Nullable="false" />
+    <Property Name="score" Type="Double" />
+    <Property Name="total_score" Type="Double" />
+    <NavigationProperty Name="Employee" Relationship="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__Emplo__762C88DA" FromRole="KpiEmployeeScore" ToRole="Employee" />
+    <NavigationProperty Name="Kpi" Relationship="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__KPI_I__7720AD13" FromRole="KpiEmployeeScore" ToRole="Kpi" />
+    <NavigationProperty Name="Session" Relationship="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__Sessi__7814D14C" FromRole="KpiEmployeeScore" ToRole="Session" />
+  </EntityType>
+  <EntityType Name="SubkpiEmployeeScore">
+    <Key>
+      <PropertyRef Name="subkpi_id" />
+      <PropertyRef Name="employee_id" />
+      <PropertyRef Name="session_id" />
+    </Key>
+    <Property Name="subkpi_id" Type="Int32" Nullable="false" />
+    <Property Name="employee_id" Type="Int32" Nullable="false" />
+    <Property Name="session_id" Type="Int32" Nullable="false" />
+    <Property Name="score" Type="Double" />
+    <NavigationProperty Name="Employee" Relationship="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__Emplo__0E04126B" FromRole="SubkpiEmployeeScore" ToRole="Employee" />
+    <NavigationProperty Name="Session" Relationship="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__Sessi__0FEC5ADD" FromRole="SubkpiEmployeeScore" ToRole="Session" />
+    <NavigationProperty Name="SubKpi" Relationship="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__SUBKP__0EF836A4" FromRole="SubkpiEmployeeScore" ToRole="SubKpi" />
+  </EntityType>
+  <Association Name="FK__KPI_EMPLO__Emplo__762C88DA">
+    <End Type="Biit_Employee_Performance_AppraisalModel.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="Biit_Employee_Performance_AppraisalModel.KpiEmployeeScore" Role="KpiEmployeeScore" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="KpiEmployeeScore">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SUBKPI_EM__Emplo__0E04126B">
+    <End Type="Biit_Employee_Performance_AppraisalModel.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="Biit_Employee_Performance_AppraisalModel.SubkpiEmployeeScore" Role="SubkpiEmployeeScore" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SubkpiEmployeeScore">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__KPI_EMPLO__KPI_I__7720AD13">
+    <End Type="Biit_Employee_Performance_AppraisalModel.Kpi" Role="Kpi" Multiplicity="1" />
+    <End Type="Biit_Employee_Performance_AppraisalModel.KpiEmployeeScore" Role="KpiEmployeeScore" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kpi">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="KpiEmployeeScore">
+        <PropertyRef Name="kpi_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__KPI_EMPLO__Sessi__7814D14C">
+    <End Type="Biit_Employee_Performance_AppraisalModel.Session" Role="Session" Multiplicity="1" />
+    <End Type="Biit_Employee_Performance_AppraisalModel.KpiEmployeeScore" Role="KpiEmployeeScore" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Session">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="KpiEmployeeScore">
+        <PropertyRef Name="session_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SUBKPI_EM__Sessi__0FEC5ADD">
+    <End Type="Biit_Employee_Performance_AppraisalModel.Session" Role="Session" Multiplicity="1" />
+    <End Type="Biit_Employee_Performance_AppraisalModel.SubkpiEmployeeScore" Role="SubkpiEmployeeScore" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Session">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SubkpiEmployeeScore">
+        <PropertyRef Name="session_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SUBKPI_EM__SUBKP__0EF836A4">
+    <End Type="Biit_Employee_Performance_AppraisalModel.SubKpi" Role="SubKpi" Multiplicity="1" />
+    <End Type="Biit_Employee_Performance_AppraisalModel.SubkpiEmployeeScore" Role="SubkpiEmployeeScore" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubKpi">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SubkpiEmployeeScore">
+        <PropertyRef Name="subkpi_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

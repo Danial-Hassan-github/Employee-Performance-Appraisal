@@ -16,7 +16,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK,db.Kpis.Where(kpi => kpi.status==1));
+                return Request.CreateResponse(HttpStatusCode.OK,db.Kpis.Where(kpi => kpi.status==0));
             }catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);

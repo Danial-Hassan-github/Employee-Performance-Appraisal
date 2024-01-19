@@ -15,7 +15,7 @@ using Biit_Employee_Performance_Apraisal_API;
 
 namespace Biit_Employee_Performance_Apraisal_API.Controllers
 {
-    public class CLASS_HELD_REPORTController : ApiController
+    public class ClassHeldReportController : ApiController
     {
         private Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
         [HttpPost]
@@ -39,16 +39,17 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     chr.teacher = reader[1].ToString();
                     chr.discipline = reader[2].ToString();
                     chr.venue = reader[3].ToString();
-                     chr.status = reader[4].ToString().ToLower().Trim();
+                    chr.status = reader[4].ToString().ToLower().Trim();
+                    chr.session = reader[5].ToString();
                     if (chr.late_in!=null)
                     {
-                        chr.late_in = int.Parse(reader[5].ToString());
+                        chr.late_in = int.Parse(reader[6].ToString());
                     }
                     if (chr.left_early!=null)
                     {
-                    chr.left_early = int.Parse(reader[6].ToString());
+                    chr.left_early = int.Parse(reader[7].ToString());
                     }
-                    chr.remarks = reader[7].ToString();
+                    chr.remarks = reader[8].ToString();
                     db.ClassHeldReports.Add(chr);
                 }
                 db.SaveChanges();

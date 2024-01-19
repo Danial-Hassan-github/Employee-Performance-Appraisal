@@ -92,11 +92,13 @@
     <Key>
       <PropertyRef Name="kpi_id" />
       <PropertyRef Name="employee_id" />
+      <PropertyRef Name="session_id" />
     </Key>
     <Property Name="kpi_id" Type="int" Nullable="false" />
     <Property Name="employee_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="score" Type="float" />
+    <Property Name="total_score" Type="float" />
   </EntityType>
   <EntityType Name="KpiWeightage">
     <Key>
@@ -175,6 +177,7 @@
     <Key>
       <PropertyRef Name="subkpi_id" />
       <PropertyRef Name="employee_id" />
+      <PropertyRef Name="session_id" />
     </Key>
     <Property Name="subkpi_id" Type="int" Nullable="false" />
     <Property Name="employee_id" Type="int" Nullable="false" />
