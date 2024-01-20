@@ -231,6 +231,9 @@
     <Compile Include="Questionaire.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="SeniorTeacherJunior.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Services\EmployeeScoreService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\KpiService.cs" />

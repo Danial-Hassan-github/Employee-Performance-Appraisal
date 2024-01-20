@@ -56,12 +56,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpGet]
-        [Route("api/Task/GetTeacherTasks")]
-        public HttpResponseMessage GetTeacherTasks(int teacherID)
+        [Route("api/Task/GetEmployeeTasks")]
+        public HttpResponseMessage GetEmployeeTasks(int employeeID)
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks.Where(task => task.status == 0 && task.assigned_to_id==teacherID));
+                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks.Where(task => task.status == 0 && task.assigned_to_id==employeeID));
             }
             catch (Exception ex)
             {

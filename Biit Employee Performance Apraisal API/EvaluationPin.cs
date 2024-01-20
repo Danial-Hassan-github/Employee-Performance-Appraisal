@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -19,7 +20,8 @@ namespace Biit_Employee_Performance_Apraisal_API
         public int session_id { get; set; }
         public Nullable<System.DateTime> start_time { get; set; }
         public Nullable<System.DateTime> end_time { get; set; }
-    
+
+        [JsonIgnore]
         public virtual Session Session { get; set; }
     }
 }

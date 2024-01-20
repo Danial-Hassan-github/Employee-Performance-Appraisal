@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Biit_Employee_Performance_Apraisal_API.Services;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,27 +12,54 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
     public class KPIController : ApiController
     {
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
+        KpiService kpiService=new KpiService();
+        
         [HttpGet]
-        public HttpResponseMessage GetKPIs(int sessionID)
+        public HttpResponseMessage GetKPIs()
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK,db.Kpis.Where(kpi => kpi.status==0));
+                return Request.CreateResponse(HttpStatusCode.OK,db.Kpis);
             }catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
             }
         }
 
-        [HttpPost]
-        public HttpResponseMessage PostKPI([FromBody] Kpi kPI,KpiWeightage kPI_WEIGHTAGE)
+        [HttpGet]
+        public HttpResponseMessage GetSessionKPIs(int sessionID)
         {
             try
             {
-                db.Kpis.Add(kPI);
-                db.KpiWeightages.Add(kPI_WEIGHTAGE);
-                int i = db.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.OK, kPI);
+                var result = db.KpiWeightages.Join(db.Kpis,x=>x.kpi_id,y=>y.id,(x,y)=>new {x,y}).Where(combined=>combined.x.session_id==sessionID).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage PostKPI([FromBody] Kpi kPI,int weightage,int sessionID)
+        {
+            try
+            {
+                if (weightage>100)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage caannot be more than 100%");
+                }
+                var k = db.Kpis.Add(kPI);
+                db.SaveChanges();
+                kpiService.adjustKpiWeightages(weightage, sessionID, k.id);
+                //kpiService.adjustKpiWeigtage(weightage, sessionID);
+                KpiWeightage kpiWeightage = new KpiWeightage();
+                kpiWeightage.kpi_id = k.id;
+                kpiWeightage.weightage = weightage;
+                kpiWeightage.session_id = sessionID;
+                db.KpiWeightages.Add(kpiWeightage);
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, k);
             }catch(Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
@@ -39,14 +67,22 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage PutKPI(int id, [FromBody] Kpi kPI,int weightage)
+        public HttpResponseMessage PutKPI([FromBody] Kpi kPI,int weightage,int sessionID)
         {
             try
             {
-                var kpi = db.Kpis.Find(id);
+                if (weightage > 100)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage caannot be more than 100%");
+                }
+                var kpi = db.Kpis.Find(kPI.id);
                 kpi.name = kPI.name;
-                var kpi_weightage = db.KpiWeightages.Find(id);
+                var kpi_weightage = db.KpiWeightages.Find(kPI.id,sessionID);
+                kpiService.adjustKpiWeightages(weightage, sessionID,kPI.id);
+                int leftOverWeightage = db.KpiWeightages.Where(x => x.session_id == sessionID).Sum(y => y.weightage);
+                leftOverWeightage -= weightage;
                 kpi_weightage.weightage = weightage;
+
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, kpi);
             }
@@ -56,7 +92,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
-        [HttpDelete]
+        /*[HttpDelete]
         public HttpResponseMessage DeleteKPI(int id)
         {
             try
@@ -69,6 +105,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
             }
-        }
+        }*/
     }
 }

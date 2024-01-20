@@ -53,9 +53,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
+                List<Evaluator> evaluators = new List<Evaluator>();
                 for (int i = 0; i < EvaluateesID.Count; i++)
                 {
-                    eVALUATOR.evaluatee_id = EvaluateesID[i];
+                    evaluators.Add(new Evaluator { id = eVALUATOR.id, session_id=eVALUATOR.session_id,evaluatee_id = EvaluateesID[i] });
+                    //eVALUATOR.evaluatee_id = EvaluateesID[i];
                     /*var evaluator = db.Evaluators.Find(eVALUATOR);
                     if (evaluator!=null)
                     {
@@ -65,9 +67,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     {
                         db.Evaluators.Add(eVALUATOR);
                     }*/
-                    db.Evaluators.Add(eVALUATOR);
-                    db.SaveChanges();
+                    /*db.Evaluators.Add(eVALUATOR);
+                    db.SaveChanges();*/
                 }
+                db.Evaluators.AddRange(evaluators);
+                db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, "Evaluator Added Successfully");
             }
             catch (Exception ex)

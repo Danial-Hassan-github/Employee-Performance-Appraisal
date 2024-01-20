@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -23,8 +24,10 @@ namespace Biit_Employee_Performance_Apraisal_API
         public Nullable<System.DateTime> due_date { get; set; }
         public Nullable<int> score { get; set; }
         public Nullable<System.DateTime> assigned_date { get; set; }
-    
+
+        [JsonIgnore]
         public virtual Employee Employee { get; set; }
+        [JsonIgnore]
         public virtual Employee Employee1 { get; set; }
     }
 }

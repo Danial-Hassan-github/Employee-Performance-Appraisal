@@ -13,6 +13,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             try
             {
                 db.KpiEmployeeScores.Add(kpiEmployeeScore);
+                db.SaveChanges();
                 return true;
             }catch (Exception ex)
             {

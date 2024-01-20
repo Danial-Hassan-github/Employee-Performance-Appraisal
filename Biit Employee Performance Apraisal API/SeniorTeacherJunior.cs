@@ -13,21 +13,17 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class StudentEvaluation
+    public partial class SeniorTeacherJunior
     {
-        public int student_id { get; set; }
+        public int senior_teacher_id { get; set; }
+        public int junior_id { get; set; }
         public int session_id { get; set; }
-        public int teacher_id { get; set; }
-        public int question_id { get; set; }
-        public int score { get; set; }
 
         [JsonIgnore]
         public virtual Employee Employee { get; set; }
         [JsonIgnore]
-        public virtual Questionaire Questionaire { get; set; }
+        public virtual Employee Employee1 { get; set; }
         [JsonIgnore]
         public virtual Session Session { get; set; }
-        [JsonIgnore]
-        public virtual Student Student { get; set; }
     }
 }

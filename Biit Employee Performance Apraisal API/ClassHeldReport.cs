@@ -20,9 +20,9 @@ namespace Biit_Employee_Performance_Apraisal_API
         public string discipline { get; set; }
         public string venue { get; set; }
         public string status { get; set; }
+        public string session { get; set; }
         public Nullable<int> late_in { get; set; }
         public Nullable<int> left_early { get; set; }
         public string remarks { get; set; }
-        public string session { get; set; }
     }
 }

@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -24,11 +25,15 @@ namespace Biit_Employee_Performance_Apraisal_API
         public int session_id { get; set; }
         public int evaluatee_id { get; set; }
         public Nullable<bool> deleted { get; set; }
-    
+
+        [JsonIgnore]
         public virtual Employee Employee { get; set; }
+        [JsonIgnore]
         public virtual Employee Employee1 { get; set; }
+        [JsonIgnore]
         public virtual Session Session { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
     }
 }
