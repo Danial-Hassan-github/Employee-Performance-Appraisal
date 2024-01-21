@@ -185,6 +185,12 @@
     <Compile Include="Employee.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmployeeDepartment.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeDesignation.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="EmployeeType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -224,11 +230,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\EvaluatorEvaluatees.cs" />
     <Compile Include="PeerEvaluation.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Questionaire.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QuestionaireType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="SeniorTeacherJunior.cs">
@@ -255,6 +265,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="SubKpiWeightage.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SupervisorEvaluation.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagram.cs">
@@ -351,7 +364,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="CHR_Excel_Sheet\" />
     <Folder Include="Course Assignment Excel Sheet\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\bootstrap.min.js.map" />

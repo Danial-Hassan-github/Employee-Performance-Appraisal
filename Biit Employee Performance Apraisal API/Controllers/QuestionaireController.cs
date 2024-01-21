@@ -12,33 +12,23 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
     public class QuestionaireController : ApiController
     {
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
-        EvaluationQuestionaireService questionaire = new EvaluationQuestionaireService();
+        EvaluationQuestionaireService questionaireService = new EvaluationQuestionaireService();
         [HttpGet]
         [Route("api/Questionaire/GetStudentQuestions")]
         public HttpResponseMessage GetStudentQuestions()
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Questionaires.Where(question => question.type.Equals("student") && question.deleted == false));
-            }catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [Route("api/Questionaire/GetPeerQuestions")]
-        public HttpResponseMessage GetPeerQuestions()
-        {
-            try
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Questionaires.Where(question => question.type.Equals("peer") && question.deleted == false));
+                int type_id = questionaireService.getQuestionTypeID("student");
+                var result = db.Questionaires.Where(question => question.type_id == type_id && question.deleted == false).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
             }
         }
+
 
         [HttpGet]
         [Route("api/Questionaire/GetConfidentialQuestions")]
@@ -46,7 +36,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Questionaires.Where(question=>question.type.Equals("confidential") && question.deleted==false));
+                int type_id = questionaireService.getQuestionTypeID("confidential");
+                var result = db.Questionaires.Where(question => question.type_id == type_id && question.deleted == false).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
@@ -54,24 +46,77 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("api/Questionaire/GetPeerQuestions")]
+        public HttpResponseMessage GetPeerQuestions()
+        {
+            try
+            {
+                int type_id = questionaireService.getQuestionTypeID("peer");
+                var result = db.Questionaires.Where(question => question.type_id == type_id && question.deleted == false).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("api/Questionaire/GetSupervisorQuestions")]
+        public HttpResponseMessage GetSupervisorQuestions()
+        {
+            try
+            {
+                int type_id = questionaireService.getQuestionTypeID("supervisor");
+                var result = db.Questionaires.Where(question => question.type_id == type_id && question.deleted == false).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("api/Questionaire/GetJuniorTeacherQuestions")]
+        public HttpResponseMessage GetJuniorTeacherQuestions()
+        {
+            try
+            {
+                int type_id = questionaireService.getQuestionTypeID("juniorTeacher");
+                var result = db.Questionaires.Where(question => question.type_id == type_id && question.deleted == false).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
+        }
+
+
         [HttpPost]
         public HttpResponseMessage PostQuestion([FromBody] Questionaire question)
         {
-            if (questionaire.AddQuestion(question))
+            if (questionaireService.AddQuestion(question))
             {
                 return Request.CreateResponse(HttpStatusCode.OK, question);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, questionaire.message);
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, questionaireService.message);
         }
 
         [HttpPut]
         public HttpResponseMessage PutQuestion([FromBody] Questionaire question)
         {
-            if (questionaire.UpdateQuestion(question))
+            if (questionaireService.UpdateQuestion(question))
             {
                 return Request.CreateResponse(HttpStatusCode.OK, question);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, questionaire.message);
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, questionaireService.message);
         }
 
         [HttpDelete]

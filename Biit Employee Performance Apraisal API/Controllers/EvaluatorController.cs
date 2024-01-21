@@ -1,4 +1,5 @@
-﻿using Biit_Employee_Performance_Apraisal_API.Services;
+﻿using Biit_Employee_Performance_Apraisal_API.Models;
+using Biit_Employee_Performance_Apraisal_API.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -22,7 +23,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                var result= db.Evaluators.Where(evaluator => evaluator.deleted == false && evaluator.session_id == sessionID).ToList();
+                var result= db.Evaluators.Where(evaluator => evaluator.session_id == sessionID).ToList();
                 /*var result = db.EMPLOYEEs
     .Join(db.EVALUATORs, employee => employee.EmployeeID, evaluator => evaluator.EvaluatorID, (employee, evaluator) => new { employee, evaluator }).Where(evaluator => evaluator.evaluator.Deleted==false)
     .Join(db.SESSIONs, combined => combined.evaluator.SessionID, session => session.SessionID, (combined, session) => new { combined.employee, combined.evaluator, session })
@@ -49,14 +50,14 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage PostEvaluator(Evaluator eVALUATOR, List<int> EvaluateesID)
+        public HttpResponseMessage PostEvaluator([FromBody] EvaluatorEvaluatees evaluatorEvaluatees)
         {
             try
             {
                 List<Evaluator> evaluators = new List<Evaluator>();
-                for (int i = 0; i < EvaluateesID.Count; i++)
+                for (int i = 0; i < evaluatorEvaluatees.evaluatee_id.Count; i++)
                 {
-                    evaluators.Add(new Evaluator { id = eVALUATOR.id, session_id=eVALUATOR.session_id,evaluatee_id = EvaluateesID[i] });
+                    evaluators.Add(new Evaluator { id = evaluatorEvaluatees.evaluator.id, session_id=evaluatorEvaluatees.evaluator.session_id,evaluatee_id = evaluatorEvaluatees.evaluatee_id[i] });
                     //eVALUATOR.evaluatee_id = EvaluateesID[i];
                     /*var evaluator = db.Evaluators.Find(eVALUATOR);
                     if (evaluator!=null)
@@ -70,9 +71,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     /*db.Evaluators.Add(eVALUATOR);
                     db.SaveChanges();*/
                 }
-                db.Evaluators.AddRange(evaluators);
+                var result=db.Evaluators.AddRange(evaluators).ToList();
                 db.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.OK, "Evaluator Added Successfully");
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
@@ -80,7 +81,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
-        [HttpDelete]
+        /*[HttpDelete]
         public IHttpActionResult DeleteEvaluator(int evaluatorID,int sessionID)
         {
             var evaluator=db.Evaluators.Where(e => e.id==evaluatorID && e.session_id==sessionID).ToList();
@@ -88,6 +89,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             db.SaveChanges();
 
             return Ok(evaluator);
-        }
+        }*/
     }
 }

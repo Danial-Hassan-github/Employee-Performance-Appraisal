@@ -32,11 +32,25 @@
     <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="employee_type_id" Type="int" />
-    <Property Name="designation" Type="varchar" MaxLength="255" Nullable="false" />
-    <Property Name="department" Type="varchar" MaxLength="30" />
     <Property Name="salary" Type="money" />
     <Property Name="doj" Type="date" />
     <Property Name="deleted" Type="bit" />
+    <Property Name="department_id" Type="int" />
+    <Property Name="designation_id" Type="int" />
+  </EntityType>
+  <EntityType Name="EmployeeDepartment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="EmployeeDesignation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="EmployeeType">
     <Key>
@@ -77,7 +91,6 @@
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="evaluatee_id" Type="int" Nullable="false" />
-    <Property Name="deleted" Type="bit" />
   </EntityType>
   <EntityType Name="Kpi">
     <Key>
@@ -136,8 +149,15 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="question" Type="varchar(max)" Nullable="false" />
-    <Property Name="type" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="deleted" Type="bit" />
+    <Property Name="type_id" Type="int" />
+  </EntityType>
+  <EntityType Name="QuestionaireType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="SeniorTeacherJunior">
     <Key>
@@ -173,13 +193,16 @@
     <Key>
       <PropertyRef Name="student_id" />
       <PropertyRef Name="session_id" />
+      <PropertyRef Name="teacher_id" />
       <PropertyRef Name="question_id" />
+      <PropertyRef Name="course_id" />
     </Key>
     <Property Name="student_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="teacher_id" Type="int" Nullable="false" />
     <Property Name="question_id" Type="int" Nullable="false" />
     <Property Name="score" Type="int" Nullable="false" />
+    <Property Name="course_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SubKpi">
     <Key>
@@ -209,6 +232,19 @@
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="weightage" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="SupervisorEvaluation">
+    <Key>
+      <PropertyRef Name="supervisor_id" />
+      <PropertyRef Name="subordinate_id" />
+      <PropertyRef Name="session_id" />
+      <PropertyRef Name="question_id" />
+    </Key>
+    <Property Name="supervisor_id" Type="int" Nullable="false" />
+    <Property Name="subordinate_id" Type="int" Nullable="false" />
+    <Property Name="session_id" Type="int" Nullable="false" />
+    <Property Name="question_id" Type="int" Nullable="false" />
+    <Property Name="score" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
       <PropertyRef Name="diagram_id" />
@@ -234,6 +270,30 @@
     <Property Name="assigned_date" Type="date" />
     <Property Name="session_id" Type="int" />
   </EntityType>
+  <Association Name="FK__Employee__depart__34E8D562">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Employee1">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Employee__design__3E723F9C">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Employee1">
+        <PropertyRef Name="designation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__EMPLOYEE__Employ__67DE6983">
     <End Role="EmployeeType" Type="Self.EmployeeType" Multiplicity="0..1" />
     <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
@@ -478,6 +538,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Questiona__type___33F4B129">
+    <End Role="QuestionaireType" Type="Self.QuestionaireType" Multiplicity="0..1" />
+    <End Role="Questionaire" Type="Self.Questionaire" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionaireType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Questionaire">
+        <PropertyRef Name="type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__SeniorTea__junio__062DE679">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="SeniorTeacherJunior" Type="Self.SeniorTeacherJunior" Multiplicity="*" />
@@ -562,6 +634,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__StudentEv__cours__2F2FFC0C">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="StudentEvaluation" Type="Self.StudentEvaluation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="StudentEvaluation">
+        <PropertyRef Name="course_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__SUB_KPI__KPI_ID__52E34C9D">
     <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
     <End Role="SubKpi" Type="Self.SubKpi" Multiplicity="*" />
@@ -634,6 +718,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Superviso__quest__3AA1AEB8">
+    <End Role="Questionaire" Type="Self.Questionaire" Multiplicity="1" />
+    <End Role="SupervisorEvaluation" Type="Self.SupervisorEvaluation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questionaire">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SupervisorEvaluation">
+        <PropertyRef Name="question_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Superviso__sessi__38B96646">
+    <End Role="Session" Type="Self.Session" Multiplicity="1" />
+    <End Role="SupervisorEvaluation" Type="Self.SupervisorEvaluation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Session">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SupervisorEvaluation">
+        <PropertyRef Name="session_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Superviso__subor__39AD8A7F">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="SupervisorEvaluation" Type="Self.SupervisorEvaluation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SupervisorEvaluation">
+        <PropertyRef Name="subordinate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Superviso__super__37C5420D">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="SupervisorEvaluation" Type="Self.SupervisorEvaluation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SupervisorEvaluation">
+        <PropertyRef Name="supervisor_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__TASK__AssignedBy__2F9A1060">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="Task" Type="Self.Task" Multiplicity="*" />
@@ -674,6 +806,8 @@
     <EntitySet Name="ClassHeldReport" EntityType="Self.ClassHeldReport" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeDepartment" EntityType="Self.EmployeeDepartment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeDesignation" EntityType="Self.EmployeeDesignation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EmployeeType" EntityType="Self.EmployeeType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Enrollment" EntityType="Self.Enrollment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EvaluationPin" EntityType="Self.EvaluationPin" Schema="dbo" store:Type="Tables" />
@@ -684,6 +818,7 @@
     <EntitySet Name="KpiWeightage" EntityType="Self.KpiWeightage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PeerEvaluation" EntityType="Self.PeerEvaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Questionaire" EntityType="Self.Questionaire" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionaireType" EntityType="Self.QuestionaireType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SeniorTeacherJunior" EntityType="Self.SeniorTeacherJunior" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Session" EntityType="Self.Session" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
@@ -691,8 +826,17 @@
     <EntitySet Name="SubKpi" EntityType="Self.SubKpi" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubkpiEmployeeScore" EntityType="Self.SubkpiEmployeeScore" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubKpiWeightage" EntityType="Self.SubKpiWeightage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SupervisorEvaluation" EntityType="Self.SupervisorEvaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Employee__depart__34E8D562" Association="Self.FK__Employee__depart__34E8D562">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Employee1" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Employee__design__3E723F9C" Association="Self.FK__Employee__design__3E723F9C">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Employee1" EntitySet="Employee" />
+    </AssociationSet>
     <AssociationSet Name="FK__EMPLOYEE__Employ__67DE6983" Association="Self.FK__EMPLOYEE__Employ__67DE6983">
       <End Role="EmployeeType" EntitySet="EmployeeType" />
       <End Role="Employee" EntitySet="Employee" />
@@ -773,6 +917,10 @@
       <End Role="Evaluator" EntitySet="Evaluator" />
       <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
     </AssociationSet>
+    <AssociationSet Name="FK__Questiona__type___33F4B129" Association="Self.FK__Questiona__type___33F4B129">
+      <End Role="QuestionaireType" EntitySet="QuestionaireType" />
+      <End Role="Questionaire" EntitySet="Questionaire" />
+    </AssociationSet>
     <AssociationSet Name="FK__SeniorTea__junio__062DE679" Association="Self.FK__SeniorTea__junio__062DE679">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="SeniorTeacherJunior" EntitySet="SeniorTeacherJunior" />
@@ -801,6 +949,10 @@
       <End Role="Employee" EntitySet="Employee" />
       <End Role="StudentEvaluation" EntitySet="StudentEvaluation" />
     </AssociationSet>
+    <AssociationSet Name="FK__StudentEv__cours__2F2FFC0C" Association="Self.FK__StudentEv__cours__2F2FFC0C">
+      <End Role="Course" EntitySet="Course" />
+      <End Role="StudentEvaluation" EntitySet="StudentEvaluation" />
+    </AssociationSet>
     <AssociationSet Name="FK__SUB_KPI__KPI_ID__52E34C9D" Association="Self.FK__SUB_KPI__KPI_ID__52E34C9D">
       <End Role="Kpi" EntitySet="Kpi" />
       <End Role="SubKpi" EntitySet="SubKpi" />
@@ -824,6 +976,22 @@
     <AssociationSet Name="FK__SUBKPI_EM__SUBKP__0EF836A4" Association="Self.FK__SUBKPI_EM__SUBKP__0EF836A4">
       <End Role="SubKpi" EntitySet="SubKpi" />
       <End Role="SubkpiEmployeeScore" EntitySet="SubkpiEmployeeScore" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Superviso__quest__3AA1AEB8" Association="Self.FK__Superviso__quest__3AA1AEB8">
+      <End Role="Questionaire" EntitySet="Questionaire" />
+      <End Role="SupervisorEvaluation" EntitySet="SupervisorEvaluation" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Superviso__sessi__38B96646" Association="Self.FK__Superviso__sessi__38B96646">
+      <End Role="Session" EntitySet="Session" />
+      <End Role="SupervisorEvaluation" EntitySet="SupervisorEvaluation" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Superviso__subor__39AD8A7F" Association="Self.FK__Superviso__subor__39AD8A7F">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="SupervisorEvaluation" EntitySet="SupervisorEvaluation" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Superviso__super__37C5420D" Association="Self.FK__Superviso__super__37C5420D">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="SupervisorEvaluation" EntitySet="SupervisorEvaluation" />
     </AssociationSet>
     <AssociationSet Name="FK__TASK__AssignedBy__2F9A1060" Association="Self.FK__TASK__AssignedBy__2F9A1060">
       <End Role="Employee" EntitySet="Employee" />

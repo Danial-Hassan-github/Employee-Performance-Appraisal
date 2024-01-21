@@ -13,15 +13,19 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class SubKpiWeightage
+    public partial class QuestionaireType
     {
-        public int sub_kpi_id { get; set; }
-        public int session_id { get; set; }
-        public int weightage { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public QuestionaireType()
+        {
+            this.Questionaires = new HashSet<Questionaire>();
+        }
     
+        public int id { get; set; }
+        public string name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
-        public virtual Session Session { get; set; }
-        [JsonIgnore]
-        public virtual SubKpi SubKpi { get; set; }
+        public virtual ICollection<Questionaire> Questionaires { get; set; }
     }
 }

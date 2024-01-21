@@ -11,13 +11,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         
         public int getKpiID(string kpi_title)
         {
-            int id=db.Kpis.Where(kpi => kpi.name.Equals(kpi_title)).First().id;
+            int id=db.Kpis.Where(kpi => kpi.name.Equals(kpi_title)).FirstOrDefault().id;
             return id;
         }
 
         public int getSubKpiID(string sub_kpi_title)
         {
-            int id = db.SubKpis.Where(kpi => kpi.name.Equals(sub_kpi_title)).First().id;
+            int id = db.SubKpis.Where(kpi => kpi.name.Equals(sub_kpi_title)).FirstOrDefault().id;
             return id;
         }
 
@@ -33,7 +33,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 
         public double getKpiWeightage(int kpi_id,int sessionID)
         {
-            double weightage = db.KpiWeightages.Where(x => x.kpi_id == kpi_id && x.session_id == sessionID).First().weightage;
+            double weightage = db.KpiWeightages.Where(x => x.kpi_id == kpi_id && x.session_id == sessionID).FirstOrDefault().weightage;
             return weightage;
         }
 
@@ -106,7 +106,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 
         public double getSubKpiWeightage(int sub_kpi_id, int sessionID)
         {
-            double weightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == sub_kpi_id && x.session_id == sessionID).First().weightage;
+            double weightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == sub_kpi_id && x.session_id == sessionID).FirstOrDefault().weightage;
             return weightage;
         }
     }

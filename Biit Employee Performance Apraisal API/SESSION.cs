@@ -21,13 +21,14 @@ namespace Biit_Employee_Performance_Apraisal_API
             this.Enrollments = new HashSet<Enrollment>();
             this.EvaluationPins = new HashSet<EvaluationPin>();
             this.Evaluators = new HashSet<Evaluator>();
+            this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
             this.KpiWeightages = new HashSet<KpiWeightage>();
             this.SeniorTeacherJuniors = new HashSet<SeniorTeacherJunior>();
             this.StudentEvaluations = new HashSet<StudentEvaluation>();
             this.SubKpiWeightages = new HashSet<SubKpiWeightage>();
-            this.Tasks = new HashSet<Task>();
-            this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
             this.SubkpiEmployeeScores = new HashSet<SubkpiEmployeeScore>();
+            this.SupervisorEvaluations = new HashSet<SupervisorEvaluation>();
+            this.Tasks = new HashSet<Task>();
         }
     
         public int id { get; set; }
@@ -44,6 +45,9 @@ namespace Biit_Employee_Performance_Apraisal_API
         public virtual ICollection<Evaluator> Evaluators { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
+        public virtual ICollection<KpiEmployeeScore> KpiEmployeeScores { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<KpiWeightage> KpiWeightages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
@@ -56,12 +60,12 @@ namespace Biit_Employee_Performance_Apraisal_API
         public virtual ICollection<SubKpiWeightage> SubKpiWeightages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
-        public virtual ICollection<Task> Tasks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<KpiEmployeeScore> KpiEmployeeScores { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
         public virtual ICollection<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        public virtual ICollection<SupervisorEvaluation> SupervisorEvaluations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

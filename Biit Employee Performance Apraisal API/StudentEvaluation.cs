@@ -20,7 +20,10 @@ namespace Biit_Employee_Performance_Apraisal_API
         public int teacher_id { get; set; }
         public int question_id { get; set; }
         public int score { get; set; }
+        public int course_id { get; set; }
 
+        [JsonIgnore]
+        public virtual Course Course { get; set; }
         [JsonIgnore]
         public virtual Employee Employee { get; set; }
         [JsonIgnore]

@@ -24,7 +24,6 @@ namespace Biit_Employee_Performance_Apraisal_API
         public int id { get; set; }
         public int session_id { get; set; }
         public int evaluatee_id { get; set; }
-        public Nullable<bool> deleted { get; set; }
 
         [JsonIgnore]
         public virtual Employee Employee { get; set; }

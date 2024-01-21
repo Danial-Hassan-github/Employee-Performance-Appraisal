@@ -87,7 +87,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             if (taskService.UpdateTask(task))
             {
                 int subKpi_id = kpiService.getSubKpiID("task");
-                var result = db.Tasks.Join(db.SubkpiEmployeeScores, updatedTask => updatedTask.assigned_to_id, subKpi_score => subKpi_score.employee_id, (updatedTask, subKpi_score) => new { updatedTask, subKpi_score }).Where(combined => combined.subKpi_score.session_id==task.session_id && combined.subKpi_score.subkpi_id==subKpi_id && combined.updatedTask.id==task.id).First();
+                var result = db.Tasks.Join(db.SubkpiEmployeeScores, updatedTask => updatedTask.assigned_to_id, subKpi_score => subKpi_score.employee_id, (updatedTask, subKpi_score) => new { updatedTask, subKpi_score }).Where(combined => combined.subKpi_score.session_id==task.session_id && combined.subKpi_score.subkpi_id==subKpi_id && combined.updatedTask.id==task.id).FirstOrDefault();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError, taskService.message);

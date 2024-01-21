@@ -42,9 +42,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                         emp.name = employee.name;
                         emp.email = employee.email;
                         emp.password = employee.password;
-                        emp.designation = employee.designation;
+                        emp.designation_id = employee.designation_id;
                         emp.salary = employee.salary;
-                        emp.department = employee.department;
+                        emp.department_id = employee.department_id;
                         emp.employee_type_id = employee.employee_type_id;
                         emp.doj = employee.doj;
                         db.SaveChanges();
@@ -79,11 +79,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 else
                     message = "Password should be of 6 to 12 characters";
             }
-            else if (employee.designation == string.Empty)
+            else if (employee.designation_id != null)
             {
                 message = "Please Select Designation";
             }
-            else if (employee.department == string.Empty)
+            else if (employee.department_id != null)
             {
                 message = "Please Select Department";
             }

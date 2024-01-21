@@ -18,15 +18,18 @@ namespace Biit_Employee_Performance_Apraisal_API
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Kpi()
         {
+            this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
             this.KpiWeightages = new HashSet<KpiWeightage>();
             this.SubKpis = new HashSet<SubKpi>();
             this.EmployeeTypes = new HashSet<EmployeeType>();
-            this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
         }
     
         public int id { get; set; }
         public string name { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        public virtual ICollection<KpiEmployeeScore> KpiEmployeeScores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
         public virtual ICollection<KpiWeightage> KpiWeightages { get; set; }
@@ -36,8 +39,5 @@ namespace Biit_Employee_Performance_Apraisal_API
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
         public virtual ICollection<EmployeeType> EmployeeTypes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<KpiEmployeeScore> KpiEmployeeScores { get; set; }
     }
 }

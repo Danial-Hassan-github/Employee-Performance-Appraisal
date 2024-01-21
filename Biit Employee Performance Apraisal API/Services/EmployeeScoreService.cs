@@ -65,7 +65,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 subkpiEmployeeScores.session_id = sessionID;
                 subkpiEmployeeScores.score = score;
                 db.SubkpiEmployeeScores.Add(subkpiEmployeeScores);
-                kpiEmployeeScores.kpi_id = db.SubKpis.Where(x=>x.id==sub_kpi_id).First().kpi_id;
+                kpiEmployeeScores.kpi_id = db.SubKpis.Where(x=>x.id==sub_kpi_id).FirstOrDefault().kpi_id;
                 kpiEmployeeScores.employee_id = employeeID;
                 kpiEmployeeScores.session_id = sessionID;
                 kpiEmployeeScores.score = score;

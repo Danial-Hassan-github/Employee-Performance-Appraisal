@@ -25,7 +25,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage GetStudentCourseTeacher(int studentID, int courseID, int sessionID)
+        public HttpResponseMessage GetCourseTeacher(int studentID, int courseID, int sessionID)
         {
             try
             {

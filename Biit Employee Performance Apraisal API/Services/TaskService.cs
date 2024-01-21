@@ -71,8 +71,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                     {
                         t.score = task.score;
                     }
-                    setTaskScores(t);
                     db.SaveChanges();
+                    setTaskScores(t);
                     return true;
                 }
                 catch (Exception ex)
@@ -87,15 +87,15 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         {
             try
             {
-                var empTasks = db.Tasks.Where(t => t.session_id == task.session_id && t.assigned_to_id==task.assigned_to_id);
+                var empTasks = db.Tasks.Where(t => t.session_id == task.session_id && t.assigned_to_id==task.assigned_to_id );
                 int score= (int)empTasks.Sum(t => t.score);
                 int total_score = (int)empTasks.Sum(t => t.weightage);
                 KpiService kpiService = new KpiService();
                 int sub_kpi_id = kpiService.getSubKpiID("task");
-                var sub_kpi_Weightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == sub_kpi_id && x.session_id==task.session_id).Select(y => y.weightage).First();
+                var sub_kpi_Weightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == sub_kpi_id && x.session_id==task.session_id).Select(y => y.weightage).FirstOrDefault();
                 int empScore = Convert.ToInt32(((double)score/total_score) * sub_kpi_Weightage);
 
-                var subKpiEmployeeScore = db.SubkpiEmployeeScores.Where(x => x.employee_id == task.assigned_to_id && x.session_id == task.session_id && x.subkpi_id==sub_kpi_id).First();
+                var subKpiEmployeeScore = db.SubkpiEmployeeScores.Where(x => x.employee_id == task.assigned_to_id && x.session_id == task.session_id && x.subkpi_id==sub_kpi_id).FirstOrDefault();
                 if (subKpiEmployeeScore!=null)
                 {
                     subKpiEmployeeScore.score = empScore;

@@ -13,7 +13,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
     {
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
         KpiService kpiService=new KpiService();
-        
+
+
+        /*
+         GetKPIs used to fetch all availble kpi,s wheater they're included in session or not
+        */
         [HttpGet]
         public HttpResponseMessage GetKPIs()
         {
@@ -26,6 +30,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+
+        /*
+         GetSessionKPIs is being used to fetch kpi's availbe in specific session
+        */
         [HttpGet]
         public HttpResponseMessage GetSessionKPIs(int sessionID)
         {
@@ -40,6 +48,27 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        /*
+         GetEEmployeeTypeKPIs is being used to fetch kpi's availbe in specific session for specific type of employees
+        */
+        /*[HttpGet]
+        public HttpResponseMessage GetEmployeeTypeKPIs(int employeeTypeID,int sessionID)
+        {
+            try
+            {
+                var result = db.KpiWeightages.Join(db.Kpis, x => x.kpi_id, y => y.id, (x, y) => new { x, y }).Where(combined => combined.x.session_id == sessionID);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
+        }*/
+
+
+        /*
+         for adding new kpi
+        */
         [HttpPost]
         public HttpResponseMessage PostKPI([FromBody] Kpi kPI,int weightage,int sessionID)
         {
@@ -66,6 +95,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+
+        /*
+         To update kpi settings
+         */
         [HttpPut]
         public HttpResponseMessage PutKPI([FromBody] Kpi kPI,int weightage,int sessionID)
         {

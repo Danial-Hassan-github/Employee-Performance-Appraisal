@@ -36,7 +36,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 {
                     var qs = db.Questionaires.Find(question.id);
                     qs.question = question.question;
-                    qs.type = question.type;
+                    qs.type_id = question.type_id;
                     qs.deleted = question.deleted;
                     db.SaveChanges();
                     return true;
@@ -47,6 +47,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 }
             }
             return false;
+        }
+
+        public int getQuestionTypeID(string type)
+        {
+            int id=db.QuestionaireTypes.Where(q => q.name == type).Select(x => x.id).FirstOrDefault();
+            return id;
         }
 
         private bool ValidateQuestionData(Questionaire question)
