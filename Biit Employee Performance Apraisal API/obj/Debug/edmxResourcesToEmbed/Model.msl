@@ -42,22 +42,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="EmployeeDepartments">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.EmployeeDepartment">
-        <MappingFragment StoreEntitySet="EmployeeDepartment">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="name" ColumnName="name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EmployeeDesignations">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.EmployeeDesignation">
-        <MappingFragment StoreEntitySet="EmployeeDesignation">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="name" ColumnName="name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="EmployeeTypes">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.EmployeeType">
         <MappingFragment StoreEntitySet="EmployeeType">
@@ -151,15 +135,6 @@
         <MappingFragment StoreEntitySet="QuestionaireType">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SeniorTeacherJuniors">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SeniorTeacherJunior">
-        <MappingFragment StoreEntitySet="SeniorTeacherJunior">
-          <ScalarProperty Name="senior_teacher_id" ColumnName="senior_teacher_id" />
-          <ScalarProperty Name="junior_id" ColumnName="junior_id" />
-          <ScalarProperty Name="session_id" ColumnName="session_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -271,5 +246,30 @@
         <ScalarProperty Name="id" ColumnName="kpi_id" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Departments">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.Department">
+        <MappingFragment StoreEntitySet="Department">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Designations">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.Designation">
+        <MappingFragment StoreEntitySet="Designation">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TeacherJuniors">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.TeacherJunior">
+        <MappingFragment StoreEntitySet="TeacherJunior">
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="junior_id" ColumnName="junior_id" />
+          <ScalarProperty Name="senior_teacher_id" ColumnName="senior_teacher_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

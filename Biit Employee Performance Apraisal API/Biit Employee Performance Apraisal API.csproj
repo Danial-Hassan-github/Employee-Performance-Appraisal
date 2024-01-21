@@ -182,13 +182,13 @@
     <Compile Include="Course.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Department.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Designation.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Employee.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EmployeeDepartment.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EmployeeDesignation.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="EmployeeType.cs">
@@ -241,9 +241,6 @@
     <Compile Include="QuestionaireType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="SeniorTeacherJunior.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Services\EmployeeScoreService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\KpiService.cs" />
@@ -274,6 +271,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Task.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TeacherJunior.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
   </ItemGroup>

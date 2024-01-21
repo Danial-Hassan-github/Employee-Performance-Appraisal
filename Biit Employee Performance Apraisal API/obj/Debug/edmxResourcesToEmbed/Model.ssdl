@@ -23,6 +23,20 @@
     <Property Name="title" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="course_code" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="Designation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="30" />
+  </EntityType>
   <EntityType Name="Employee">
     <Key>
       <PropertyRef Name="id" />
@@ -37,20 +51,6 @@
     <Property Name="deleted" Type="bit" />
     <Property Name="department_id" Type="int" />
     <Property Name="designation_id" Type="int" />
-  </EntityType>
-  <EntityType Name="EmployeeDepartment">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="varchar" MaxLength="30" />
-  </EntityType>
-  <EntityType Name="EmployeeDesignation">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="varchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="EmployeeType">
     <Key>
@@ -76,7 +76,7 @@
       <PropertyRef Name="id" />
       <PropertyRef Name="session_id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="pin" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="start_time" Type="datetime" />
@@ -158,16 +158,6 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="50" />
-  </EntityType>
-  <EntityType Name="SeniorTeacherJunior">
-    <Key>
-      <PropertyRef Name="senior_teacher_id" />
-      <PropertyRef Name="junior_id" />
-      <PropertyRef Name="session_id" />
-    </Key>
-    <Property Name="senior_teacher_id" Type="int" Nullable="false" />
-    <Property Name="junior_id" Type="int" Nullable="false" />
-    <Property Name="session_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Session">
     <Key>
@@ -269,6 +259,16 @@
     <Property Name="score" Type="int" />
     <Property Name="assigned_date" Type="date" />
     <Property Name="session_id" Type="int" />
+  </EntityType>
+  <EntityType Name="TeacherJunior">
+    <Key>
+      <PropertyRef Name="senior_teacher_id" />
+      <PropertyRef Name="junior_id" />
+      <PropertyRef Name="session_id" />
+    </Key>
+    <Property Name="senior_teacher_id" Type="int" Nullable="false" />
+    <Property Name="junior_id" Type="int" Nullable="false" />
+    <Property Name="session_id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK__Employee__depart__34E8D562">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
@@ -552,36 +552,36 @@
   </Association>
   <Association Name="FK__SeniorTea__junio__062DE679">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-    <End Role="SeniorTeacherJunior" Type="Self.SeniorTeacherJunior" Multiplicity="*" />
+    <End Role="TeacherJunior" Type="Self.TeacherJunior" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="SeniorTeacherJunior">
+      <Dependent Role="TeacherJunior">
         <PropertyRef Name="junior_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__SeniorTea__senio__0539C240">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-    <End Role="SeniorTeacherJunior" Type="Self.SeniorTeacherJunior" Multiplicity="*" />
+    <End Role="TeacherJunior" Type="Self.TeacherJunior" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="SeniorTeacherJunior">
+      <Dependent Role="TeacherJunior">
         <PropertyRef Name="senior_teacher_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__SeniorTea__sessi__07220AB2">
     <End Role="Session" Type="Self.Session" Multiplicity="1" />
-    <End Role="SeniorTeacherJunior" Type="Self.SeniorTeacherJunior" Multiplicity="*" />
+    <End Role="TeacherJunior" Type="Self.TeacherJunior" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Session">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="SeniorTeacherJunior">
+      <Dependent Role="TeacherJunior">
         <PropertyRef Name="session_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -805,9 +805,9 @@
   <EntityContainer Name="Biit_Employee_Performance_AppraisalModelStoreContainer">
     <EntitySet Name="ClassHeldReport" EntityType="Self.ClassHeldReport" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="EmployeeDepartment" EntityType="Self.EmployeeDepartment" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="EmployeeDesignation" EntityType="Self.EmployeeDesignation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EmployeeType" EntityType="Self.EmployeeType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Enrollment" EntityType="Self.Enrollment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EvaluationPin" EntityType="Self.EvaluationPin" Schema="dbo" store:Type="Tables" />
@@ -819,7 +819,6 @@
     <EntitySet Name="PeerEvaluation" EntityType="Self.PeerEvaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Questionaire" EntityType="Self.Questionaire" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuestionaireType" EntityType="Self.QuestionaireType" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="SeniorTeacherJunior" EntityType="Self.SeniorTeacherJunior" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Session" EntityType="Self.Session" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StudentEvaluation" EntityType="Self.StudentEvaluation" Schema="dbo" store:Type="Tables" />
@@ -829,6 +828,7 @@
     <EntitySet Name="SupervisorEvaluation" EntityType="Self.SupervisorEvaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TeacherJunior" EntityType="Self.TeacherJunior" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__Employee__depart__34E8D562" Association="Self.FK__Employee__depart__34E8D562">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Employee1" EntitySet="Employee" />
@@ -923,15 +923,15 @@
     </AssociationSet>
     <AssociationSet Name="FK__SeniorTea__junio__062DE679" Association="Self.FK__SeniorTea__junio__062DE679">
       <End Role="Employee" EntitySet="Employee" />
-      <End Role="SeniorTeacherJunior" EntitySet="SeniorTeacherJunior" />
+      <End Role="TeacherJunior" EntitySet="TeacherJunior" />
     </AssociationSet>
     <AssociationSet Name="FK__SeniorTea__senio__0539C240" Association="Self.FK__SeniorTea__senio__0539C240">
       <End Role="Employee" EntitySet="Employee" />
-      <End Role="SeniorTeacherJunior" EntitySet="SeniorTeacherJunior" />
+      <End Role="TeacherJunior" EntitySet="TeacherJunior" />
     </AssociationSet>
     <AssociationSet Name="FK__SeniorTea__sessi__07220AB2" Association="Self.FK__SeniorTea__sessi__07220AB2">
       <End Role="Session" EntitySet="Session" />
-      <End Role="SeniorTeacherJunior" EntitySet="SeniorTeacherJunior" />
+      <End Role="TeacherJunior" EntitySet="TeacherJunior" />
     </AssociationSet>
     <AssociationSet Name="FK__STUDENT_E__Quest__14E61A24" Association="Self.FK__STUDENT_E__Quest__14E61A24">
       <End Role="Questionaire" EntitySet="Questionaire" />

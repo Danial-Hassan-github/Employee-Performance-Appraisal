@@ -9,21 +9,12 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
-    public partial class SeniorTeacherJunior
+    public partial class Department
     {
-        public int senior_teacher_id { get; set; }
-        public int junior_id { get; set; }
-        public int session_id { get; set; }
-
-        [JsonIgnore]
-        public virtual Employee Employee { get; set; }
-        [JsonIgnore]
-        public virtual Employee Employee1 { get; set; }
-        [JsonIgnore]
-        public virtual Session Session { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }

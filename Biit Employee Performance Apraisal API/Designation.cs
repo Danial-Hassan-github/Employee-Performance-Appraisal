@@ -12,7 +12,7 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class EmployeeDesignation
+    public partial class Designation
     {
         public int id { get; set; }
         public string name { get; set; }

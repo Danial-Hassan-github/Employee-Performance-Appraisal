@@ -8,6 +8,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     public class EvaluatorEvaluatees
     {
         public Evaluator evaluator {  get; set; }
-        public List<int > evaluatee_id { get; set; }
+        public List<int> evaluatee_id { get; set; }
     }
 }
