@@ -83,12 +83,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 
 
         [HttpGet]
-        [Route("api/Questionaire/GetJuniorTeacherQuestions")]
-        public HttpResponseMessage GetJuniorTeacherQuestions()
+        [Route("api/Questionaire/GetSeniorTeacherQuestions")]
+        public HttpResponseMessage GetSeniorTeacherQuestions()
         {
             try
             {
-                int type_id = questionaireService.getQuestionTypeID("juniorTeacher");
+                int type_id = questionaireService.getQuestionTypeID("senior");
                 var result = db.Questionaires.Where(question => question.type_id == type_id && question.deleted == false).ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }

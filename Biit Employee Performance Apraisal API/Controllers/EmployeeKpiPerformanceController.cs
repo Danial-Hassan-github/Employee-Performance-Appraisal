@@ -32,7 +32,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                int sub_kpiId=db.SubKpis.Where(x => x.kpi_id==kpiID).First().id;
+                int sub_kpiId=db.SubKpis.Where(x => x.kpi_id==kpiID).FirstOrDefault().id;
                 var result = db.SubkpiEmployeeScores.Where(emp => emp.employee_id == employeeID && emp.session_id == sessionID && emp.subkpi_id == sub_kpiId).ToList();
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, result);
             }

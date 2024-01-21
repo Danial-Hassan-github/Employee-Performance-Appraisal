@@ -58,10 +58,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             try
             {
                 db.StudentEvaluations.AddRange(sTUDENT_EVALUATIONs);
-                int sessionID = sTUDENT_EVALUATIONs.Select(p => p.session_id).First();
-                int employeeID = sTUDENT_EVALUATIONs.Select(p => p.teacher_id).First();
-                int questionID = sTUDENT_EVALUATIONs.Select(p => p.question_id).First();
-                bool isConfidential = db.Questionaires.Find(questionID).type_id==db.QuestionaireTypes.Where(q => q.name=="confidential").Select(x => x.id).First();
+                int sessionID = sTUDENT_EVALUATIONs.Select(p => p.session_id).FirstOrDefault();
+                int employeeID = sTUDENT_EVALUATIONs.Select(p => p.teacher_id).FirstOrDefault();
+                int questionID = sTUDENT_EVALUATIONs.Select(p => p.question_id).FirstOrDefault();
+                bool isConfidential = db.Questionaires.Find(questionID).type_id==db.QuestionaireTypes.Where(q => q.name=="confidential").Select(x => x.id).FirstOrDefault();
                 int sub_kpi_id = kpiService.getSubKpiID("student evaluation");
 
                 if (isConfidential)
@@ -97,17 +97,18 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 
         [HttpPost]
         [Route("api/Evaluation/PostSupervisorEvaluation")]
-        public HttpResponseMessage PostSupervisorEvaluation(List<PeerEvaluation> pEER_EVALUATIONs)
+        public HttpResponseMessage PostSupervisorEvaluation(List<SupervisorEvaluation> supervisorEvaluations)
         {
             try
             {
-                db.PeerEvaluations.AddRange(pEER_EVALUATIONs);
-                int sessionID = pEER_EVALUATIONs.Select(p => p.session_id).First();
-                int employeeID = pEER_EVALUATIONs.Select(p => p.evaluatee_id).First();
-                int sub_kpi_id = kpiService.getSubKpiID("peer evaluation");
-                double totalScore = pEER_EVALUATIONs.Count() * 12;
+                db.SupervisorEvaluations.AddRange(supervisorEvaluations);
+                int sessionID = supervisorEvaluations.Select(p => p.session_id).FirstOrDefault();
+                int employeeID = supervisorEvaluations.Select(p => p.subordinate_id).FirstOrDefault();
+
+                int sub_kpi_id = kpiService.getSubKpiID("supervisor evaluation");
+                double totalScore = supervisorEvaluations.Count() * 12;
                 double obtainedScore = 0;
-                foreach (var item in pEER_EVALUATIONs)
+                foreach (var item in supervisorEvaluations)
                 {
                     obtainedScore += item.score;
                 }
@@ -134,17 +135,24 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 
         [HttpPost]
         [Route("api/Evaluation/PostSeniorTeacherEvaluation")]
-        public HttpResponseMessage PostSeniorTeacherEvaluation(List<PeerEvaluation> pEER_EVALUATIONs)
+        public HttpResponseMessage PostSeniorTeacherEvaluation(List<SupervisorEvaluation> supervisorEvaluations)
         {
             try
             {
-                db.PeerEvaluations.AddRange(pEER_EVALUATIONs);
-                int sessionID = pEER_EVALUATIONs.Select(p => p.session_id).First();
-                int employeeID = pEER_EVALUATIONs.Select(p => p.evaluatee_id).First();
+                db.SupervisorEvaluations.AddRange(supervisorEvaluations);
+                int sessionID = supervisorEvaluations.Select(p => p.session_id).FirstOrDefault();
+                int employeeID = supervisorEvaluations.Select(p => p.subordinate_id).FirstOrDefault();
+                int questionID = supervisorEvaluations.Select(p => p.question_id).FirstOrDefault();
+                bool isSenior = db.Questionaires.Find(questionID).type_id == db.QuestionaireTypes.Where(q => q.name == "senior").Select(x => x.id).FirstOrDefault();
+
                 int sub_kpi_id = kpiService.getSubKpiID("peer evaluation");
-                double totalScore = pEER_EVALUATIONs.Count() * 12;
+                if (isSenior)
+                {
+                    sub_kpi_id = kpiService.getSubKpiID("senior evaluation");
+                }
+                double totalScore = supervisorEvaluations.Count() * 12;
                 double obtainedScore = 0;
-                foreach (var item in pEER_EVALUATIONs)
+                foreach (var item in supervisorEvaluations)
                 {
                     obtainedScore += item.score;
                 }

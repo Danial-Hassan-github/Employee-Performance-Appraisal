@@ -44,6 +44,31 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             }
         }
 
+        public bool UpdateEmployeeSubKpiScore(SubkpiEmployeeScore subKpiEmployeeScore)
+        {
+            try
+            {
+                var employeeScore = db.SubkpiEmployeeScores.Find(subKpiEmployeeScore.subkpi_id, subKpiEmployeeScore.employee_id, subKpiEmployeeScore.session_id);
+                employeeScore.score += subKpiEmployeeScore.score;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool isSubKpiEmployeeScoreExists(SubkpiEmployeeScore subkpiEmployeeScore)
+        {
+            var employeeScore = db.SubkpiEmployeeScores.Find(subkpiEmployeeScore.subkpi_id, subkpiEmployeeScore.employee_id, subkpiEmployeeScore.session_id);
+            if (employeeScore != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool isEmployeeScoreExists(KpiEmployeeScore kpiEmployeeScore)
         {
             var employeeScore=db.KpiEmployeeScores.Find(kpiEmployeeScore.kpi_id,kpiEmployeeScore.employee_id,kpiEmployeeScore.session_id);
@@ -64,7 +89,14 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 subkpiEmployeeScores.employee_id = employeeID;
                 subkpiEmployeeScores.session_id = sessionID;
                 subkpiEmployeeScores.score = score;
-                db.SubkpiEmployeeScores.Add(subkpiEmployeeScores);
+                if (isSubKpiEmployeeScoreExists(subkpiEmployeeScores))
+                {
+                    UpdateEmployeeSubKpiScore(subkpiEmployeeScores);
+                }
+                else
+                {
+                    db.SubkpiEmployeeScores.Add(subkpiEmployeeScores);
+                }
                 kpiEmployeeScores.kpi_id = db.SubKpis.Where(x=>x.id==sub_kpi_id).FirstOrDefault().kpi_id;
                 kpiEmployeeScores.employee_id = employeeID;
                 kpiEmployeeScores.session_id = sessionID;
