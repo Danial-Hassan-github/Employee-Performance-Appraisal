@@ -61,12 +61,17 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             {
                 try
                 {
-                    var t = db.Tasks.Find(task);
+                    var t = db.Tasks.Find(task.id);
                     t.task_description = task.task_description;
                     t.assigned_by_id = task.assigned_by_id;
                     t.assigned_to_id = task.assigned_to_id;
                     t.weightage = task.weightage;
                     t.due_date = task.due_date;
+                    if (task.score!=null)
+                    {
+                        t.score = task.score;
+                    }
+                    setTaskScores(t);
                     db.SaveChanges();
                     return true;
                 }
@@ -76,6 +81,40 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 }
             }
             return false;
+        }
+
+        public bool setTaskScores(Task task)
+        {
+            try
+            {
+                var empTasks = db.Tasks.Where(t => t.session_id == task.session_id && t.assigned_to_id==task.assigned_to_id);
+                int score= (int)empTasks.Sum(t => t.score);
+                int total_score = (int)empTasks.Sum(t => t.weightage);
+                KpiService kpiService = new KpiService();
+                int sub_kpi_id = kpiService.getSubKpiID("task");
+                var sub_kpi_Weightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == sub_kpi_id && x.session_id==task.session_id).Select(y => y.weightage).First();
+                int empScore = Convert.ToInt32(((double)score/total_score) * sub_kpi_Weightage);
+
+                var subKpiEmployeeScore = db.SubkpiEmployeeScores.Where(x => x.employee_id == task.assigned_to_id && x.session_id == task.session_id && x.subkpi_id==sub_kpi_id).First();
+                if (subKpiEmployeeScore!=null)
+                {
+                    subKpiEmployeeScore.score = empScore;
+                }
+                else
+                {
+                    subKpiEmployeeScore.subkpi_id = sub_kpi_id;
+                    subKpiEmployeeScore.employee_id = task.assigned_to_id;
+                    subKpiEmployeeScore.session_id = (int)task.session_id;
+                    subKpiEmployeeScore.score = empScore;
+                    db.SubkpiEmployeeScores.Add(subKpiEmployeeScore);
+                }
+                db.SaveChanges();
+                return true;
+            }catch(Exception e)
+            {
+                message = e.Message;
+                return false;
+            }
         }
 
         public bool ValidateTaskData(Task task) 

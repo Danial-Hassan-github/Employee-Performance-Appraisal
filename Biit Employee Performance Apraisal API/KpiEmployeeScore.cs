@@ -18,8 +18,8 @@ namespace Biit_Employee_Performance_Apraisal_API
         public int kpi_id { get; set; }
         public int employee_id { get; set; }
         public int session_id { get; set; }
-        public Nullable<double> score { get; set; }
-        public Nullable<double> total_score { get; set; }
+        public Nullable<int> score { get; set; }
+        public Nullable<int> total_score { get; set; }
 
         [JsonIgnore]
         public virtual Employee Employee { get; set; }

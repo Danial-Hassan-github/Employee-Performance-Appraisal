@@ -32,7 +32,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 }
                 double average=(obtainedScore/totalScore)*kpiService.getSubKpiWeightage(sub_kpi_id,sessionID);
                 
-                bool check=empScoreService.AddEvaluationScores(sessionID,sub_kpi_id,employeeID,average);
+                bool check=empScoreService.AddEvaluationScores(sessionID,sub_kpi_id,employeeID,Convert.ToInt32(average));
                 if (check)
                 {
                     db.SaveChanges();
@@ -75,7 +75,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 }
                 double average = (obtainedScore / totalScore) * kpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
 
-                bool check=empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, average);
+                bool check=empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
                 if (check)
                 {
                     db.SaveChanges();

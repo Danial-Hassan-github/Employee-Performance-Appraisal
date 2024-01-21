@@ -54,7 +54,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return false;
         }
 
-        public bool AddEvaluationScores(int sessionID,int sub_kpi_id,int employeeID,double score)
+        public bool AddEvaluationScores(int sessionID,int sub_kpi_id,int employeeID,int score)
         {
             try
             {

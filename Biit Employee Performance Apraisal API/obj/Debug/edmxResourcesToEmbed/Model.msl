@@ -89,17 +89,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="KpiEmployeeScores">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.KpiEmployeeScore">
-        <MappingFragment StoreEntitySet="KpiEmployeeScore">
-          <ScalarProperty Name="kpi_id" ColumnName="kpi_id" />
-          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
-          <ScalarProperty Name="session_id" ColumnName="session_id" />
-          <ScalarProperty Name="score" ColumnName="score" />
-          <ScalarProperty Name="total_score" ColumnName="total_score" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="KpiWeightages">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.KpiWeightage">
         <MappingFragment StoreEntitySet="KpiWeightage">
@@ -182,16 +171,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SubkpiEmployeeScores">
-      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SubkpiEmployeeScore">
-        <MappingFragment StoreEntitySet="SubkpiEmployeeScore">
-          <ScalarProperty Name="subkpi_id" ColumnName="subkpi_id" />
-          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
-          <ScalarProperty Name="session_id" ColumnName="session_id" />
-          <ScalarProperty Name="score" ColumnName="score" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="SubKpiWeightages">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SubKpiWeightage">
         <MappingFragment StoreEntitySet="SubKpiWeightage">
@@ -215,6 +194,7 @@
     <EntitySetMapping Name="Tasks">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.Task">
         <MappingFragment StoreEntitySet="Task">
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="assigned_to_id" ColumnName="assigned_to_id" />
           <ScalarProperty Name="assigned_by_id" ColumnName="assigned_by_id" />
@@ -235,5 +215,26 @@
         <ScalarProperty Name="id" ColumnName="kpi_id" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="KpiEmployeeScores">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.KpiEmployeeScore">
+        <MappingFragment StoreEntitySet="KpiEmployeeScore">
+          <ScalarProperty Name="total_score" ColumnName="total_score" />
+          <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="kpi_id" ColumnName="kpi_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubkpiEmployeeScores">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SubkpiEmployeeScore">
+        <MappingFragment StoreEntitySet="SubkpiEmployeeScore">
+          <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="subkpi_id" ColumnName="subkpi_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

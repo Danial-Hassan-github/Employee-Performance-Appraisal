@@ -95,8 +95,8 @@
     <Property Name="kpi_id" Type="int" Nullable="false" />
     <Property Name="employee_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
-    <Property Name="score" Type="float" />
-    <Property Name="total_score" Type="float" />
+    <Property Name="score" Type="int" />
+    <Property Name="total_score" Type="int" />
   </EntityType>
   <EntityType Name="KpiEmployeeType">
     <Key>
@@ -198,7 +198,7 @@
     <Property Name="subkpi_id" Type="int" Nullable="false" />
     <Property Name="employee_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
-    <Property Name="score" Type="float" />
+    <Property Name="score" Type="int" />
   </EntityType>
   <EntityType Name="SubKpiWeightage">
     <Key>
@@ -232,6 +232,7 @@
     <Property Name="due_date" Type="datetime" />
     <Property Name="score" Type="int" />
     <Property Name="assigned_date" Type="date" />
+    <Property Name="session_id" Type="int" />
   </EntityType>
   <Association Name="FK__EMPLOYEE__Employ__67DE6983">
     <End Role="EmployeeType" Type="Self.EmployeeType" Multiplicity="0..1" />
@@ -657,6 +658,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Task__session_id__24B26D99">
+    <End Role="Session" Type="Self.Session" Multiplicity="0..1" />
+    <End Role="Task" Type="Self.Task" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Session">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Task">
+        <PropertyRef Name="session_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="Biit_Employee_Performance_AppraisalModelStoreContainer">
     <EntitySet Name="ClassHeldReport" EntityType="Self.ClassHeldReport" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
@@ -818,6 +831,10 @@
     </AssociationSet>
     <AssociationSet Name="FK__TASK__AssignedTo__2EA5EC27" Association="Self.FK__TASK__AssignedTo__2EA5EC27">
       <End Role="Employee" EntitySet="Employee" />
+      <End Role="Task" EntitySet="Task" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Task__session_id__24B26D99" Association="Self.FK__Task__session_id__24B26D99">
+      <End Role="Session" EntitySet="Session" />
       <End Role="Task" EntitySet="Task" />
     </AssociationSet>
   </EntityContainer>
