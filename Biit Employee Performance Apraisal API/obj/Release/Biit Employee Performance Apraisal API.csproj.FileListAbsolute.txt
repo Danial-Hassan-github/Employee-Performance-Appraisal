@@ -1,0 +1,2 @@
+C:\Users\HASSA\source\repos\Biit Employee Performance Apraisal API\Biit Employee Performance Apraisal API\obj\Release\Biit Employee Performance Apraisal API.csproj.AssemblyReference.cache
+C:\Users\HASSA\source\repos\Biit Employee Performance Apraisal API\Biit Employee Performance Apraisal API\obj\Release\Biit Employee Performance Apraisal API.csproj.CoreCompileInputs.cache

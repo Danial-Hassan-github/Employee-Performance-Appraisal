@@ -119,7 +119,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
          */
         [HttpPut]
         [Route("api/KPI/PutKPI")]
-        public HttpResponseMessage PutKPI([FromBody] Kpi kPI,int weightage,int sessionID)
+        public HttpResponseMessage PutKPI([FromBody] Kpi kPI,int weightage,int sessionID,int employeeTypeID)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 var kpi = db.Kpis.Find(kPI.id);
                 kpi.name = kPI.name;
                 var kpi_weightage = db.KpiWeightages.Find(kPI.id,sessionID);
-                kpiService.adjustKpiWeightages(weightage, sessionID,kPI.id);
+                kpiService.adjustKpiWeightages(weightage, sessionID,kPI.id,employeeTypeID);
                 int leftOverWeightage = db.KpiWeightages.Where(x => x.session_id == sessionID).Sum(y => y.weightage);
                 leftOverWeightage -= weightage;
                 kpi_weightage.weightage = weightage;
