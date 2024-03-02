@@ -113,9 +113,9 @@
   </EntityType>
   <EntityType Name="KpiEmployeeType">
     <Key>
-      <PropertyRef Name="kpi_id" />
-      <PropertyRef Name="employee_type_id" />
+      <PropertyRef Name="id" />
     </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="kpi_id" Type="int" Nullable="false" />
     <Property Name="employee_type_id" Type="int" Nullable="false" />
   </EntityType>
@@ -462,7 +462,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__KpiEmploy__emplo__147C05D0">
+  <Association Name="FK__KpiEmploy__emplo__4DB4832C">
     <End Role="EmployeeType" Type="Self.EmployeeType" Multiplicity="1" />
     <End Role="KpiEmployeeType" Type="Self.KpiEmployeeType" Multiplicity="*" />
     <ReferentialConstraint>
@@ -474,7 +474,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__KpiEmploy__kpi_i__1387E197">
+  <Association Name="FK__KpiEmploy__kpi_i__4CC05EF3">
     <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
     <End Role="KpiEmployeeType" Type="Self.KpiEmployeeType" Multiplicity="*" />
     <ReferentialConstraint>
@@ -893,11 +893,11 @@
       <End Role="Session" EntitySet="Session" />
       <End Role="KpiWeightage" EntitySet="KpiWeightage" />
     </AssociationSet>
-    <AssociationSet Name="FK__KpiEmploy__emplo__147C05D0" Association="Self.FK__KpiEmploy__emplo__147C05D0">
+    <AssociationSet Name="FK__KpiEmploy__emplo__4DB4832C" Association="Self.FK__KpiEmploy__emplo__4DB4832C">
       <End Role="EmployeeType" EntitySet="EmployeeType" />
       <End Role="KpiEmployeeType" EntitySet="KpiEmployeeType" />
     </AssociationSet>
-    <AssociationSet Name="FK__KpiEmploy__kpi_i__1387E197" Association="Self.FK__KpiEmploy__kpi_i__1387E197">
+    <AssociationSet Name="FK__KpiEmploy__kpi_i__4CC05EF3" Association="Self.FK__KpiEmploy__kpi_i__4CC05EF3">
       <End Role="Kpi" EntitySet="Kpi" />
       <End Role="KpiEmployeeType" EntitySet="KpiEmployeeType" />
     </AssociationSet>

@@ -12,17 +12,13 @@ namespace Biit_Employee_Performance_Apraisal_API
     using System;
     using System.Collections.Generic;
     
-    public partial class SupervisorEvaluation
+    public partial class KpiEmployeeType
     {
-        public int supervisor_id { get; set; }
-        public int subordinate_id { get; set; }
-        public int session_id { get; set; }
-        public int question_id { get; set; }
-        public int score { get; set; }
+        public int id { get; set; }
+        public int kpi_id { get; set; }
+        public int employee_type_id { get; set; }
     
-        public virtual Employee Employee { get; set; }
-        public virtual Employee Employee1 { get; set; }
-        public virtual Questionaire Questionaire { get; set; }
-        public virtual Session Session { get; set; }
+        public virtual EmployeeType EmployeeType { get; set; }
+        public virtual Kpi Kpi { get; set; }
     }
 }

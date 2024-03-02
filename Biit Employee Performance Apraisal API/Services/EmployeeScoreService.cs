@@ -49,7 +49,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             try
             {
                 var employeeScore = db.SubkpiEmployeeScores.Find(subKpiEmployeeScore.subkpi_id, subKpiEmployeeScore.employee_id, subKpiEmployeeScore.session_id);
-                employeeScore.score += subKpiEmployeeScore.score;
+                employeeScore.score = subKpiEmployeeScore.score;
                 db.SaveChanges();
                 return true;
             }

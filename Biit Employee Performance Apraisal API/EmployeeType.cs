@@ -9,7 +9,6 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -19,17 +18,15 @@ namespace Biit_Employee_Performance_Apraisal_API
         public EmployeeType()
         {
             this.Employees = new HashSet<Employee>();
-            this.Kpis = new HashSet<Kpi>();
+            this.KpiEmployeeTypes = new HashSet<KpiEmployeeType>();
         }
     
         public int id { get; set; }
         public string title { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
         public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<Kpi> Kpis { get; set; }
+        public virtual ICollection<KpiEmployeeType> KpiEmployeeTypes { get; set; }
     }
 }

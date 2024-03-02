@@ -33,6 +33,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 oleDbConnection.Open();
                 OleDbCommand command = new OleDbCommand("select * from [Sheet1$]", oleDbConnection);
                 OleDbDataReader reader = command.ExecuteReader();
+                List<ClassHeldReport> classHeldReports=new List<ClassHeldReport>();
                 while (reader.Read())
                 {
                     chr.course = reader[0].ToString();
@@ -50,9 +51,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     chr.left_early = int.Parse(reader[7].ToString());
                     }
                     chr.remarks = reader[8].ToString();
+                    /*classHeldReports.Add(chr);*/
                     db.ClassHeldReports.Add(chr);
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
+                /*db.ClassHeldReports.AddRange(classHeldReports);
+                db.SaveChanges();*/
                 oleDbConnection.Close();
                 return Request.CreateResponse(HttpStatusCode.OK,"Data Submitted");
             }

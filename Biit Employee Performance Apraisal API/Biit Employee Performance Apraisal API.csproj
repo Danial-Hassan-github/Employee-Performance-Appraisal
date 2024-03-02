@@ -200,6 +200,9 @@
     <Compile Include="EvaluationPin.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="EvaluationTime.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Evaluator.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -210,6 +213,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="KpiEmployeeScore.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KpiEmployeeType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="KpiWeightage.cs">
@@ -231,6 +237,9 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\EvaluatorEvaluatees.cs" />
+    <Compile Include="OptionsWeightage.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="PeerEvaluation.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

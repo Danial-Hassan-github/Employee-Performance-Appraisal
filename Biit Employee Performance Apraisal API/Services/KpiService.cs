@@ -78,14 +78,21 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             }
         }*/
 
-        public bool adjustKpiWeightages(int weightage,int sessionID,int kpi_id)
+        public bool adjustKpiWeightages(int weightage,int sessionID,int kpi_id,int employeeTypeID)
         {
             try
             {
                 if (isWeightageExceeded(weightage,sessionID))
                 {
-                    List<KpiWeightage> kpi_weightage_list = db.Kpis.Join(db.KpiWeightages, kpi => kpi.id, kpi_weightage => kpi_weightage.kpi_id, (kpi, kpi_weightage) => new { kpi, kpi_weightage }).
-                        Select(combined => combined.kpi_weightage).Where(kpi_weightage => kpi_weightage.session_id == sessionID && kpi_weightage.kpi_id != kpi_id).ToList();
+                    List<KpiWeightage> kpi_weightage_list = db.Kpis
+                        .Join(db.KpiWeightages, kpi => kpi.id, kpi_weightage => kpi_weightage.kpi_id, (kpi, kpi_weightage) => new { kpi, kpi_weightage })
+                        .Join(db.KpiEmployeeTypes, combined => combined.kpi_weightage.kpi_id, kpiEmployeeType => kpiEmployeeType.kpi_id, (combined, kpiEmployeeType) => new { combined, kpiEmployeeType })
+                        .Where(combined => combined.combined.kpi_weightage.session_id == sessionID && combined.combined.kpi_weightage.kpi_id != kpi_id && combined.kpiEmployeeType.id == employeeTypeID)
+                        .Select(combined => combined.combined.kpi_weightage)
+                        .ToList();
+
+                    /*List<KpiWeightage> kpi_weightage_list = db.Kpis.Join(db.KpiWeightages, kpi => kpi.id, kpi_weightage => kpi_weightage.kpi_id, (kpi, kpi_weightage) => new { kpi, kpi_weightage }).Join(db.KpiEmployeeTypes,combined => combined.kpi.id,type => type.kpi_id, (combined, type) => new {combined, type })
+                        Select(combined => combined.kpi_weightage).Where(kpi_weightage => kpi_weightage.session_id == sessionID && kpi_weightage.kpi_id != kpi_id).ToList();*/
                     int sumOfWeightage = db.KpiWeightages.Where(x => x.session_id == sessionID && x.kpi_id != kpi_id).Sum(y => y.weightage);
                     int leftOverWeightage = getPreviousKpisTotalWeightage(weightage, sessionID);
                     int difference = sumOfWeightage - leftOverWeightage;

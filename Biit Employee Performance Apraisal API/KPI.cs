@@ -9,7 +9,6 @@
 
 namespace Biit_Employee_Performance_Apraisal_API
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -20,24 +19,20 @@ namespace Biit_Employee_Performance_Apraisal_API
         {
             this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
             this.KpiWeightages = new HashSet<KpiWeightage>();
+            this.KpiEmployeeTypes = new HashSet<KpiEmployeeType>();
             this.SubKpis = new HashSet<SubKpi>();
-            this.EmployeeTypes = new HashSet<EmployeeType>();
         }
     
         public int id { get; set; }
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
         public virtual ICollection<KpiEmployeeScore> KpiEmployeeScores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
         public virtual ICollection<KpiWeightage> KpiWeightages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<SubKpi> SubKpis { get; set; }
+        public virtual ICollection<KpiEmployeeType> KpiEmployeeTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
-        public virtual ICollection<EmployeeType> EmployeeTypes { get; set; }
+        public virtual ICollection<SubKpi> SubKpis { get; set; }
     }
 }

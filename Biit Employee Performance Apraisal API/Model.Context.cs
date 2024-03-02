@@ -27,6 +27,8 @@ namespace Biit_Employee_Performance_Apraisal_API
     
         public virtual DbSet<ClassHeldReport> ClassHeldReports { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }
+        public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<EmployeeType> EmployeeTypes { get; set; }
         public virtual DbSet<Enrollment> Enrollments { get; set; }
@@ -34,6 +36,7 @@ namespace Biit_Employee_Performance_Apraisal_API
         public virtual DbSet<Evaluator> Evaluators { get; set; }
         public virtual DbSet<Kpi> Kpis { get; set; }
         public virtual DbSet<KpiEmployeeScore> KpiEmployeeScores { get; set; }
+        public virtual DbSet<KpiEmployeeType> KpiEmployeeTypes { get; set; }
         public virtual DbSet<KpiWeightage> KpiWeightages { get; set; }
         public virtual DbSet<PeerEvaluation> PeerEvaluations { get; set; }
         public virtual DbSet<Questionaire> Questionaires { get; set; }
@@ -47,8 +50,8 @@ namespace Biit_Employee_Performance_Apraisal_API
         public virtual DbSet<SupervisorEvaluation> SupervisorEvaluations { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
-        public virtual DbSet<Department> Departments { get; set; }
-        public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<TeacherJunior> TeacherJuniors { get; set; }
+        public virtual DbSet<EvaluationTime> EvaluationTimes { get; set; }
+        public virtual DbSet<OptionsWeightage> OptionsWeightages { get; set; }
     }
 }

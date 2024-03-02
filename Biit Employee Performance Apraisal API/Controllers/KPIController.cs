@@ -19,6 +19,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
          GetKPIs used to fetch all availble kpi,s wheater they're included in session or not
         */
         [HttpGet]
+        [Route("api/KPI/GetKPIs")]
         public HttpResponseMessage GetKPIs()
         {
             try
@@ -35,11 +36,27 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
          GetSessionKPIs is being used to fetch kpi's availbe in specific session
         */
         [HttpGet]
+        [Route("api/KPI/GetSessionKPIs")]
         public HttpResponseMessage GetSessionKPIs(int sessionID)
         {
             try
             {
                 var result = db.KpiWeightages.Join(db.Kpis,x=>x.kpi_id,y=>y.id,(x,y)=>new {x,y}).Where(combined=>combined.x.session_id==sessionID).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/KPI/GetSubKPIs")]
+        public HttpResponseMessage GetSubKPIs(int kpi_id,int sessionID)
+        {
+            try
+            {
+                var result = db.SubKpiWeightages.Join(db.SubKpis, x => x.sub_kpi_id, y => y.id, (x, y) => new { x, y }).Where(combined => combined.x.session_id == sessionID && combined.y.kpi_id==kpi_id).ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
@@ -70,17 +87,18 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
          for adding new kpi
         */
         [HttpPost]
-        public HttpResponseMessage PostKPI([FromBody] Kpi kPI,int weightage,int sessionID)
+        [Route("api/KPI/PostKPI")]
+        public HttpResponseMessage PostKPI([FromBody] Kpi kPI,int weightage,int sessionID,int employeeTypeID)
         {
             try
             {
                 if (weightage>100)
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage caannot be more than 100%");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage caannot be more than 100");
                 }
                 var k = db.Kpis.Add(kPI);
                 db.SaveChanges();
-                kpiService.adjustKpiWeightages(weightage, sessionID, k.id);
+                kpiService.adjustKpiWeightages(weightage, sessionID, k.id, employeeTypeID);
                 //kpiService.adjustKpiWeigtage(weightage, sessionID);
                 KpiWeightage kpiWeightage = new KpiWeightage();
                 kpiWeightage.kpi_id = k.id;
@@ -100,6 +118,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
          To update kpi settings
          */
         [HttpPut]
+        [Route("api/KPI/PutKPI")]
         public HttpResponseMessage PutKPI([FromBody] Kpi kPI,int weightage,int sessionID)
         {
             try
