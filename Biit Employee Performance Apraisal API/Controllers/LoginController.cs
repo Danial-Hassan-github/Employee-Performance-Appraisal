@@ -1,4 +1,5 @@
-﻿using Microsoft.Ajax.Utilities;
+﻿using Biit_Employee_Performance_Apraisal_API.Models;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,17 +22,35 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 if (emailOrAridNo.Contains('@'))
                 {
-                    employee=db.Employees.Where(emp => emp.email.Equals(emailOrAridNo) && emp.password.Equals(password)).FirstOrDefault();
+                    var employeeDetails = db.Employees
+    .Where(emp => emp.email == emailOrAridNo && emp.password == password)
+    .Join(db.Designations,
+          emp => emp.designation_id,
+          desig => desig.id,
+          (emp, desig) => new { Employee = emp, Designation = desig })
+    .Join(db.Departments,
+          empDesig => empDesig.Employee.department_id,
+          dept => dept.id,
+          (empDesig, dept) => new { empDesig.Employee, empDesig.Designation, Department = dept })
+    .Join(db.EmployeeTypes,
+          empDesigDept => empDesigDept.Employee.employee_type_id,
+          empType => empType.id,
+          (empDesigDept, empType) => new
+          {
+              employee = empDesigDept.Employee,
+              designation = empDesigDept.Designation,
+              department = empDesigDept.Department,
+              employeeType = empType
+          })
+    .FirstOrDefault();
+
+                    return Request.CreateResponse(HttpStatusCode.OK, employeeDetails);
                 }
                 else
                 {
                     student=db.Students.Where(std => std.arid_no.Equals(emailOrAridNo) && std.password.Equals(password)).FirstOrDefault();
-                }
-                if (student!=null)
-                {
                     return Request.CreateResponse(HttpStatusCode.OK, student);
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, employee);
             }
             catch (Exception ex) {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,ex.Message);

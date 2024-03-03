@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Biit_Employee_Performance_Apraisal_API.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -87,7 +88,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                     List<KpiWeightage> kpi_weightage_list = db.Kpis
                         .Join(db.KpiWeightages, kpi => kpi.id, kpi_weightage => kpi_weightage.kpi_id, (kpi, kpi_weightage) => new { kpi, kpi_weightage })
                         .Join(db.KpiEmployeeTypes, combined => combined.kpi_weightage.kpi_id, kpiEmployeeType => kpiEmployeeType.kpi_id, (combined, kpiEmployeeType) => new { combined, kpiEmployeeType })
-                        .Where(combined => combined.combined.kpi_weightage.session_id == sessionID && combined.combined.kpi_weightage.kpi_id != kpi_id && combined.kpiEmployeeType.id == employeeTypeID)
+                        .Where(combined => combined.combined.kpi_weightage.session_id == sessionID && combined.combined.kpi_weightage.kpi_id != kpi_id && combined.kpiEmployeeType.employee_type_id == employeeTypeID)
                         .Select(combined => combined.combined.kpi_weightage)
                         .ToList();
 

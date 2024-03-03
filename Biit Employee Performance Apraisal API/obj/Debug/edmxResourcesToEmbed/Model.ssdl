@@ -82,6 +82,16 @@
     <Property Name="start_time" Type="datetime" />
     <Property Name="end_time" Type="datetime" />
   </EntityType>
+  <EntityType Name="EvaluationTime">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="session_id" Type="int" Nullable="false" />
+    <Property Name="evaluation_type" Type="varchar" MaxLength="20" />
+    <Property Name="start_time" Type="datetime" />
+    <Property Name="end_time" Type="datetime" />
+  </EntityType>
   <EntityType Name="Evaluator">
     <Key>
       <PropertyRef Name="id" />
@@ -127,6 +137,14 @@
     <Property Name="kpi_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="weightage" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OptionsWeightage">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="30" />
+    <Property Name="weightage" Type="int" />
   </EntityType>
   <EntityType Name="PeerEvaluation">
     <Key>
@@ -362,6 +380,18 @@
         <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="EvaluationPin">
+        <PropertyRef Name="session_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Evaluatio__sessi__63A3C44B">
+    <End Role="Session" Type="Self.Session" Multiplicity="1" />
+    <End Role="EvaluationTime" Type="Self.EvaluationTime" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Session">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="EvaluationTime">
         <PropertyRef Name="session_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -811,11 +841,13 @@
     <EntitySet Name="EmployeeType" EntityType="Self.EmployeeType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Enrollment" EntityType="Self.Enrollment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EvaluationPin" EntityType="Self.EvaluationPin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EvaluationTime" EntityType="Self.EvaluationTime" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Evaluator" EntityType="Self.Evaluator" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Kpi" EntityType="Self.Kpi" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KpiEmployeeScore" EntityType="Self.KpiEmployeeScore" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KpiEmployeeType" EntityType="Self.KpiEmployeeType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KpiWeightage" EntityType="Self.KpiWeightage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OptionsWeightage" EntityType="Self.OptionsWeightage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PeerEvaluation" EntityType="Self.PeerEvaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Questionaire" EntityType="Self.Questionaire" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuestionaireType" EntityType="Self.QuestionaireType" Schema="dbo" store:Type="Tables" />
@@ -860,6 +892,10 @@
     <AssociationSet Name="FK__EVALUATIO__Sessi__351DDF8C" Association="Self.FK__EVALUATIO__Sessi__351DDF8C">
       <End Role="Session" EntitySet="Session" />
       <End Role="EvaluationPin" EntitySet="EvaluationPin" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Evaluatio__sessi__63A3C44B" Association="Self.FK__Evaluatio__sessi__63A3C44B">
+      <End Role="Session" EntitySet="Session" />
+      <End Role="EvaluationTime" EntitySet="EvaluationTime" />
     </AssociationSet>
     <AssociationSet Name="FK__EVALUATOR__Evalu__18B6AB08" Association="Self.FK__EVALUATOR__Evalu__18B6AB08">
       <End Role="Employee" EntitySet="Employee" />

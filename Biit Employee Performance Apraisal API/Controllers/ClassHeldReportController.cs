@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Biit_Employee_Performance_Apraisal_API;
+using Biit_Employee_Performance_Apraisal_API.Models;
 
 namespace Biit_Employee_Performance_Apraisal_API.Controllers
 {

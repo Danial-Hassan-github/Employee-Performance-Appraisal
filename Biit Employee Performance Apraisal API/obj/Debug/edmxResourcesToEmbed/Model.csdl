@@ -228,6 +228,7 @@
     <NavigationProperty Name="SubkpiEmployeeScores" Relationship="Self.FK__SUBKPI_EM__Sessi__0FEC5ADD" FromRole="Session" ToRole="SubkpiEmployeeScore" />
     <NavigationProperty Name="SupervisorEvaluations" Relationship="Self.FK__Superviso__sessi__38B96646" FromRole="Session" ToRole="SupervisorEvaluation" />
     <NavigationProperty Name="Tasks" Relationship="Self.FK__Task__session_id__24B26D99" FromRole="Session" ToRole="Task" />
+    <NavigationProperty Name="EvaluationTimes" Relationship="Biit_Employee_Performance_AppraisalModel.FK__Evaluatio__sessi__63A3C44B" FromRole="Session" ToRole="EvaluationTime" />
   </EntityType>
   <EntityType Name="Student">
     <Key>
@@ -1093,5 +1094,42 @@
       <End Role="SubKpi" EntitySet="SubKpis" />
       <End Role="SubkpiEmployeeScore" EntitySet="SubkpiEmployeeScores" />
     </AssociationSet>
+    <EntitySet Name="EvaluationTimes" EntityType="Biit_Employee_Performance_AppraisalModel.EvaluationTime" />
+    <AssociationSet Name="FK__Evaluatio__sessi__63A3C44B" Association="Biit_Employee_Performance_AppraisalModel.FK__Evaluatio__sessi__63A3C44B">
+      <End Role="Session" EntitySet="Sessions" />
+      <End Role="EvaluationTime" EntitySet="EvaluationTimes" />
+    </AssociationSet>
+    <EntitySet Name="OptionsWeightages" EntityType="Biit_Employee_Performance_AppraisalModel.OptionsWeightage" />
   </EntityContainer>
+  <EntityType Name="EvaluationTime">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="session_id" Type="Int32" Nullable="false" />
+    <Property Name="evaluation_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="start_time" Type="DateTime" Precision="3" />
+    <Property Name="end_time" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Session" Relationship="Biit_Employee_Performance_AppraisalModel.FK__Evaluatio__sessi__63A3C44B" FromRole="EvaluationTime" ToRole="Session" />
+  </EntityType>
+  <Association Name="FK__Evaluatio__sessi__63A3C44B">
+    <End Type="Biit_Employee_Performance_AppraisalModel.Session" Role="Session" Multiplicity="1" />
+    <End Type="Biit_Employee_Performance_AppraisalModel.EvaluationTime" Role="EvaluationTime" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Session">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="EvaluationTime">
+        <PropertyRef Name="session_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OptionsWeightage">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="weightage" Type="Int32" />
+  </EntityType>
 </Schema>

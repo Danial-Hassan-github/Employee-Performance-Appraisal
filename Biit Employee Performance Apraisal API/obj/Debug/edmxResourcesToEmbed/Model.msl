@@ -272,5 +272,25 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="EvaluationTimes">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.EvaluationTime">
+        <MappingFragment StoreEntitySet="EvaluationTime">
+          <ScalarProperty Name="end_time" ColumnName="end_time" />
+          <ScalarProperty Name="start_time" ColumnName="start_time" />
+          <ScalarProperty Name="evaluation_type" ColumnName="evaluation_type" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OptionsWeightages">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.OptionsWeightage">
+        <MappingFragment StoreEntitySet="OptionsWeightage">
+          <ScalarProperty Name="weightage" ColumnName="weightage" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
