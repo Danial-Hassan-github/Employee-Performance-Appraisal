@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\HASSA\source\repos\Biit Employee Performance Apraisal API\Biit Employee Performance Apraisal API\bin\app.publish\</_PublishTargetUrl>
-    <History>True|2024-03-03T20:54:18.0671018Z;True|2024-03-03T22:17:14.8111264+05:00;True|2024-03-03T18:45:57.1366665+05:00;True|2024-03-03T18:14:55.5909710+05:00;False|2024-03-03T18:13:17.7299598+05:00;</History>
+    <History>True|2024-03-10T19:39:59.7140934Z;True|2024-03-10T17:56:25.5459331+05:00;True|2024-03-10T11:22:13.3345871+05:00;True|2024-03-10T11:16:42.6416360+05:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -79,10 +79,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/Biit Employee Performance Apraisal API.dll">
-      <publishTime>03/04/2024 01:54:16</publishTime>
+      <publishTime>03/11/2024 00:39:58</publishTime>
     </File>
     <File Include="bin/Biit Employee Performance Apraisal API.pdb">
-      <publishTime>03/04/2024 01:54:16</publishTime>
+      <publishTime>03/11/2024 00:39:58</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>04/17/2020 01:38:42</publishTime>

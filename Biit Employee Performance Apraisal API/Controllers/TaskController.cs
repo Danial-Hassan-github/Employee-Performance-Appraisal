@@ -16,12 +16,27 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         TaskService taskService=new TaskService();
         KpiService kpiService=new KpiService();
         [HttpGet]
-        [Route("api/Task/GetTasks")]
-        public HttpResponseMessage GetTasks()
+        [Route("api/Task/GetTasksDetail")]
+        public HttpResponseMessage GetTasksDetail()
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks);
+                var tasksWithEmployees = db.Tasks
+    .Join(db.Employees,
+        task => task.assigned_to_id,
+        assignedToEmployee => assignedToEmployee.id,
+        (task, assignedToEmployee) => new { Task = task, AssignedToEmployee = assignedToEmployee })
+    .Join(db.Employees,
+        taskAssigned => taskAssigned.Task.assigned_by_id,
+        assignedByEmployee => assignedByEmployee.id,
+        (taskAssigned, assignedByEmployee) => new
+        {
+            task = taskAssigned.Task,
+            assigned_to = taskAssigned.AssignedToEmployee,
+            assigned_by = assignedByEmployee
+        })
+    .ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, tasksWithEmployees);
             }
             catch (Exception ex)
             {

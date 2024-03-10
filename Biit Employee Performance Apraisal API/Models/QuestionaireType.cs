@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -24,6 +25,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Questionaire> Questionaires { get; set; }
+        [JsonIgnore] public virtual ICollection<Questionaire> Questionaires { get; set; }
     }
 }

@@ -14,6 +14,20 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
     {
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
         EvaluationQuestionaireService questionaireService = new EvaluationQuestionaireService();
+
+        [HttpGet]
+        [Route("api/Questionaire/GetQuestionnaireTypes")]
+        public HttpResponseMessage GetQuestionnaireTypes()
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, db.QuestionaireTypes);
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("api/Questionaire/GetStudentQuestions")]
         public HttpResponseMessage GetStudentQuestions()

@@ -23,28 +23,29 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             try
             {
                 var employeesDetails = db.Employees
-    .Join(db.Designations,
-          emp => emp.designation_id,
-          desig => desig.id,
-          (emp, desig) => new { Employee = emp, Designation = desig })
-    .Join(db.Departments,
-          empDesig => empDesig.Employee.department_id,
-          dept => dept.id,
-          (empDesig, dept) => new { empDesig.Employee, empDesig.Designation, Department = dept })
-    .Join(db.EmployeeTypes,
-          empDesigDept => empDesigDept.Employee.employee_type_id,
-          empType => empType.id,
-          (empDesigDept, empType) => new
-          {
-              employee = empDesigDept.Employee,
-              designation = empDesigDept.Designation,
-              department = empDesigDept.Department,
-              employeeType = empType
-          })
-    .ToList();
+                    .Join(db.Designations,
+                        emp => emp.designation_id,
+                        desig => desig.id,
+                        (emp, desig) => new { Employee = emp, Designation = desig })
+                    .Join(db.Departments,
+                        empDesig => empDesig.Employee.department_id,
+                        dept => dept.id,
+                        (empDesig, dept) => new { empDesig.Employee, empDesig.Designation, Department = dept })
+                    .Join(db.EmployeeTypes,
+                        empDesigDept => empDesigDept.Employee.employee_type_id,
+                        empType => empType.id,
+                        (empDesigDept, empType) => new
+                        {
+                            employee = empDesigDept.Employee,
+                            designation = empDesigDept.Designation,
+                            department = empDesigDept.Department,
+                            employeeType = empType
+                        })
+                    .ToList();
 
                 return Request.CreateResponse(HttpStatusCode.OK, employeesDetails);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
             }
@@ -105,7 +106,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.OK, employee);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError,EmployeeService.message);
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, EmployeeService.message);
         }
 
         [HttpPut]
@@ -127,7 +128,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 employee.deleted = true;
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, "Deleted Successfully");
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
