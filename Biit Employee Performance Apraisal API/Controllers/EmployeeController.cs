@@ -98,6 +98,19 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/Employee/GetEmployeeTypes")]
+        public HttpResponseMessage GetEmployeeTypes()
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, db.EmployeeTypes);
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
 
         [HttpPost]
         public HttpResponseMessage PostEmployee([FromBody] Employee employee)

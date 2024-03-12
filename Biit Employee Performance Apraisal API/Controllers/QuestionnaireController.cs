@@ -10,13 +10,13 @@ using System.Web.Http;
 
 namespace Biit_Employee_Performance_Apraisal_API.Controllers
 {
-    public class QuestionaireController : ApiController
+    public class QuestionnaireController : ApiController
     {
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
         EvaluationQuestionaireService questionaireService = new EvaluationQuestionaireService();
 
         [HttpGet]
-        [Route("api/Questionaire/GetQuestionnaireTypes")]
+        [Route("api/Questionnaire/GetQuestionnaireTypes")]
         public HttpResponseMessage GetQuestionnaireTypes()
         {
             try
@@ -29,7 +29,23 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpGet]
-        [Route("api/Questionaire/GetStudentQuestions")]
+        [Route("api/Questionnaire/GetQuestionnaireByType")]
+        public HttpResponseMessage GetQuestionnaireByType(int questionnaireTypeId) 
+        {
+
+            try
+            {
+                var result = db.Questionaires.Where(question => question.type_id == questionnaireTypeId && question.deleted == false).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/Questionnaire/GetStudentQuestions")]
         public HttpResponseMessage GetStudentQuestions()
         {
             try
@@ -40,13 +56,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
 
         [HttpGet]
-        [Route("api/Questionaire/GetConfidentialQuestions")]
+        [Route("api/Questionnaire/GetConfidentialQuestions")]
         public HttpResponseMessage GetConfidentialQuestions()
         {
             try
@@ -57,13 +73,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
 
         [HttpGet]
-        [Route("api/Questionaire/GetPeerQuestions")]
+        [Route("api/Questionnaire/GetPeerQuestions")]
         public HttpResponseMessage GetPeerQuestions()
         {
             try
@@ -74,14 +90,14 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
 
 
         [HttpGet]
-        [Route("api/Questionaire/GetSupervisorQuestions")]
+        [Route("api/Questionnaire/GetSupervisorQuestions")]
         public HttpResponseMessage GetSupervisorQuestions()
         {
             try
@@ -92,13 +108,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
 
         [HttpGet]
-        [Route("api/Questionaire/GetSeniorTeacherQuestions")]
+        [Route("api/Questionnaire/GetSeniorTeacherQuestions")]
         public HttpResponseMessage GetSeniorTeacherQuestions()
         {
             try
@@ -109,7 +125,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
