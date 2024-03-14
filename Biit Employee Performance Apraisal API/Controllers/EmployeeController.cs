@@ -17,8 +17,21 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
     {
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
         EmployeeService EmployeeService = new EmployeeService();
+
         [HttpGet]
         public HttpResponseMessage GetEmployees()
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, db.Employees.ToList());
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        
+        [HttpGet]
+        public HttpResponseMessage GetEmployeesWithDetails()
         {
             try
             {

@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -18,7 +19,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public int session_id { get; set; }
         public int weightage { get; set; }
     
-        public virtual Kpi Kpi { get; set; }
-        public virtual Session Session { get; set; }
+        [JsonIgnore] public virtual Kpi Kpi { get; set; }
+        [JsonIgnore] public virtual Session Session { get; set; }
     }
 }

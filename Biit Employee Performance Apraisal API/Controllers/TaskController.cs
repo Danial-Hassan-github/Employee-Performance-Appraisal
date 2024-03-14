@@ -16,26 +16,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         TaskService taskService=new TaskService();
         KpiService kpiService=new KpiService();
         [HttpGet]
-        [Route("api/Task/GetTasksDetail")]
-        public HttpResponseMessage GetTasksDetail()
+        [Route("api/Task/GetTasks")]
+        public HttpResponseMessage GetTasks()
         {
             try
             {
-                var tasksWithEmployees = db.Tasks
-    .Join(db.Employees,
-        task => task.assigned_to_id,
-        assignedToEmployee => assignedToEmployee.id,
-        (task, assignedToEmployee) => new { Task = task, AssignedToEmployee = assignedToEmployee })
-    .Join(db.Employees,
-        taskAssigned => taskAssigned.Task.assigned_by_id,
-        assignedByEmployee => assignedByEmployee.id,
-        (taskAssigned, assignedByEmployee) => new
-        {
-            task = taskAssigned.Task,
-            assigned_to = taskAssigned.AssignedToEmployee,
-            assigned_by = assignedByEmployee
-        })
-    .ToList();
+                var tasksWithEmployees = taskService.GetTasksWithEmployees();
                 return Request.CreateResponse(HttpStatusCode.OK, tasksWithEmployees);
             }
             catch (Exception ex)
@@ -50,7 +36,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks.Where(task=>task.status==0));
+                var pendingTasksWithEmployees = taskService.GetTasksWithEmployees().Where(item => ((dynamic)item).task.status == 0).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, pendingTasksWithEmployees);
             }
             catch (Exception ex)
             {
@@ -64,7 +51,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks.Where(task => task.status == 1));
+                var completedTasksWithEmployees = taskService.GetTasksWithEmployees().Where(item => ((dynamic)item).task.status == 1).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, completedTasksWithEmployees);
             }
             catch (Exception ex)
             {
@@ -91,7 +79,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             if (taskService.AddTask(task))
             {
-                return Request.CreateResponse(HttpStatusCode.OK, task);
+                return Request.CreateResponse(HttpStatusCode.OK, taskService.GetTasksWithEmployees());
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError, taskService.message);
         }

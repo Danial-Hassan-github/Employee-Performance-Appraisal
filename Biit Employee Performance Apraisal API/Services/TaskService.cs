@@ -11,6 +11,29 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
         public string message = string.Empty;
 
+        public List<object> GetTasksWithEmployees()
+        {
+            // Assuming db is your DbContext instance
+            var tasksWithEmployees = db.Tasks
+                .Join(db.Employees,
+                    task => task.assigned_to_id,
+                    assignedToEmployee => assignedToEmployee.id,
+                    (task, assignedToEmployee) => new { Task = task, AssignedToEmployee = assignedToEmployee })
+                .Join(db.Employees,
+                    taskAssigned => taskAssigned.Task.assigned_by_id,
+                    assignedByEmployee => assignedByEmployee.id,
+                    (taskAssigned, assignedByEmployee) => new
+                    {
+                        task = taskAssigned.Task,
+                        assigned_to = taskAssigned.AssignedToEmployee,
+                        assigned_by = assignedByEmployee
+                    })
+                .ToList();
+
+            // Return the result
+            return tasksWithEmployees.Cast<object>().ToList(); // Change object to appropriate type
+        }
+
         public bool AddTask(Task task)
         {
             if (ValidateTaskData(task))
