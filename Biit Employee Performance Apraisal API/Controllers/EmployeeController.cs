@@ -19,6 +19,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         EmployeeService EmployeeService = new EmployeeService();
 
         [HttpGet]
+        [Route("api/Employee/GetEmployees")]
         public HttpResponseMessage GetEmployees()
         {
             try
@@ -31,6 +32,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
         
         [HttpGet]
+        [Route("api/Employee/GetEmployeesWithDetails")]
         public HttpResponseMessage GetEmployeesWithDetails()
         {
             try
