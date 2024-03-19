@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
@@ -25,36 +26,33 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ClassHeldReport> ClassHeldReports { get; set; }
-        public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<Department> Departments { get; set; }
-        public virtual DbSet<Designation> Designations { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<EmployeeType> EmployeeTypes { get; set; }
-        public virtual DbSet<Enrollment> Enrollments { get; set; }
-        public virtual DbSet<EvaluationPin> EvaluationPins { get; set; }
-        public virtual DbSet<EvaluationTime> EvaluationTimes { get; set; }
-        public virtual DbSet<Evaluator> Evaluators { get; set; }
-        public virtual DbSet<Kpi> Kpis { get; set; }
-        public virtual DbSet<KpiDepartment> KpiDepartments { get; set; }
-        public virtual DbSet<KpiDesignation> KpiDesignations { get; set; }
-        public virtual DbSet<KpiEmployee> KpiEmployees { get; set; }
-        public virtual DbSet<KpiEmployeeScore> KpiEmployeeScores { get; set; }
-        public virtual DbSet<KpiEmployeeType> KpiEmployeeTypes { get; set; }
-        public virtual DbSet<KpiWeightage> KpiWeightages { get; set; }
-        public virtual DbSet<OptionsWeightage> OptionsWeightages { get; set; }
-        public virtual DbSet<PeerEvaluation> PeerEvaluations { get; set; }
-        public virtual DbSet<Questionaire> Questionaires { get; set; }
-        public virtual DbSet<QuestionaireType> QuestionaireTypes { get; set; }
-        public virtual DbSet<Session> Sessions { get; set; }
-        public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<StudentEvaluation> StudentEvaluations { get; set; }
-        public virtual DbSet<SubKpi> SubKpis { get; set; }
-        public virtual DbSet<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
-        public virtual DbSet<SubKpiWeightage> SubKpiWeightages { get; set; }
-        public virtual DbSet<SupervisorEvaluation> SupervisorEvaluations { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<Task> Tasks { get; set; }
-        public virtual DbSet<TeacherJunior> TeacherJuniors { get; set; }
+        [JsonIgnore] public virtual DbSet<ClassHeldReport> ClassHeldReports { get; set; }
+        [JsonIgnore] public virtual DbSet<Course> Courses { get; set; }
+        [JsonIgnore] public virtual DbSet<Department> Departments { get; set; }
+        [JsonIgnore] public virtual DbSet<Designation> Designations { get; set; }
+        [JsonIgnore] public virtual DbSet<Employee> Employees { get; set; }
+        [JsonIgnore] public virtual DbSet<EmployeeType> EmployeeTypes { get; set; }
+        [JsonIgnore] public virtual DbSet<Enrollment> Enrollments { get; set; }
+        [JsonIgnore] public virtual DbSet<EvaluationPin> EvaluationPins { get; set; }
+        [JsonIgnore] public virtual DbSet<EvaluationTime> EvaluationTimes { get; set; }
+        [JsonIgnore] public virtual DbSet<Evaluator> Evaluators { get; set; }
+        [JsonIgnore] public virtual DbSet<Kpi> Kpis { get; set; }
+        [JsonIgnore] public virtual DbSet<KpiEmployeeScore> KpiEmployeeScores { get; set; }
+        [JsonIgnore] public virtual DbSet<OptionsWeightage> OptionsWeightages { get; set; }
+        [JsonIgnore] public virtual DbSet<PeerEvaluation> PeerEvaluations { get; set; }
+        [JsonIgnore] public virtual DbSet<Questionaire> Questionaires { get; set; }
+        [JsonIgnore] public virtual DbSet<QuestionaireType> QuestionaireTypes { get; set; }
+        [JsonIgnore] public virtual DbSet<Session> Sessions { get; set; }
+        [JsonIgnore] public virtual DbSet<Student> Students { get; set; }
+        [JsonIgnore] public virtual DbSet<StudentEvaluation> StudentEvaluations { get; set; }
+        [JsonIgnore] public virtual DbSet<SubKpi> SubKpis { get; set; }
+        [JsonIgnore] public virtual DbSet<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
+        [JsonIgnore] public virtual DbSet<SubKpiWeightage> SubKpiWeightages { get; set; }
+        [JsonIgnore] public virtual DbSet<SupervisorEvaluation> SupervisorEvaluations { get; set; }
+        [JsonIgnore] public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        [JsonIgnore] public virtual DbSet<Task> Tasks { get; set; }
+        [JsonIgnore] public virtual DbSet<TeacherJunior> TeacherJuniors { get; set; }
+        [JsonIgnore] public virtual DbSet<GroupKpi> GroupKpis { get; set; }
+        [JsonIgnore] public virtual DbSet<KpiWeightage> KpiWeightages { get; set; }
     }
 }

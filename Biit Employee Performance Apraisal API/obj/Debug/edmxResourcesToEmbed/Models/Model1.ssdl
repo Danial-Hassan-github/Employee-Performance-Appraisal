@@ -102,42 +102,23 @@
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="evaluatee_id" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="GroupKpi">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kpi_id" Type="int" Nullable="false" />
+    <Property Name="designation_id" Type="int" />
+    <Property Name="department_id" Type="int" />
+    <Property Name="employee_type_id" Type="int" />
+    <Property Name="employee_id" Type="int" />
+  </EntityType>
   <EntityType Name="Kpi">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
-  </EntityType>
-  <EntityType Name="KpiDepartment">
-    <Key>
-      <PropertyRef Name="kpi_id" />
-      <PropertyRef Name="department_id" />
-      <PropertyRef Name="session_id" />
-    </Key>
-    <Property Name="kpi_id" Type="int" Nullable="false" />
-    <Property Name="department_id" Type="int" Nullable="false" />
-    <Property Name="session_id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="KpiDesignation">
-    <Key>
-      <PropertyRef Name="kpi_id" />
-      <PropertyRef Name="designation_id" />
-      <PropertyRef Name="session_id" />
-    </Key>
-    <Property Name="kpi_id" Type="int" Nullable="false" />
-    <Property Name="designation_id" Type="int" Nullable="false" />
-    <Property Name="session_id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="KpiEmployee">
-    <Key>
-      <PropertyRef Name="kpi_id" />
-      <PropertyRef Name="employee_id" />
-      <PropertyRef Name="session_id" />
-    </Key>
-    <Property Name="kpi_id" Type="int" Nullable="false" />
-    <Property Name="employee_id" Type="int" Nullable="false" />
-    <Property Name="session_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="KpiEmployeeScore">
     <Key>
@@ -151,21 +132,12 @@
     <Property Name="score" Type="int" />
     <Property Name="total_score" Type="int" />
   </EntityType>
-  <EntityType Name="KpiEmployeeType">
-    <Key>
-      <PropertyRef Name="kpi_id" />
-      <PropertyRef Name="employee_type_id" />
-      <PropertyRef Name="session_id" />
-    </Key>
-    <Property Name="kpi_id" Type="int" Nullable="false" />
-    <Property Name="employee_type_id" Type="int" Nullable="false" />
-    <Property Name="session_id" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="KpiWeightage">
     <Key>
       <PropertyRef Name="kpi_id" />
       <PropertyRef Name="session_id" />
     </Key>
+    <Property Name="group_kpi_id" Type="int" />
     <Property Name="kpi_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="weightage" Type="int" Nullable="false" />
@@ -464,6 +436,66 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__GroupKpi__depart__4F67C174">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="GroupKpi" Type="Self.GroupKpi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupKpi">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GroupKpi__design__4E739D3B">
+    <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
+    <End Role="GroupKpi" Type="Self.GroupKpi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Designation">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupKpi">
+        <PropertyRef Name="designation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GroupKpi__employ__505BE5AD">
+    <End Role="EmployeeType" Type="Self.EmployeeType" Multiplicity="0..1" />
+    <End Role="GroupKpi" Type="Self.GroupKpi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EmployeeType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupKpi">
+        <PropertyRef Name="employee_type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GroupKpi__employ__515009E6">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="GroupKpi" Type="Self.GroupKpi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupKpi">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GroupKpi__kpi_id__4D7F7902">
+    <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
+    <End Role="GroupKpi" Type="Self.GroupKpi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kpi">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="GroupKpi">
+        <PropertyRef Name="kpi_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__KPI_EMPLO__Emplo__762C88DA">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="KpiEmployeeScore" Type="Self.KpiEmployeeScore" Multiplicity="*" />
@@ -500,7 +532,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__KPI_WEIGH__KPI_I__5006DFF2">
+  <Association Name="FK__KpiWeight__group__664B26CC">
+    <End Role="GroupKpi" Type="Self.GroupKpi" Multiplicity="0..1" />
+    <End Role="KpiWeightage" Type="Self.KpiWeightage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GroupKpi">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="KpiWeightage">
+        <PropertyRef Name="group_kpi_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__KpiWeight__kpi_i__68336F3E">
     <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
     <End Role="KpiWeightage" Type="Self.KpiWeightage" Multiplicity="*" />
     <ReferentialConstraint>
@@ -512,7 +556,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__KPI_WEIGH__Sessi__4F12BBB9">
+  <Association Name="FK__KpiWeight__sessi__673F4B05">
     <End Role="Session" Type="Self.Session" Multiplicity="1" />
     <End Role="KpiWeightage" Type="Self.KpiWeightage" Multiplicity="*" />
     <ReferentialConstraint>
@@ -520,150 +564,6 @@
         <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="KpiWeightage">
-        <PropertyRef Name="session_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiDepart__depar__0BB1B5A5">
-    <End Role="Department" Type="Self.Department" Multiplicity="1" />
-    <End Role="KpiDepartment" Type="Self.KpiDepartment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiDepartment">
-        <PropertyRef Name="department_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiDepart__kpi_i__0ABD916C">
-    <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
-    <End Role="KpiDepartment" Type="Self.KpiDepartment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Kpi">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiDepartment">
-        <PropertyRef Name="kpi_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiDepart__sessi__0CA5D9DE">
-    <End Role="Session" Type="Self.Session" Multiplicity="1" />
-    <End Role="KpiDepartment" Type="Self.KpiDepartment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Session">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiDepartment">
-        <PropertyRef Name="session_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiDesign__desig__10766AC2">
-    <End Role="Designation" Type="Self.Designation" Multiplicity="1" />
-    <End Role="KpiDesignation" Type="Self.KpiDesignation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Designation">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiDesignation">
-        <PropertyRef Name="designation_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiDesign__kpi_i__0F824689">
-    <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
-    <End Role="KpiDesignation" Type="Self.KpiDesignation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Kpi">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiDesignation">
-        <PropertyRef Name="kpi_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiDesign__sessi__116A8EFB">
-    <End Role="Session" Type="Self.Session" Multiplicity="1" />
-    <End Role="KpiDesignation" Type="Self.KpiDesignation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Session">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiDesignation">
-        <PropertyRef Name="session_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiEmploy__emplo__06ED0088">
-    <End Role="EmployeeType" Type="Self.EmployeeType" Multiplicity="1" />
-    <End Role="KpiEmployeeType" Type="Self.KpiEmployeeType" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="EmployeeType">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiEmployeeType">
-        <PropertyRef Name="employee_type_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiEmploy__emplo__153B1FDF">
-    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-    <End Role="KpiEmployee" Type="Self.KpiEmployee" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiEmployee">
-        <PropertyRef Name="employee_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiEmploy__kpi_i__05F8DC4F">
-    <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
-    <End Role="KpiEmployeeType" Type="Self.KpiEmployeeType" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Kpi">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiEmployeeType">
-        <PropertyRef Name="kpi_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiEmploy__kpi_i__1446FBA6">
-    <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
-    <End Role="KpiEmployee" Type="Self.KpiEmployee" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Kpi">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiEmployee">
-        <PropertyRef Name="kpi_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiEmploy__sessi__07E124C1">
-    <End Role="Session" Type="Self.Session" Multiplicity="1" />
-    <End Role="KpiEmployeeType" Type="Self.KpiEmployeeType" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Session">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiEmployeeType">
-        <PropertyRef Name="session_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__KpiEmploy__sessi__162F4418">
-    <End Role="Session" Type="Self.Session" Multiplicity="1" />
-    <End Role="KpiEmployee" Type="Self.KpiEmployee" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Session">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiEmployee">
         <PropertyRef Name="session_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -995,12 +895,9 @@
     <EntitySet Name="EvaluationPin" EntityType="Self.EvaluationPin" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EvaluationTime" EntityType="Self.EvaluationTime" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Evaluator" EntityType="Self.Evaluator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupKpi" EntityType="Self.GroupKpi" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Kpi" EntityType="Self.Kpi" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="KpiDepartment" EntityType="Self.KpiDepartment" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="KpiDesignation" EntityType="Self.KpiDesignation" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="KpiEmployee" EntityType="Self.KpiEmployee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KpiEmployeeScore" EntityType="Self.KpiEmployeeScore" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="KpiEmployeeType" EntityType="Self.KpiEmployeeType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KpiWeightage" EntityType="Self.KpiWeightage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OptionsWeightage" EntityType="Self.OptionsWeightage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PeerEvaluation" EntityType="Self.PeerEvaluation" Schema="dbo" store:Type="Tables" />
@@ -1064,6 +961,26 @@
       <End Role="Session" EntitySet="Session" />
       <End Role="Evaluator" EntitySet="Evaluator" />
     </AssociationSet>
+    <AssociationSet Name="FK__GroupKpi__depart__4F67C174" Association="Self.FK__GroupKpi__depart__4F67C174">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="GroupKpi" EntitySet="GroupKpi" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GroupKpi__design__4E739D3B" Association="Self.FK__GroupKpi__design__4E739D3B">
+      <End Role="Designation" EntitySet="Designation" />
+      <End Role="GroupKpi" EntitySet="GroupKpi" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GroupKpi__employ__505BE5AD" Association="Self.FK__GroupKpi__employ__505BE5AD">
+      <End Role="EmployeeType" EntitySet="EmployeeType" />
+      <End Role="GroupKpi" EntitySet="GroupKpi" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GroupKpi__employ__515009E6" Association="Self.FK__GroupKpi__employ__515009E6">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="GroupKpi" EntitySet="GroupKpi" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GroupKpi__kpi_id__4D7F7902" Association="Self.FK__GroupKpi__kpi_id__4D7F7902">
+      <End Role="Kpi" EntitySet="Kpi" />
+      <End Role="GroupKpi" EntitySet="GroupKpi" />
+    </AssociationSet>
     <AssociationSet Name="FK__KPI_EMPLO__Emplo__762C88DA" Association="Self.FK__KPI_EMPLO__Emplo__762C88DA">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="KpiEmployeeScore" EntitySet="KpiEmployeeScore" />
@@ -1076,61 +993,17 @@
       <End Role="Session" EntitySet="Session" />
       <End Role="KpiEmployeeScore" EntitySet="KpiEmployeeScore" />
     </AssociationSet>
-    <AssociationSet Name="FK__KPI_WEIGH__KPI_I__5006DFF2" Association="Self.FK__KPI_WEIGH__KPI_I__5006DFF2">
+    <AssociationSet Name="FK__KpiWeight__group__664B26CC" Association="Self.FK__KpiWeight__group__664B26CC">
+      <End Role="GroupKpi" EntitySet="GroupKpi" />
+      <End Role="KpiWeightage" EntitySet="KpiWeightage" />
+    </AssociationSet>
+    <AssociationSet Name="FK__KpiWeight__kpi_i__68336F3E" Association="Self.FK__KpiWeight__kpi_i__68336F3E">
       <End Role="Kpi" EntitySet="Kpi" />
       <End Role="KpiWeightage" EntitySet="KpiWeightage" />
     </AssociationSet>
-    <AssociationSet Name="FK__KPI_WEIGH__Sessi__4F12BBB9" Association="Self.FK__KPI_WEIGH__Sessi__4F12BBB9">
+    <AssociationSet Name="FK__KpiWeight__sessi__673F4B05" Association="Self.FK__KpiWeight__sessi__673F4B05">
       <End Role="Session" EntitySet="Session" />
       <End Role="KpiWeightage" EntitySet="KpiWeightage" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiDepart__depar__0BB1B5A5" Association="Self.FK__KpiDepart__depar__0BB1B5A5">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="KpiDepartment" EntitySet="KpiDepartment" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiDepart__kpi_i__0ABD916C" Association="Self.FK__KpiDepart__kpi_i__0ABD916C">
-      <End Role="Kpi" EntitySet="Kpi" />
-      <End Role="KpiDepartment" EntitySet="KpiDepartment" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiDepart__sessi__0CA5D9DE" Association="Self.FK__KpiDepart__sessi__0CA5D9DE">
-      <End Role="Session" EntitySet="Session" />
-      <End Role="KpiDepartment" EntitySet="KpiDepartment" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiDesign__desig__10766AC2" Association="Self.FK__KpiDesign__desig__10766AC2">
-      <End Role="Designation" EntitySet="Designation" />
-      <End Role="KpiDesignation" EntitySet="KpiDesignation" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiDesign__kpi_i__0F824689" Association="Self.FK__KpiDesign__kpi_i__0F824689">
-      <End Role="Kpi" EntitySet="Kpi" />
-      <End Role="KpiDesignation" EntitySet="KpiDesignation" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiDesign__sessi__116A8EFB" Association="Self.FK__KpiDesign__sessi__116A8EFB">
-      <End Role="Session" EntitySet="Session" />
-      <End Role="KpiDesignation" EntitySet="KpiDesignation" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiEmploy__emplo__06ED0088" Association="Self.FK__KpiEmploy__emplo__06ED0088">
-      <End Role="EmployeeType" EntitySet="EmployeeType" />
-      <End Role="KpiEmployeeType" EntitySet="KpiEmployeeType" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiEmploy__emplo__153B1FDF" Association="Self.FK__KpiEmploy__emplo__153B1FDF">
-      <End Role="Employee" EntitySet="Employee" />
-      <End Role="KpiEmployee" EntitySet="KpiEmployee" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiEmploy__kpi_i__05F8DC4F" Association="Self.FK__KpiEmploy__kpi_i__05F8DC4F">
-      <End Role="Kpi" EntitySet="Kpi" />
-      <End Role="KpiEmployeeType" EntitySet="KpiEmployeeType" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiEmploy__kpi_i__1446FBA6" Association="Self.FK__KpiEmploy__kpi_i__1446FBA6">
-      <End Role="Kpi" EntitySet="Kpi" />
-      <End Role="KpiEmployee" EntitySet="KpiEmployee" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiEmploy__sessi__07E124C1" Association="Self.FK__KpiEmploy__sessi__07E124C1">
-      <End Role="Session" EntitySet="Session" />
-      <End Role="KpiEmployeeType" EntitySet="KpiEmployeeType" />
-    </AssociationSet>
-    <AssociationSet Name="FK__KpiEmploy__sessi__162F4418" Association="Self.FK__KpiEmploy__sessi__162F4418">
-      <End Role="Session" EntitySet="Session" />
-      <End Role="KpiEmployee" EntitySet="KpiEmployee" />
     </AssociationSet>
     <AssociationSet Name="FK__PEER_EVAL__Cours__2057CCD0" Association="Self.FK__PEER_EVAL__Cours__2057CCD0">
       <End Role="Course" EntitySet="Course" />

@@ -24,7 +24,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     
         [JsonIgnore] public virtual Course Course { get; set; }
         [JsonIgnore] public virtual Employee Employee { get; set; }
-        public virtual Questionaire Questionaire { get; set; }
+        [JsonIgnore] public virtual Questionaire Questionaire { get; set; }
         [JsonIgnore] public virtual Session Session { get; set; }
         [JsonIgnore] public virtual Student Student { get; set; }
     }

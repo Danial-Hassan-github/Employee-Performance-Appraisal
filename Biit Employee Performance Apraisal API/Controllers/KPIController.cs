@@ -1,7 +1,7 @@
 ﻿using Biit_Employee_Performance_Apraisal_API.Models;
 using Biit_Employee_Performance_Apraisal_API.Services;
 using System;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
@@ -65,6 +65,31 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/KPI/GetUniqueKpis")]
+        public HttpResponseMessage GetUniqueKpis()
+        {
+            try
+            {
+                var uniqueKpis = db.Kpis
+        /*.GroupJoin(db.KpiDesignations, k => k.id, kd => kd.kpi_id, (k, kds) => new { k, kds })
+        .SelectMany(x => x.kds.DefaultIfEmpty(), (x, kd) => new { x.k, kd })
+        .GroupJoin(db.KpiDepartments, x => x.k.id, kdep => kdep.kpi_id, (x, kdeps) => new { x.k, x.kd, kdeps })
+        .SelectMany(x => x.kdeps.DefaultIfEmpty(), (x, kdep) => new { x.k, x.kd, kdep, x.kdeps })
+        .GroupJoin(db.KpiEmployeeTypes, x => x.k.id, ket => ket.kpi_id, (x, kets) => new { x.k, x.kd, x.kdep, kets })
+        .SelectMany(x => x.kets.DefaultIfEmpty(), (x, ket) => new { x.k, x.kd, x.kdep, ket, x.kets })
+        .GroupJoin(db.KpiEmployees, x => x.k.id, ke => ke.kpi_id, (x, kes) => new { x.k, x.kd, x.kdep, x.ket, kes })
+        .SelectMany(x => x.kes.DefaultIfEmpty(), (x, ke) => new { Kpi = x.k, Designation = x.kd, Department = x.kdep, EmployeeType = x.ket, Employee = ke })*/
+        .ToList();
+
+                return Request.CreateResponse(HttpStatusCode.OK,uniqueKpis);
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,ex.Message);
+            }
+        }
+
 
         /*
          GetEEmployeeTypeKPIs is being used to fetch kpi's availbe in specific session for specific type of employees

@@ -13,25 +13,27 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Course
+    public partial class GroupKpi
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Course()
+        public GroupKpi()
         {
-            this.Enrollments = new HashSet<Enrollment>();
-            this.PeerEvaluations = new HashSet<PeerEvaluation>();
-            this.StudentEvaluations = new HashSet<StudentEvaluation>();
+            this.KpiWeightages = new HashSet<KpiWeightage>();
         }
     
         public int id { get; set; }
-        public string title { get; set; }
-        public string course_code { get; set; }
+        public int kpi_id { get; set; }
+        public Nullable<int> designation_id { get; set; }
+        public Nullable<int> department_id { get; set; }
+        public Nullable<int> employee_type_id { get; set; }
+        public Nullable<int> employee_id { get; set; }
     
+        [JsonIgnore] public virtual Department Department { get; set; }
+        [JsonIgnore] public virtual Designation Designation { get; set; }
+        [JsonIgnore] public virtual Employee Employee { get; set; }
+        [JsonIgnore] public virtual EmployeeType EmployeeType { get; set; }
+        [JsonIgnore] public virtual Kpi Kpi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<Enrollment> Enrollments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
+        [JsonIgnore] public virtual ICollection<KpiWeightage> KpiWeightages { get; set; }
     }
 }

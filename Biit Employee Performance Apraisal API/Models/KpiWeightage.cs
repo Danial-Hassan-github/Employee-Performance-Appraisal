@@ -15,10 +15,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     
     public partial class KpiWeightage
     {
+        public Nullable<int> group_kpi_id { get; set; }
         public int kpi_id { get; set; }
         public int session_id { get; set; }
         public int weightage { get; set; }
     
+        [JsonIgnore] public virtual GroupKpi GroupKpi { get; set; }
         [JsonIgnore] public virtual Kpi Kpi { get; set; }
         [JsonIgnore] public virtual Session Session { get; set; }
     }

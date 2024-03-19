@@ -9,6 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -25,10 +26,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public int kpi_id { get; set; }
         public string name { get; set; }
     
-        public virtual Kpi Kpi { get; set; }
+        [JsonIgnore] public virtual Kpi Kpi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubKpiWeightage> SubKpiWeightages { get; set; }
+        [JsonIgnore] public virtual ICollection<SubKpiWeightage> SubKpiWeightages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
+        [JsonIgnore] public virtual ICollection<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public EmployeeType()
         {
             this.Employees = new HashSet<Employee>();
-            this.KpiEmployeeTypes = new HashSet<KpiEmployeeType>();
+            this.GroupKpis = new HashSet<GroupKpi>();
         }
     
         public int id { get; set; }
@@ -28,6 +28,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<KpiEmployeeType> KpiEmployeeTypes { get; set; }
+        [JsonIgnore] public virtual ICollection<GroupKpi> GroupKpis { get; set; }
     }
 }

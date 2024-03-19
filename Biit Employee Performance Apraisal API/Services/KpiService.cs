@@ -85,15 +85,15 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             {
                 if (isWeightageExceeded(weightage,sessionID))
                 {
-                    List<KpiWeightage> kpi_weightage_list = db.Kpis
+                    /*List<KpiWeightage> kpi_weightage_list = db.Kpis
                         .Join(db.KpiWeightages, kpi => kpi.id, kpi_weightage => kpi_weightage.kpi_id, (kpi, kpi_weightage) => new { kpi, kpi_weightage })
                         .Join(db.KpiEmployeeTypes, combined => combined.kpi_weightage.kpi_id, kpiEmployeeType => kpiEmployeeType.kpi_id, (combined, kpiEmployeeType) => new { combined, kpiEmployeeType })
                         .Where(combined => combined.combined.kpi_weightage.session_id == sessionID && combined.combined.kpi_weightage.kpi_id != kpi_id && combined.kpiEmployeeType.employee_type_id == employeeTypeID)
                         .Select(combined => combined.combined.kpi_weightage)
                         .ToList();
 
-                    /*List<KpiWeightage> kpi_weightage_list = db.Kpis.Join(db.KpiWeightages, kpi => kpi.id, kpi_weightage => kpi_weightage.kpi_id, (kpi, kpi_weightage) => new { kpi, kpi_weightage }).Join(db.KpiEmployeeTypes,combined => combined.kpi.id,type => type.kpi_id, (combined, type) => new {combined, type })
-                        Select(combined => combined.kpi_weightage).Where(kpi_weightage => kpi_weightage.session_id == sessionID && kpi_weightage.kpi_id != kpi_id).ToList();*/
+                    *//*List<KpiWeightage> kpi_weightage_list = db.Kpis.Join(db.KpiWeightages, kpi => kpi.id, kpi_weightage => kpi_weightage.kpi_id, (kpi, kpi_weightage) => new { kpi, kpi_weightage }).Join(db.KpiEmployeeTypes,combined => combined.kpi.id,type => type.kpi_id, (combined, type) => new {combined, type })
+                        Select(combined => combined.kpi_weightage).Where(kpi_weightage => kpi_weightage.session_id == sessionID && kpi_weightage.kpi_id != kpi_id).ToList();*//*
                     int sumOfWeightage = db.KpiWeightages.Where(x => x.session_id == sessionID && x.kpi_id != kpi_id).Sum(y => y.weightage);
                     int leftOverWeightage = getPreviousKpisTotalWeightage(weightage, sessionID);
                     int difference = sumOfWeightage - leftOverWeightage;
@@ -102,7 +102,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                         double newWeightage = item.weightage - (((double)item.weightage / sumOfWeightage) * difference); ;
                         item.weightage = Convert.ToInt32(newWeightage);
                     }
-                    db.SaveChanges();
+                    db.SaveChanges();*/
                 }
                 return true;
             }
@@ -116,6 +116,29 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         {
             double weightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == sub_kpi_id && x.session_id == sessionID).FirstOrDefault().weightage;
             return weightage;
+        }
+
+        public void AddKpi(Kpi kpi,KpiWeightage kpiWeightage,GroupKpi groupKpi)
+        {
+            Kpi kpiEntity=db.Kpis.Add(kpi);
+            groupKpi.kpi_id = kpiEntity.id;
+            if (groupKpi.employee_id!=null)
+            {
+                Employee employee = db.Employees
+                    .Where(x => x.id == groupKpi.employee_id).FirstOrDefault();
+                groupKpi.designation_id = employee.designation_id;
+                groupKpi.department_id=employee.department_id;
+                groupKpi.employee_type_id=employee.employee_type_id;
+            }
+            GroupKpi groupKpiEntity=db.GroupKpis.Add(groupKpi);
+            kpiWeightage.kpi_id = kpiEntity.id;
+            kpiWeightage.group_kpi_id=groupKpiEntity.id;
+            db.KpiWeightages.Add(kpiWeightage);
+
+            List<KpiWeightage> kpiWeightages = db.KpiWeightages.Where(x => x.group_kpi_id==null).ToList();
+            List<KpiWeightage> kpiWeightageGroups = db.KpiWeightages.Where(x => x.group_kpi_id == groupKpiEntity.id).Distinct().ToList();
+
+            db.SaveChanges();
         }
     }
 }
