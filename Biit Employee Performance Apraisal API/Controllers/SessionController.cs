@@ -12,14 +12,29 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
     {
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
         [HttpGet]
+        [Route("api/Session/GetSessions")]
         public HttpResponseMessage GetSessions()
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK,db.Sessions);
+                return Request.CreateResponse(HttpStatusCode.OK,db.Sessions.OrderByDescending(s => s.id).ToList());
             }catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/Session/GetCurrentSession")]
+        public HttpResponseMessage GetCurrentSession()
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, db.Sessions.OrderByDescending(s => s.id).First());
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
