@@ -29,13 +29,43 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpGet]
-        [Route("api/Questionnaire/GetQuestionnaireByType")]
-        public HttpResponseMessage GetQuestionnaireByType(int questionnaireTypeId) 
+        [Route("api/Questionnaire/GetOptionsWeightages")]
+        public HttpResponseMessage GetOptionsWeightages()
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, db.OptionsWeightages.ToList());
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/Questionnaire/GetQuestionnaireByTypeID")]
+        public HttpResponseMessage GetQuestionnaireByTypeID(int questionnaireTypeId) 
         {
 
             try
             {
                 var result = db.Questionaires.Where(question => question.type_id == questionnaireTypeId && question.deleted == false).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/Questionnaire/GetQuestionnaireByType")]
+        public HttpResponseMessage GetQuestionnaireByType(string questionnaireType)
+        {
+
+            try
+            {
+                int type_id = questionaireService.getQuestionTypeID(questionnaireType);
+                var result = db.Questionaires.Where(question => question.type_id == type_id && question.deleted == false).ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)

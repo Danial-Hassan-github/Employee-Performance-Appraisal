@@ -40,13 +40,19 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         [Route("api/Evaluator/GetEvaluatees")]
         public IHttpActionResult GetEvaluatees(int evaluatorID,int sessionID)
         {
-            var eVALUATOR = db.Evaluators.Where(evaluator => evaluator.id == evaluatorID && evaluator.session_id == sessionID).ToList();
-            if (eVALUATOR == null)
+            var evaluateesId = db.Evaluators
+                .Where(evaluator => evaluator.id == evaluatorID && evaluator.session_id == sessionID)
+                .Select(e => e.evaluatee_id)
+                .ToList();
+            var evaluatees = db.Employees
+                .Where(e => evaluateesId.Contains(e.id))
+                .ToList();
+            if (evaluatees == null)
             {
                 return NotFound();
             }
 
-            return Ok(eVALUATOR);
+            return Ok(evaluatees);
         }
 
         [HttpPost]

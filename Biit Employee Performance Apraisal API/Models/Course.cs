@@ -19,7 +19,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public Course()
         {
             this.Enrollments = new HashSet<Enrollment>();
-            this.PeerEvaluations = new HashSet<PeerEvaluation>();
             this.StudentEvaluations = new HashSet<StudentEvaluation>();
         }
     
@@ -29,8 +28,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<Enrollment> Enrollments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
     }

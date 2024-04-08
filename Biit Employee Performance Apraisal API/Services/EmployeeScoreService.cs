@@ -9,6 +9,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
     public class EmployeeScoreService
     {
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
+        SubKpiService subKpiService = new SubKpiService();
         public bool AddEmployeeKpiScore(KpiEmployeeScore kpiEmployeeScore)
         {
             try
@@ -49,7 +50,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         {
             try
             {
-                var employeeScore = db.SubkpiEmployeeScores.Find(subKpiEmployeeScore.subkpi_id, subKpiEmployeeScore.employee_id, subKpiEmployeeScore.session_id);
+                var employeeScore = db.SubkpiEmployeeScores
+                    .Find(subKpiEmployeeScore.subkpi_id, subKpiEmployeeScore.employee_id, subKpiEmployeeScore.session_id);
                 employeeScore.score = subKpiEmployeeScore.score;
                 db.SaveChanges();
                 return true;

@@ -9,6 +9,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
     public class TaskService
     {
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
+        SubKpiService subKpiService = new SubKpiService();
         public string message = string.Empty;
 
         public List<object> GetTasksWithEmployees()
@@ -115,7 +116,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 int score= (int)empTasks.Sum(t => t.score);
                 int total_score = (int)empTasks.Sum(t => t.weightage);
                 KpiService kpiService = new KpiService();
-                int sub_kpi_id = kpiService.getSubKpiID("task");
+                int sub_kpi_id = subKpiService.getSubKpiID("task");
                 var sub_kpi_Weightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == sub_kpi_id && x.session_id==task.session_id).Select(y => y.weightage).FirstOrDefault();
                 int empScore = Convert.ToInt32(((double)score/total_score) * sub_kpi_Weightage);
 

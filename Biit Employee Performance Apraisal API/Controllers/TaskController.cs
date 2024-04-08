@@ -15,6 +15,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
         TaskService taskService=new TaskService();
         KpiService kpiService=new KpiService();
+        SubKpiService subKpiService=new SubKpiService();
         [HttpGet]
         [Route("api/Task/GetTasks")]
         public HttpResponseMessage GetTasks()
@@ -90,7 +91,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             if (taskService.UpdateTask(task))
             {
-                int subKpi_id = kpiService.getSubKpiID("task");
+                int subKpi_id = subKpiService.getSubKpiID("task");
                 var result = db.Tasks.Join(db.SubkpiEmployeeScores, updatedTask => updatedTask.assigned_to_id, subKpi_score => subKpi_score.employee_id, (updatedTask, subKpi_score) => new { updatedTask, subKpi_score }).Where(combined => combined.subKpi_score.session_id==task.session_id && combined.subKpi_score.subkpi_id==subKpi_id && combined.updatedTask.id==task.id).FirstOrDefault();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }

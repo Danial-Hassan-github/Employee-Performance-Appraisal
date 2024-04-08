@@ -12,19 +12,17 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         
         public int getKpiID(string kpi_title)
         {
-            int id=db.Kpis.Where(kpi => kpi.name.Equals(kpi_title)).FirstOrDefault().id;
-            return id;
-        }
-
-        public int getSubKpiID(string sub_kpi_title)
-        {
-            int id = db.SubKpis.Where(kpi => kpi.name.Equals(sub_kpi_title)).FirstOrDefault().id;
+            int id=db.Kpis
+                .Where(kpi => kpi.name.Equals(kpi_title)).
+                FirstOrDefault().id;
             return id;
         }
 
         public bool isFreeKpi(int kpi_id)
         {
-            int count=db.SubKpis.Where(sk => sk.kpi_id == kpi_id).Count();
+            int count=db.SubKpis
+                .Where(sk => sk.kpi_id == kpi_id)
+                .Count();
             if (count==0)
             {
                 return true;
@@ -34,13 +32,17 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 
         public double getKpiWeightage(int kpi_id,int sessionID)
         {
-            double weightage = db.KpiWeightages.Where(x => x.kpi_id == kpi_id && x.session_id == sessionID).FirstOrDefault().weightage;
+            double weightage = db.KpiWeightages
+                .Where(x => x.kpi_id == kpi_id && x.session_id == sessionID)
+                .FirstOrDefault().weightage;
             return weightage;
         }
 
         public bool isWeightageExceeded(int newKpiWeightage, int sessionID)
         {
-            var totalWeightage=db.KpiWeightages.Where(x => x.session_id == sessionID).Sum(y=>y.weightage);
+            var totalWeightage=db.KpiWeightages
+                .Where(x => x.session_id == sessionID)
+                .Sum(y=>y.weightage);
             if ((totalWeightage+newKpiWeightage)>100)
             {
                 return true;
@@ -50,7 +52,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 
         public int getPreviousKpisTotalWeightage(int newKpiWeightage, int sessionID)
         {
-            var previousKpisTotalWeightage = db.KpiWeightages.Where(x => x.session_id == sessionID).Sum(y => y.weightage);
+            var previousKpisTotalWeightage = db.KpiWeightages
+                .Where(x => x.session_id == sessionID)
+                .Sum(y => y.weightage);
             int leftOverWeightageForPreviousKpis = 100 - newKpiWeightage;
             //previousKpisTotalWeightage = previousKpisTotalWeightage - newKpiWeightage;
             return leftOverWeightageForPreviousKpis;//adjusted weigtage for previous kpi's
@@ -110,12 +114,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             {
                 return false;
             }
-        }
-
-        public double getSubKpiWeightage(int sub_kpi_id, int sessionID)
-        {
-            double weightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == sub_kpi_id && x.session_id == sessionID).FirstOrDefault().weightage;
-            return weightage;
         }
 
         public void AddKpi(Kpi kpi,KpiWeightage kpiWeightage,GroupKpi groupKpi)

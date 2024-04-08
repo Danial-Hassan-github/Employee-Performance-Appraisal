@@ -18,9 +18,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Questionaire()
         {
-            this.PeerEvaluations = new HashSet<PeerEvaluation>();
             this.StudentEvaluations = new HashSet<StudentEvaluation>();
-            this.SupervisorEvaluations = new HashSet<SupervisorEvaluation>();
+            this.PeerEvaluations = new HashSet<PeerEvaluation>();
         }
     
         public int id { get; set; }
@@ -28,12 +27,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public Nullable<bool> deleted { get; set; }
         public Nullable<int> type_id { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
         [JsonIgnore] public virtual QuestionaireType QuestionaireType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<SupervisorEvaluation> SupervisorEvaluations { get; set; }
+        [JsonIgnore] public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
     }
 }
