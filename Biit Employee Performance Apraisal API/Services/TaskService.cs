@@ -53,6 +53,53 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return false;
         }
 
+        public bool AddRoleBasedTask(TaskWithRole taskWithRole)
+        {
+            List<Task> tasks = new List<Task>();
+            List<int> assignedToIds = new List<int>();
+            if (!ValidateTaskData(taskWithRole.Task))
+            {
+                return false;
+            }
+            try
+            {
+                Designation employeeDesignation = taskWithRole.Role.Designation;
+                Department employeeDepartment = taskWithRole.Role.Department;
+                EmployeeType employeeType = taskWithRole.Role.EmployeeType;
+                if (employeeDesignation != null && employeeDepartment != null && employeeType != null)
+                    assignedToIds = (List<int>)db.Employees.Where(x => x.designation_id == employeeDesignation.id && x.department_id == employeeDepartment.id && x.employee_type_id == employeeType.id).Select(y => y.id);
+                else if (employeeDesignation != null && employeeDepartment != null)
+                    assignedToIds = (List<int>)db.Employees.Where(x => x.designation_id == employeeDesignation.id && x.department_id == employeeDepartment.id).Select(y => y.id);
+                else if (employeeDesignation != null && employeeType != null)
+                    assignedToIds = (List<int>)db.Employees.Where(x => x.designation_id == employeeDesignation.id && x.employee_type_id == employeeType.id).Select(y => y.id);
+                else if (employeeDepartment != null && employeeType != null)
+                    assignedToIds = (List<int>)db.Employees.Where(x => x.department_id == employeeDepartment.id && x.employee_type_id == employeeType.id).Select(y => y.id);
+                else if (employeeDesignation != null)
+                    assignedToIds = (List<int>)db.Employees.Where(x => x.designation_id == employeeDesignation.id).Select(y => y.id);
+                else if (employeeDepartment != null)
+                    assignedToIds = (List<int>)db.Employees.Where(x => x.department_id == employeeDepartment.id).Select(y => y.id);
+                else if (employeeType != null)
+                    assignedToIds = (List<int>)db.Employees.Where(x => x.employee_type_id == employeeType.id).Select(y => y.id);
+                else
+                    return false;
+
+                foreach (int id in assignedToIds)
+                {
+                    taskWithRole.Task.assigned_to_id = id;
+                    tasks.Add(taskWithRole.Task);
+                }
+
+                db.Tasks.AddRange(tasks);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
+            return false;
+        }
+
         public bool DeleteTask(int id)
         {
             try

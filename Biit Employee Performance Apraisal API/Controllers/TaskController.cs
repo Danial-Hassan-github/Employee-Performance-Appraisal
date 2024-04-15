@@ -76,13 +76,36 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
         [HttpPost]
+        [Route("api/Task/PostTask")]
         public HttpResponseMessage PostTask([FromBody] Task task)
         {
-            if (taskService.AddTask(task))
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, taskService.GetTasksWithEmployees());
+                if (taskService.AddTask(task))
+                    return Request.CreateResponse(HttpStatusCode.OK, taskService.GetTasksWithEmployees());
+                else
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, taskService.message);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, taskService.message);
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Task/PostRoleBasedTask")]
+        public HttpResponseMessage PostRoleBasedTask([FromBody] TaskWithRole taskWithRole)
+        {
+            try
+            {
+                if (taskService.AddRoleBasedTask(taskWithRole))
+                    return Request.CreateResponse(HttpStatusCode.OK, taskService.GetTasksWithEmployees());
+                else
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, taskService.message);
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
         [HttpPut]
@@ -92,7 +115,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             if (taskService.UpdateTask(task))
             {
                 int subKpi_id = subKpiService.getSubKpiID("task");
-                var result = db.Tasks.Join(db.SubkpiEmployeeScores, updatedTask => updatedTask.assigned_to_id, subKpi_score => subKpi_score.employee_id, (updatedTask, subKpi_score) => new { updatedTask, subKpi_score }).Where(combined => combined.subKpi_score.session_id==task.session_id && combined.subKpi_score.subkpi_id==subKpi_id && combined.updatedTask.id==task.id).FirstOrDefault();
+                var result = db.Tasks
+                    .Join(db.SubkpiEmployeeScores, updatedTask => updatedTask.assigned_to_id, subKpi_score => subKpi_score.employee_id, (updatedTask, subKpi_score) => new { updatedTask, subKpi_score })
+                    .Where(combined => combined.subKpi_score.session_id==task.session_id && combined.subKpi_score.subkpi_id==subKpi_id && combined.updatedTask.id==task.id)
+                    .FirstOrDefault();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError, taskService.message);

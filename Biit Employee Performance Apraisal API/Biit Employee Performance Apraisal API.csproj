@@ -254,6 +254,7 @@
     <Compile Include="Models\QuestionaireType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Session.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -278,6 +279,7 @@
     <Compile Include="Models\Task.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TaskWithRole.cs" />
     <Compile Include="Models\TeacherJunior.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
