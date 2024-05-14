@@ -199,6 +199,7 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeKpiScore.cs" />
     <Compile Include="Models\EmployeeType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -67,26 +67,36 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 Department employeeDepartment = taskWithRole.Role.Department;
                 EmployeeType employeeType = taskWithRole.Role.EmployeeType;
                 if (employeeDesignation != null && employeeDepartment != null && employeeType != null)
-                    assignedToIds = (List<int>)db.Employees.Where(x => x.designation_id == employeeDesignation.id && x.department_id == employeeDepartment.id && x.employee_type_id == employeeType.id).Select(y => y.id);
+                    assignedToIds = db.Employees.Where(x => x.designation_id == employeeDesignation.id && x.department_id == employeeDepartment.id && x.employee_type_id == employeeType.id).Select(y => y.id).ToList();
                 else if (employeeDesignation != null && employeeDepartment != null)
-                    assignedToIds = (List<int>)db.Employees.Where(x => x.designation_id == employeeDesignation.id && x.department_id == employeeDepartment.id).Select(y => y.id);
+                    assignedToIds = db.Employees.Where(x => x.designation_id == employeeDesignation.id && x.department_id == employeeDepartment.id).Select(y => y.id).ToList();
                 else if (employeeDesignation != null && employeeType != null)
-                    assignedToIds = (List<int>)db.Employees.Where(x => x.designation_id == employeeDesignation.id && x.employee_type_id == employeeType.id).Select(y => y.id);
+                    assignedToIds = db.Employees.Where(x => x.designation_id == employeeDesignation.id && x.employee_type_id == employeeType.id).Select(y => y.id).ToList();
                 else if (employeeDepartment != null && employeeType != null)
-                    assignedToIds = (List<int>)db.Employees.Where(x => x.department_id == employeeDepartment.id && x.employee_type_id == employeeType.id).Select(y => y.id);
+                    assignedToIds = db.Employees.Where(x => x.department_id == employeeDepartment.id && x.employee_type_id == employeeType.id).Select(y => y.id).ToList();
                 else if (employeeDesignation != null)
-                    assignedToIds = (List<int>)db.Employees.Where(x => x.designation_id == employeeDesignation.id).Select(y => y.id);
+                    assignedToIds = db.Employees.Where(x => x.designation_id == employeeDesignation.id).Select(y => y.id).ToList();
                 else if (employeeDepartment != null)
-                    assignedToIds = (List<int>)db.Employees.Where(x => x.department_id == employeeDepartment.id).Select(y => y.id);
+                    assignedToIds = db.Employees.Where(x => x.department_id == employeeDepartment.id).Select(y => y.id).ToList();
                 else if (employeeType != null)
-                    assignedToIds = (List<int>)db.Employees.Where(x => x.employee_type_id == employeeType.id).Select(y => y.id);
+                    assignedToIds = db.Employees.Where(x => x.employee_type_id == employeeType.id).Select(y => y.id).ToList();
                 else
                     return false;
 
                 foreach (int id in assignedToIds)
                 {
-                    taskWithRole.Task.assigned_to_id = id;
-                    tasks.Add(taskWithRole.Task);
+                    Task task = taskWithRole.Task;
+                    Task newTask = new Task()
+                    {
+                        task_description = task.task_description,
+                        assigned_by_id = task.assigned_by_id,
+                        assigned_to_id = id,
+                        due_date = task.due_date,
+                        assigned_date = task.assigned_date,
+                        weightage = task.weightage,
+                        session_id = task.session_id
+                    };
+                    tasks.Add(newTask);
                 }
 
                 db.Tasks.AddRange(tasks);
@@ -142,6 +152,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                     if (task.score!=null)
                     {
                         t.score = task.score;
+                        t.status = 1;
                     }
                     db.SaveChanges();
                     setTaskScores(t);
@@ -192,20 +203,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         public bool ValidateTaskData(Task task) 
         {
             if (task.task_description == null)
-            {
                 message = "Please Enter Task Description";
-            }
-            else if(task.assigned_to_id == 0)
-            {
-                message = "Please select person";
-            }else if (task.weightage==0)
-            {
+            else if (task.weightage==0)
                 message = "Please Enter Weightage";
-            }
             else if (task.due_date == null)
-            {
                 message = "Please Select Due Date";
-            }
 
             if (message == string.Empty) 
                 return true;
