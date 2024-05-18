@@ -9,8 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
-    using Newtonsoft.Json;
-    using System;
+    using Newtonsoft.Json; using System;
     using System.Collections.Generic;
     
     public partial class Questionaire
@@ -18,8 +17,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Questionaire()
         {
-            this.StudentEvaluations = new HashSet<StudentEvaluation>();
             this.PeerEvaluations = new HashSet<PeerEvaluation>();
+            this.StudentEvaluations = new HashSet<StudentEvaluation>();
         }
     
         public int id { get; set; }
@@ -27,10 +26,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public Nullable<bool> deleted { get; set; }
         public Nullable<int> type_id { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
         [JsonIgnore] public virtual QuestionaireType QuestionaireType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
     }
 }

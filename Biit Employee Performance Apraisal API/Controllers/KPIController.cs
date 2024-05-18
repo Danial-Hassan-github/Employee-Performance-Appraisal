@@ -1,7 +1,7 @@
 ﻿using Biit_Employee_Performance_Apraisal_API.Models;
 using Biit_Employee_Performance_Apraisal_API.Services;
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
@@ -12,8 +12,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 {
     public class KPIController : ApiController
     {
-        Biit_Employee_Performance_AppraisalEntities db=new Biit_Employee_Performance_AppraisalEntities();
-        KpiService kpiService=new KpiService();
+        Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
+        KpiService kpiService = new KpiService();
 
 
         /*
@@ -25,10 +25,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK,db.Kpis);
-            }catch (Exception ex)
+                return Request.CreateResponse(HttpStatusCode.OK, db.Kpis);
+            }
+            catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -42,27 +43,54 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                var result = db.KpiWeightages.Join(db.Kpis,x=>x.kpi_id,y=>y.id,(x,y)=>new {x,y}).Where(combined=>combined.x.session_id==sessionID).ToList();
-                return Request.CreateResponse(HttpStatusCode.OK, result);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
-            }
-        }
+                var result = db.KpiWeightages
+                    .Join(db.Kpis,
+                          weightage => weightage.kpi_id,
+                          kpi => kpi.id,
+                          (weightage, kpi) => new { Weightage = weightage, Kpi = kpi })
+                    .Where(combined => combined.Weightage.session_id == sessionID)
+                    .GroupBy(combined => combined.Weightage.group_kpi_id)
+                    .Select(group => new
+                    {
+                        GroupKpiId = group.Key,
+                        Records = group.Select(g => new
+                        {
+                                g.Kpi.id,
+                                g.Kpi.name,
+                                kpiWeightage = g.Weightage
+                        }).ToList()
+                    })
+                    .ToList();
 
-        [HttpGet]
-        [Route("api/KPI/GetSubKPIs")]
-        public HttpResponseMessage GetSubKPIs(int kpi_id,int sessionID)
-        {
-            try
-            {
-                var result = db.SubKpiWeightages.Join(db.SubKpis, x => x.sub_kpi_id, y => y.id, (x, y) => new { x, y }).Where(combined => combined.x.session_id == sessionID && combined.y.kpi_id==kpi_id).ToList();
-                return Request.CreateResponse(HttpStatusCode.OK, result);
+                var enrichedResult = result
+                    .GroupJoin(db.GroupKpis,
+                               grouped => grouped.GroupKpiId,
+                               groupKpi => groupKpi.id,
+                               (grouped, groupKpi) => new
+                               {
+                                   groupKpi = groupKpi.FirstOrDefault(), // Default to null if no match
+                                   records = grouped.Records
+                               })
+                    .Select(grp => new
+                    {
+                        groupKpi = grp.groupKpi == null ? null : new
+                        {
+                            grp.groupKpi.id,
+                            grp.groupKpi.kpi_id,
+                            department = db.Departments.FirstOrDefault(d => d.id == grp.groupKpi.department_id),
+                            designation = db.Designations.FirstOrDefault(d => d.id == grp.groupKpi.designation_id),
+                            dmployeeType = db.EmployeeTypes.FirstOrDefault(e => e.id == grp.groupKpi.employee_type_id),
+                            employee = db.Employees.FirstOrDefault(e => e.id == grp.groupKpi.employee_id)
+                        },
+                        kpiList = grp.records
+                    })
+                    .ToList();
+
+                return Request.CreateResponse(HttpStatusCode.OK, enrichedResult);
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -83,10 +111,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         .SelectMany(x => x.kes.DefaultIfEmpty(), (x, ke) => new { Kpi = x.k, Designation = x.kd, Department = x.kdep, EmployeeType = x.ket, Employee = ke })*/
         .ToList();
 
-                return Request.CreateResponse(HttpStatusCode.OK,uniqueKpis);
-            }catch (Exception ex)
+                return Request.CreateResponse(HttpStatusCode.OK, uniqueKpis);
+            }
+            catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -114,11 +143,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         */
         [HttpPost]
         [Route("api/KPI/PostKPI")]
-        public HttpResponseMessage PostKPI([FromBody] Kpi kPI,int weightage,int sessionID,int employeeTypeID)
+        public HttpResponseMessage PostKPI([FromBody] Kpi kPI, int weightage, int sessionID, int employeeTypeID)
         {
             try
             {
-                if (weightage>100)
+                if (weightage > 100)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage caannot be more than 100");
                 }
@@ -133,9 +162,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 db.KpiWeightages.Add(kpiWeightage);
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, k);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -145,7 +175,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
          */
         [HttpPut]
         [Route("api/KPI/PutKPI")]
-        public HttpResponseMessage PutKPI([FromBody] Kpi kPI,int weightage,int sessionID,int employeeTypeID)
+        public HttpResponseMessage PutKPI([FromBody] Kpi kPI, int weightage, int sessionID, int employeeTypeID)
         {
             try
             {
@@ -155,8 +185,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 }
                 var kpi = db.Kpis.Find(kPI.id);
                 kpi.name = kPI.name;
-                var kpi_weightage = db.KpiWeightages.Find(kPI.id,sessionID);
-                kpiService.adjustKpiWeightages(weightage, sessionID,kPI.id,employeeTypeID);
+                var kpi_weightage = db.KpiWeightages.Find(kPI.id, sessionID);
+                kpiService.adjustKpiWeightages(weightage, sessionID, kPI.id, employeeTypeID);
                 int leftOverWeightage = db.KpiWeightages.Where(x => x.session_id == sessionID).Sum(y => y.weightage);
                 leftOverWeightage -= weightage;
                 kpi_weightage.weightage = weightage;
@@ -166,7 +196,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK,ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 

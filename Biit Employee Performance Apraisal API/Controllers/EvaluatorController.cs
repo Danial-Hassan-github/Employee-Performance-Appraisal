@@ -61,21 +61,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             try
             {
                 List<Evaluator> evaluators = new List<Evaluator>();
-                for (int i = 0; i < evaluatorEvaluatees.evaluatee_id.Count; i++)
+                for (int i = 0; i < evaluatorEvaluatees.evaluatee_ids.Count; i++)
                 {
-                    evaluators.Add(new Evaluator { id = evaluatorEvaluatees.evaluator.id, session_id=evaluatorEvaluatees.evaluator.session_id,evaluatee_id = evaluatorEvaluatees.evaluatee_id[i] });
-                    //eVALUATOR.evaluatee_id = EvaluateesID[i];
-                    /*var evaluator = db.Evaluators.Find(eVALUATOR);
-                    if (evaluator!=null)
-                    {
-                        evaluator.deleted = false;
-                    }
-                    else
-                    {
-                        db.Evaluators.Add(eVALUATOR);
-                    }*/
-                    /*db.Evaluators.Add(eVALUATOR);
-                    db.SaveChanges();*/
+                    evaluators.Add(new Evaluator { 
+                        id = evaluatorEvaluatees.evaluator_id, 
+                        session_id=evaluatorEvaluatees.session_id,
+                        evaluatee_id = evaluatorEvaluatees.evaluatee_ids[i] 
+                    });
                 }
                 var result=db.Evaluators.AddRange(evaluators).ToList();
                 db.SaveChanges();

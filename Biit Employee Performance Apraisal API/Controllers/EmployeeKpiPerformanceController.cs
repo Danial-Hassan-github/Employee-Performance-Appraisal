@@ -88,7 +88,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                int sub_kpiId=db.SubKpis.Where(x => x.kpi_id==kpiID).FirstOrDefault().id;
+                int sub_kpiId = db.SubKpiWeightages.Where(x => x.kpi_id == kpiID).FirstOrDefault().sub_kpi_id;
                 var result = db.SubkpiEmployeeScores.Where(emp => emp.employee_id == employeeID && emp.session_id == sessionID && emp.subkpi_id == sub_kpiId).ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }

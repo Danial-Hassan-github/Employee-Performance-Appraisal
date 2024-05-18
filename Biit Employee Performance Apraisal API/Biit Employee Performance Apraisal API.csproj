@@ -176,9 +176,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KPIController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OptionsWeightageController.cs" />
     <Compile Include="Controllers\QuestionnaireController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\SubKpiController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -380,6 +382,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="CHR_Excel_Sheet\" />
     <Folder Include="Course Assignment Excel Sheet\" />
+    <Folder Include="Views\OptionsWeightage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\bootstrap.min.js.map" />

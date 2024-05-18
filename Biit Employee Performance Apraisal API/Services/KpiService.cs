@@ -18,10 +18,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return id;
         }
 
-        public bool isFreeKpi(int kpi_id)
+        public bool isFreeKpi(int kpi_id, int session_id)
         {
-            int count=db.SubKpis
-                .Where(sk => sk.kpi_id == kpi_id)
+            int count=db.SubKpiWeightages
+                .Where(sk => sk.kpi_id == kpi_id && sk.session_id == session_id)
                 .Count();
             if (count==0)
             {

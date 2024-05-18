@@ -10,7 +10,6 @@
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
     using Newtonsoft.Json;
-    using System;
     using System.Collections.Generic;
     
     public partial class TeacherJunior

@@ -134,9 +134,9 @@
   </EntityType>
   <EntityType Name="KpiWeightage">
     <Key>
-      <PropertyRef Name="kpi_id" />
-      <PropertyRef Name="session_id" />
+      <PropertyRef Name="id" />
     </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="group_kpi_id" Type="int" />
     <Property Name="kpi_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
@@ -219,7 +219,6 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="kpi_id" Type="int" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
   </EntityType>
   <EntityType Name="SubkpiEmployeeScore">
@@ -238,6 +237,7 @@
       <PropertyRef Name="sub_kpi_id" />
       <PropertyRef Name="session_id" />
     </Key>
+    <Property Name="kpi_id" Type="int" />
     <Property Name="sub_kpi_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="weightage" Type="int" Nullable="false" />
@@ -661,18 +661,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SUB_KPI__KPI_ID__52E34C9D">
-    <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
-    <End Role="SubKpi" Type="Self.SubKpi" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Kpi">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="SubKpi">
-        <PropertyRef Name="kpi_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__SUB_KPI_W__Sessi__55BFB948">
     <End Role="Session" Type="Self.Session" Multiplicity="1" />
     <End Role="SubKpiWeightage" Type="Self.SubKpiWeightage" Multiplicity="*" />
@@ -730,6 +718,18 @@
       </Principal>
       <Dependent Role="SubkpiEmployeeScore">
         <PropertyRef Name="subkpi_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SubKpiWei__kpi_i__7F16D496">
+    <End Role="Kpi" Type="Self.Kpi" Multiplicity="0..1" />
+    <End Role="SubKpiWeightage" Type="Self.SubKpiWeightage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kpi">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SubKpiWeightage">
+        <PropertyRef Name="kpi_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -973,10 +973,6 @@
       <End Role="Course" EntitySet="Course" />
       <End Role="StudentEvaluation" EntitySet="StudentEvaluation" />
     </AssociationSet>
-    <AssociationSet Name="FK__SUB_KPI__KPI_ID__52E34C9D" Association="Self.FK__SUB_KPI__KPI_ID__52E34C9D">
-      <End Role="Kpi" EntitySet="Kpi" />
-      <End Role="SubKpi" EntitySet="SubKpi" />
-    </AssociationSet>
     <AssociationSet Name="FK__SUB_KPI_W__Sessi__55BFB948" Association="Self.FK__SUB_KPI_W__Sessi__55BFB948">
       <End Role="Session" EntitySet="Session" />
       <End Role="SubKpiWeightage" EntitySet="SubKpiWeightage" />
@@ -996,6 +992,10 @@
     <AssociationSet Name="FK__SUBKPI_EM__SUBKP__0EF836A4" Association="Self.FK__SUBKPI_EM__SUBKP__0EF836A4">
       <End Role="SubKpi" EntitySet="SubKpi" />
       <End Role="SubkpiEmployeeScore" EntitySet="SubkpiEmployeeScore" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SubKpiWei__kpi_i__7F16D496" Association="Self.FK__SubKpiWei__kpi_i__7F16D496">
+      <End Role="Kpi" EntitySet="Kpi" />
+      <End Role="SubKpiWeightage" EntitySet="SubKpiWeightage" />
     </AssociationSet>
     <AssociationSet Name="FK__Superviso__quest__3AA1AEB8" Association="Self.FK__Superviso__quest__3AA1AEB8">
       <End Role="Questionaire" EntitySet="Questionaire" />

@@ -9,8 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
-    using Newtonsoft.Json;
-    using System;
+    using Newtonsoft.Json; using System;
     using System.Collections.Generic;
     
     public partial class Kpi
@@ -18,22 +17,22 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Kpi()
         {
-            this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
-            this.SubKpis = new HashSet<SubKpi>();
             this.GroupKpis = new HashSet<GroupKpi>();
+            this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
             this.KpiWeightages = new HashSet<KpiWeightage>();
+            this.SubKpiWeightages = new HashSet<SubKpiWeightage>();
         }
     
         public int id { get; set; }
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<KpiEmployeeScore> KpiEmployeeScores { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<SubKpi> SubKpis { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<GroupKpi> GroupKpis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<KpiEmployeeScore> KpiEmployeeScores { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<KpiWeightage> KpiWeightages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<SubKpiWeightage> SubKpiWeightages { get; set; }
     }
 }

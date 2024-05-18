@@ -35,9 +35,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public virtual DbSet<EvaluationPin> EvaluationPins { get; set; }
         public virtual DbSet<EvaluationTime> EvaluationTimes { get; set; }
         public virtual DbSet<Evaluator> Evaluators { get; set; }
+        public virtual DbSet<GroupKpi> GroupKpis { get; set; }
         public virtual DbSet<Kpi> Kpis { get; set; }
         public virtual DbSet<KpiEmployeeScore> KpiEmployeeScores { get; set; }
+        public virtual DbSet<KpiWeightage> KpiWeightages { get; set; }
         public virtual DbSet<OptionsWeightage> OptionsWeightages { get; set; }
+        public virtual DbSet<PeerEvaluation> PeerEvaluations { get; set; }
         public virtual DbSet<Questionaire> Questionaires { get; set; }
         public virtual DbSet<QuestionaireType> QuestionaireTypes { get; set; }
         public virtual DbSet<Session> Sessions { get; set; }
@@ -49,8 +52,5 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TeacherJunior> TeacherJuniors { get; set; }
-        public virtual DbSet<GroupKpi> GroupKpis { get; set; }
-        public virtual DbSet<KpiWeightage> KpiWeightages { get; set; }
-        public virtual DbSet<PeerEvaluation> PeerEvaluations { get; set; }
     }
 }

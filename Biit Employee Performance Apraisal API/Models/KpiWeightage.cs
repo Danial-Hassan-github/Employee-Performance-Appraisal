@@ -9,12 +9,12 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
-    using Newtonsoft.Json;
-    using System;
+    using Newtonsoft.Json; using System;
     using System.Collections.Generic;
     
     public partial class KpiWeightage
     {
+        public int id { get; set; }
         public Nullable<int> group_kpi_id { get; set; }
         public int kpi_id { get; set; }
         public int session_id { get; set; }
