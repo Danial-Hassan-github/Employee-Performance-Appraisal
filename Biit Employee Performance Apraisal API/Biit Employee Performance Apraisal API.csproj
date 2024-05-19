@@ -172,6 +172,7 @@
     <Compile Include="Controllers\EmployeeQuestionsScoreController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\EvaluationScoresController.cs" />
+    <Compile Include="Controllers\EvaluationTimeController.cs" />
     <Compile Include="Controllers\EvaluatorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KPIController.cs" />
