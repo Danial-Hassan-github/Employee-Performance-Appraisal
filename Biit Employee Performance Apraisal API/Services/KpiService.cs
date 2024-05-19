@@ -1,6 +1,7 @@
 ﻿using Biit_Employee_Performance_Apraisal_API.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -116,84 +117,108 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             }
         }
 
-        public void AddKpi(Kpi kpi,KpiWeightage kpiWeightage,GroupKpi groupKpi)
+        public void UpdateWeightage(List<KpiWeightage> kpiWeightages)
         {
-            Kpi kpiEntity=db.Kpis.Add(kpi);
-            if (groupKpi!=null)
+            var recordsToUpdate = db.KpiWeightages.Where(x => kpiWeightages.Select(k => k.id).Contains(x.id)).ToList();
+
+            foreach (var record in recordsToUpdate)
             {
-                groupKpi.kpi_id = kpiEntity.id;
-                if (groupKpi.employee_id != null)
-                {
-                    Employee employee = db.Employees
-                        .Where(x => x.id == groupKpi.employee_id).FirstOrDefault();
-                    groupKpi.designation_id = employee.designation_id;
-                    groupKpi.department_id = employee.department_id;
-                    groupKpi.employee_type_id = employee.employee_type_id;
-                }
-                GroupKpi groupKpiEntity = db.GroupKpis.Add(groupKpi);
-                kpiWeightage.kpi_id = kpiEntity.id;
-                kpiWeightage.group_kpi_id = groupKpiEntity.id;
-                db.KpiWeightages.Add(kpiWeightage);
+                var kpiWeightage = kpiWeightages.Find(k => k.id == record.id);
 
-                List<KpiWeightage> GroupKpiWeightages = db.KpiWeightages.Where(x => x.group_kpi_id == groupKpiEntity.id).Distinct().ToList();
+                record.weightage = kpiWeightage.weightage;
 
-                if (groupKpiEntity.designation_id != null &&
-                    groupKpiEntity.department_id == null &&
-                    groupKpiEntity.employee_type_id == null)
-                {
-                    // Use Case 1: Only designation_id is used
-                    List<int> GroupKpiIds = db.GroupKpis.Where(x => x.designation_id == groupKpiEntity.designation_id).Select(y => y.id).Distinct().ToList();
-                    List<KpiWeightage> KpiWeightages = db.KpiWeightages
-                        .Where(k => GroupKpiIds.Contains((int)k.group_kpi_id) && k.session_id == kpiWeightage.session_id)
-                        .ToList();
-                }
-                else if (groupKpiEntity.designation_id == null &&
-                         groupKpiEntity.department_id != null &&
-                         groupKpiEntity.employee_type_id == null)
-                {
-                    // Use Case 2: Only department_id is used
-                }
-                else if (groupKpiEntity.designation_id == null &&
-                         groupKpiEntity.department_id == null &&
-                         groupKpiEntity.employee_type_id != null)
-                {
-                    // Use Case 3: Only employee_type_id is used
-                }
-                else if (groupKpiEntity.designation_id != null &&
-                         groupKpiEntity.department_id != null &&
-                         groupKpiEntity.employee_type_id == null)
-                {
-                    // Use Case 4: designation_id and department_id are used
-                }
-                else if (groupKpiEntity.designation_id != null &&
-                         groupKpiEntity.department_id == null &&
-                         groupKpiEntity.employee_type_id != null)
-                {
-                    // Use Case 5: designation_id and employee_type_id are used
-                }
-                else if (groupKpiEntity.designation_id == null &&
-                         groupKpiEntity.department_id != null &&
-                         groupKpiEntity.employee_type_id != null)
-                {
-                    // Use Case 6: department_id and employee_type_id are used
-                }
-                else if (groupKpiEntity.designation_id != null &&
-                         groupKpiEntity.department_id != null &&
-                         groupKpiEntity.employee_type_id != null)
-                {
-                    // Use Case 7: All three IDs are used
-                }
-                else
-                {
-                    // Invalid combination or no IDs are used
-                }
-
-
+                db.Entry(record).State = EntityState.Modified;
             }
 
-            List<KpiWeightage> unGroupKpiWeightages = db.KpiWeightages.Where(x => x.group_kpi_id==null).ToList();
-
             db.SaveChanges();
+        }
+
+
+        public void AddKpi(Kpi kpi, KpiWeightage kpiWeightage, GroupKpi groupKpi)
+        {
+            try
+            {
+                Kpi kpiEntity = db.Kpis.Add(kpi);
+                int sessionID = kpiWeightage.session_id;
+
+                if (groupKpi != null)
+                {
+                    groupKpi.kpi_id = kpiEntity.id;
+                    if (groupKpi.employee_id != null)
+                    {
+                        Employee employee = db.Employees.FirstOrDefault(x => x.id == groupKpi.employee_id);
+                        if (employee != null)
+                        {
+                            groupKpi.designation_id = employee.designation_id;
+                            groupKpi.department_id = employee.department_id;
+                            groupKpi.employee_type_id = employee.employee_type_id;
+                        }
+                    }
+
+                    GroupKpi groupKpiEntity = db.GroupKpis.Add(groupKpi);
+                    kpiWeightage.kpi_id = kpiEntity.id;
+                    kpiWeightage.group_kpi_id = groupKpiEntity.id;
+                    db.KpiWeightages.Add(kpiWeightage);
+
+                    List<KpiWeightage> kpiWeightages = GetKpiWeightages(groupKpiEntity, sessionID);
+                }
+
+                List<KpiWeightage> unGroupKpiWeightages = db.KpiWeightages.Where(x => x.group_kpi_id == null && x.session_id == sessionID).ToList();
+
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it, rethrow it, etc.)
+                // Logging the exception could be done using a logging framework
+                // For simplicity, just rethrowing it here
+                throw;
+            }
+        }
+
+        public List<KpiWeightage> GetKpiWeightages(GroupKpi groupKpiEntity, int sessionId)
+        {
+            IQueryable<GroupKpi> query = db.GroupKpis;
+
+            if (groupKpiEntity.designation_id != null && groupKpiEntity.department_id == null && groupKpiEntity.employee_type_id == null)
+            {
+                query = query.Where(x => x.designation_id == groupKpiEntity.designation_id);
+            }
+            else if (groupKpiEntity.designation_id == null && groupKpiEntity.department_id != null && groupKpiEntity.employee_type_id == null)
+            {
+                query = query.Where(x => x.department_id == groupKpiEntity.department_id);
+            }
+            else if (groupKpiEntity.designation_id == null && groupKpiEntity.department_id == null && groupKpiEntity.employee_type_id != null)
+            {
+                query = query.Where(x => x.employee_type_id == groupKpiEntity.employee_type_id);
+            }
+            else if (groupKpiEntity.designation_id != null && groupKpiEntity.department_id != null && groupKpiEntity.employee_type_id == null)
+            {
+                query = query.Where(x => x.designation_id == groupKpiEntity.designation_id && x.department_id == groupKpiEntity.department_id);
+            }
+            else if (groupKpiEntity.designation_id != null && groupKpiEntity.department_id == null && groupKpiEntity.employee_type_id != null)
+            {
+                query = query.Where(x => x.designation_id == groupKpiEntity.designation_id && x.employee_type_id == groupKpiEntity.employee_type_id);
+            }
+            else if (groupKpiEntity.designation_id == null && groupKpiEntity.department_id != null && groupKpiEntity.employee_type_id != null)
+            {
+                query = query.Where(x => x.department_id == groupKpiEntity.department_id && x.employee_type_id == groupKpiEntity.employee_type_id);
+            }
+            else if (groupKpiEntity.designation_id != null && groupKpiEntity.department_id != null && groupKpiEntity.employee_type_id != null)
+            {
+                query = query.Where(x => x.designation_id == groupKpiEntity.designation_id &&
+                                         x.department_id == groupKpiEntity.department_id &&
+                                         x.employee_type_id == groupKpiEntity.employee_type_id);
+            }
+            else
+            {
+                return db.KpiWeightages.Where(x => x.group_kpi_id == null && x.session_id == sessionId).ToList();
+            }
+
+            List<int> groupKpiIds = query.Select(y => y.id).Distinct().ToList();
+            return db.KpiWeightages
+                     .Where(k => groupKpiIds.Contains((int)k.group_kpi_id) && k.session_id == sessionId)
+                     .ToList();
         }
     }
 }

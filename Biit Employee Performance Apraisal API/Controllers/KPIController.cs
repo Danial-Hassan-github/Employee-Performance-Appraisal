@@ -152,7 +152,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage caannot be more than 100");
                 }
                 var k = db.Kpis.Add(kPI);
-                db.SaveChanges();
+                // db.SaveChanges();
                 kpiService.adjustKpiWeightages(weightage, sessionID, k.id, employeeTypeID);
                 //kpiService.adjustKpiWeigtage(weightage, sessionID);
                 KpiWeightage kpiWeightage = new KpiWeightage();
@@ -197,6 +197,50 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/KPI/GetKpiGroup")]
+        public HttpResponseMessage GetKpiGroup(int groupID)
+        {
+            try
+            {
+                int? id = groupID;
+                if(groupID == 0)
+                {
+                    id = null;
+                }
+                var kpiWeightages = from kw in db.KpiWeightages
+                                    join k in db.Kpis on kw.kpi_id equals k.id
+                                    where kw.group_kpi_id == id // Use id here
+                                    select new
+                                    {
+                                        k.id,
+                                        k.name,
+                                        kpiWeightage = kw
+                                    };
+
+                return Request.CreateResponse(HttpStatusCode.OK, kpiWeightages.ToList());
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "An error occurred while processing the request.");
+            }
+        }
+
+
+        [HttpGet]
+        [Route("api/KPI/GetKpiWeightages")]
+        public HttpResponseMessage GetKpiWeightages([FromBody] GroupKpi groupKpiEntity, int sessionId)
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, kpiService.GetKpiWeightages(groupKpiEntity, sessionId));
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
             }
         }
 
