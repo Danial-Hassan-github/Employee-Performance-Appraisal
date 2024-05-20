@@ -11,6 +11,16 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
     public class EvaluationTimeController : ApiController
     {
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
+        [HttpGet]
+        public HttpResponseMessage CheckConfidentialPin(int sessionID, string pin)
+        {
+            var result = db.EvaluationPins.Where(x => x.session_id == sessionID && x.pin.Equals(pin)).FirstOrDefault();
+            if (result != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, true);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, false);
+        }
 
         [HttpGet]
         public HttpResponseMessage IsEvaluationTime(int sessionID, string evaluationType)
