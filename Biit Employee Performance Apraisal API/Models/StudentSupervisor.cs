@@ -12,10 +12,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     using System; using Newtonsoft.Json;
     using System.Collections.Generic;
     
-    public partial class OptionsWeightage
+    public partial class StudentSupervisor
     {
         public int id { get; set; }
-        public string name { get; set; }
-        public Nullable<int> weightage { get; set; }
+        public int student_id { get; set; }
+        public int supervisor_id { get; set; }
+    
+        [JsonIgnore] public virtual Employee Employee { get; set; }
+        [JsonIgnore] public virtual Student Student { get; set; }
     }
 }

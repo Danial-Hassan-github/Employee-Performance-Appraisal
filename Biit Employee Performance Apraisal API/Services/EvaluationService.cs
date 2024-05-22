@@ -39,5 +39,19 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 .Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID)
                 .Sum(x => x.score);
         }
+
+        public int GetObtainedDegreeExitEvaluationScore(int employeeID, int sessionID)
+        {
+            return (int)db.DegreeExitEvaluations
+                .Where(d => d.teacher_id == employeeID && d.session_id == sessionID)
+                .Sum(x => x.score);
+        }
+
+        public int GetObtainedSeniorTeacherEvaluationScore(int employeeID, int sessionID)
+        {
+            return (int)db.SeniorTeacherEvaluations
+                .Where(p => p.junior_teacher_id == employeeID && p.session_id == sessionID)
+                .Sum(x => x.score);
+        }
     }
 }

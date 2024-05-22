@@ -26,6 +26,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="DegreeExitEvaluations">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.DegreeExitEvaluation">
+        <MappingFragment StoreEntitySet="DegreeExitEvaluation">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="score" ColumnName="score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Departments">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.Department">
         <MappingFragment StoreEntitySet="Department">
@@ -82,8 +94,6 @@
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="pin" ColumnName="pin" />
           <ScalarProperty Name="session_id" ColumnName="session_id" />
-          <ScalarProperty Name="start_time" ColumnName="start_time" />
-          <ScalarProperty Name="end_time" ColumnName="end_time" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -187,6 +197,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SeniorTeacherEvaluations">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SeniorTeacherEvaluation">
+        <MappingFragment StoreEntitySet="SeniorTeacherEvaluation">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="senior_teacher_id" ColumnName="senior_teacher_id" />
+          <ScalarProperty Name="junior_teacher_id" ColumnName="junior_teacher_id" />
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="score" ColumnName="score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Sessions">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.Session">
         <MappingFragment StoreEntitySet="Session">
@@ -218,6 +241,15 @@
           <ScalarProperty Name="question_id" ColumnName="question_id" />
           <ScalarProperty Name="score" ColumnName="score" />
           <ScalarProperty Name="course_id" ColumnName="course_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentSupervisors">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.StudentSupervisor">
+        <MappingFragment StoreEntitySet="StudentSupervisor">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="supervisor_id" ColumnName="supervisor_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -279,9 +311,11 @@
     <EntitySetMapping Name="TeacherJuniors">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.TeacherJunior">
         <MappingFragment StoreEntitySet="TeacherJunior">
-          <ScalarProperty Name="senior_teacher_id" ColumnName="senior_teacher_id" />
-          <ScalarProperty Name="junior_id" ColumnName="junior_id" />
           <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+          <ScalarProperty Name="junior_teacher_id" ColumnName="junior_teacher_id" />
+          <ScalarProperty Name="senior_teacher_id" ColumnName="senior_teacher_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

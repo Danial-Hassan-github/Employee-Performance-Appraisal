@@ -9,7 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
-    using Newtonsoft.Json; using System;
+    using System; using Newtonsoft.Json;
     using System.Collections.Generic;
     
     public partial class Student
@@ -17,8 +17,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Student()
         {
+            this.DegreeExitEvaluations = new HashSet<DegreeExitEvaluation>();
             this.Enrollments = new HashSet<Enrollment>();
             this.StudentEvaluations = new HashSet<StudentEvaluation>();
+            this.StudentSupervisors = new HashSet<StudentSupervisor>();
         }
     
         public int id { get; set; }
@@ -31,8 +33,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public string password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<DegreeExitEvaluation> DegreeExitEvaluations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<Enrollment> Enrollments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<StudentSupervisor> StudentSupervisors { get; set; }
     }
 }

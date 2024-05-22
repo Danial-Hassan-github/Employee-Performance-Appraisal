@@ -43,7 +43,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Something went wrong");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Something went wrong");
                 }
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "something went wrong");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "something went wrong");
                 }
             }
             catch (Exception ex)
@@ -96,91 +96,163 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
 
-       /* [HttpPost]
-        [Route("api/Evaluation/PostSupervisorEvaluation")]
-        public HttpResponseMessage PostSupervisorEvaluation(List<SupervisorEvaluation> supervisorEvaluations)
+        [HttpPost]
+        [Route("api/Evaluation/PostDegreeExitEvaluation")]
+        public HttpResponseMessage PostDegreeExitEvaluation(List<DegreeExitEvaluation> degreeExitEvaluations)
         {
             try
             {
-                db.SupervisorEvaluations.AddRange(supervisorEvaluations);
+                db.DegreeExitEvaluations.AddRange(degreeExitEvaluations);
                 db.SaveChanges();
-                int sessionID = supervisorEvaluations.Select(p => p.session_id).FirstOrDefault();
-                int employeeID = supervisorEvaluations.Select(p => p.subordinate_id).FirstOrDefault();
 
-                int sub_kpi_id = kpiService.getSubKpiID("supervisor evaluation");
-                int sum = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Count() * 12;
-                int obtained = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Sum(x => x.score);
-                *//*double totalScore = supervisorEvaluations.Count() * 12;
-                double obtainedScore = 0;
-                foreach (var item in supervisorEvaluations)
-                {
-                    obtainedScore += item.score;
-                }*//*
-                double average = ((double)obtained / sum) * kpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
+                var sessionID = degreeExitEvaluations.First().session_id;
+                var employeeID = degreeExitEvaluations.First().teacher_id;
+                var evaluationType = evaluationService.GetEvaluationType(degreeExitEvaluations.First().question_id);
+                var subKpiID = subKpiService.getSubKpiID(evaluationType);
 
-                bool check = empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
-                if (check)
+                var sum = evaluationService.GetSumOfEvaluations(employeeID, sessionID);
+                var obtained = evaluationService.GetObtainedDegreeExitEvaluationScore(employeeID, sessionID);
+                var subKpiWeightage = subKpiService.getSubKpiWeightage(subKpiID, sessionID);
+                var average = ((double)obtained / sum) * subKpiWeightage;
+
+                if (empScoreService.AddEvaluationScores(sessionID, subKpiID, employeeID, Convert.ToInt32(average)))
                 {
                     db.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
+                    return Request.CreateResponse(HttpStatusCode.OK, db.PeerEvaluations.Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID));
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "something went wrong");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Something went wrong");
                 }
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }*/
+        }
 
 
-/*
         [HttpPost]
         [Route("api/Evaluation/PostSeniorTeacherEvaluation")]
-        public HttpResponseMessage PostSeniorTeacherEvaluation(List<SupervisorEvaluation> supervisorEvaluations)
+        public HttpResponseMessage PostSeniorTeacherEvaluation(List<SeniorTeacherEvaluation> seniorTeacherEvaluations)
         {
             try
             {
-                db.SupervisorEvaluations.AddRange(supervisorEvaluations);
+                db.SeniorTeacherEvaluations.AddRange(seniorTeacherEvaluations);
                 db.SaveChanges();
-                int sessionID = supervisorEvaluations.Select(p => p.session_id).FirstOrDefault();
-                int employeeID = supervisorEvaluations.Select(p => p.subordinate_id).FirstOrDefault();
-                int questionID = supervisorEvaluations.Select(p => p.question_id).FirstOrDefault();
-                bool isSenior = db.Questionaires.Find(questionID).type_id == db.QuestionaireTypes.Where(q => q.name == "senior").Select(x => x.id).FirstOrDefault();
-                int sub_kpi_id = kpiService.getSubKpiID("senior evaluation");
-                *//*int sub_kpi_id = kpiService.getSubKpiID("peer evaluation");
-                if (isSenior)
-                {
-                    sub_kpi_id = kpiService.getSubKpiID("senior evaluation");
-                }*//*
-                int sum = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Count() * 12;
-                int obtained = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Sum(x => x.score);
-                *//*double totalScore = supervisorEvaluations.Count() * 12;
-                double obtainedScore = 0;
-                foreach (var item in supervisorEvaluations)
-                {
-                    obtainedScore += item.score;
-                }*//*
-                double average = ((double)obtained / sum) * kpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
 
-                bool check = empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
-                if (check)
+                var sessionID = seniorTeacherEvaluations.First().session_id;
+                var employeeID = seniorTeacherEvaluations.First().junior_teacher_id;
+                var evaluationType = evaluationService.GetEvaluationType(seniorTeacherEvaluations.First().question_id);
+                var subKpiID = subKpiService.getSubKpiID(evaluationType);
+
+                var sum = evaluationService.GetSumOfEvaluations(employeeID, sessionID);
+                var obtained = evaluationService.GetObtainedSeniorTeacherEvaluationScore(employeeID, sessionID);
+                var subKpiWeightage = subKpiService.getSubKpiWeightage(subKpiID, sessionID);
+                var average = ((double)obtained / sum) * subKpiWeightage;
+
+                if (empScoreService.AddEvaluationScores(sessionID, subKpiID, employeeID, Convert.ToInt32(average)))
                 {
                     db.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
+                    return Request.CreateResponse(HttpStatusCode.OK, db.PeerEvaluations.Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID));
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "something went wrong");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Something went wrong");
                 }
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }*/
+        }
+
+
+        /* [HttpPost]
+         [Route("api/Evaluation/PostSupervisorEvaluation")]
+         public HttpResponseMessage PostSupervisorEvaluation(List<SupervisorEvaluation> supervisorEvaluations)
+         {
+             try
+             {
+                 db.SupervisorEvaluations.AddRange(supervisorEvaluations);
+                 db.SaveChanges();
+                 int sessionID = supervisorEvaluations.Select(p => p.session_id).FirstOrDefault();
+                 int employeeID = supervisorEvaluations.Select(p => p.subordinate_id).FirstOrDefault();
+
+                 int sub_kpi_id = kpiService.getSubKpiID("supervisor evaluation");
+                 int sum = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Count() * 12;
+                 int obtained = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Sum(x => x.score);
+                 *//*double totalScore = supervisorEvaluations.Count() * 12;
+                 double obtainedScore = 0;
+                 foreach (var item in supervisorEvaluations)
+                 {
+                     obtainedScore += item.score;
+                 }*//*
+                 double average = ((double)obtained / sum) * kpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
+
+                 bool check = empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
+                 if (check)
+                 {
+                     db.SaveChanges();
+                     return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
+                 }
+                 else
+                 {
+                     return Request.CreateResponse(HttpStatusCode.OK, "something went wrong");
+                 }
+             }
+             catch (Exception ex)
+             {
+                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+             }
+         }*/
+
+
+        /*
+                [HttpPost]
+                [Route("api/Evaluation/PostSeniorTeacherEvaluation")]
+                public HttpResponseMessage PostSeniorTeacherEvaluation(List<SupervisorEvaluation> supervisorEvaluations)
+                {
+                    try
+                    {
+                        db.SupervisorEvaluations.AddRange(supervisorEvaluations);
+                        db.SaveChanges();
+                        int sessionID = supervisorEvaluations.Select(p => p.session_id).FirstOrDefault();
+                        int employeeID = supervisorEvaluations.Select(p => p.subordinate_id).FirstOrDefault();
+                        int questionID = supervisorEvaluations.Select(p => p.question_id).FirstOrDefault();
+                        bool isSenior = db.Questionaires.Find(questionID).type_id == db.QuestionaireTypes.Where(q => q.name == "senior").Select(x => x.id).FirstOrDefault();
+                        int sub_kpi_id = kpiService.getSubKpiID("senior evaluation");
+                        *//*int sub_kpi_id = kpiService.getSubKpiID("peer evaluation");
+                        if (isSenior)
+                        {
+                            sub_kpi_id = kpiService.getSubKpiID("senior evaluation");
+                        }*//*
+                        int sum = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Count() * 12;
+                        int obtained = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Sum(x => x.score);
+                        *//*double totalScore = supervisorEvaluations.Count() * 12;
+                        double obtainedScore = 0;
+                        foreach (var item in supervisorEvaluations)
+                        {
+                            obtainedScore += item.score;
+                        }*//*
+                        double average = ((double)obtained / sum) * kpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
+
+                        bool check = empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
+                        if (check)
+                        {
+                            db.SaveChanges();
+                            return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
+                        }
+                        else
+                        {
+                            return Request.CreateResponse(HttpStatusCode.OK, "something went wrong");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                    }
+                }*/
 
         [HttpGet]
         [Route("api/Evaluation/isEvaluated")]

@@ -9,7 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
-    using Newtonsoft.Json; using System;
+    using System; using Newtonsoft.Json;
     using System.Collections.Generic;
     
     public partial class Course
@@ -18,7 +18,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public Course()
         {
             this.Enrollments = new HashSet<Enrollment>();
+            this.SeniorTeacherEvaluations = new HashSet<SeniorTeacherEvaluation>();
             this.StudentEvaluations = new HashSet<StudentEvaluation>();
+            this.TeacherJuniors = new HashSet<TeacherJunior>();
         }
     
         public int id { get; set; }
@@ -28,6 +30,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<Enrollment> Enrollments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<SeniorTeacherEvaluation> SeniorTeacherEvaluations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<TeacherJunior> TeacherJuniors { get; set; }
     }
 }

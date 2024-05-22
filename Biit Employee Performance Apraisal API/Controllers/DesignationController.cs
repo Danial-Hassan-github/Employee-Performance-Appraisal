@@ -15,7 +15,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Designations);
+                var result = db.Designations.Where(x => !x.name.Equals("Director", StringComparison.OrdinalIgnoreCase)).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);

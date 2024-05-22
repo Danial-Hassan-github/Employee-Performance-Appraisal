@@ -67,7 +67,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Tasks.Where(task => task.status == 0 && task.assigned_to_id==employeeID));
+                return Request.CreateResponse(HttpStatusCode.OK, taskService.GetEmployeeTasks(employeeID));
             }
             catch (Exception ex)
             {

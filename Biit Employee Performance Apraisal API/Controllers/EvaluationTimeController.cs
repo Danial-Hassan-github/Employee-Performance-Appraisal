@@ -14,12 +14,35 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         [HttpGet]
         public HttpResponseMessage CheckConfidentialPin(int sessionID, string pin)
         {
-            var result = db.EvaluationPins.Where(x => x.session_id == sessionID && x.pin.Equals(pin)).FirstOrDefault();
+            var result = db.EvaluationPins
+                .Where(x => x.session_id == sessionID && x.pin.Equals(pin))
+                .FirstOrDefault();
             if (result != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, true);
             }
             return Request.CreateResponse(HttpStatusCode.OK, false);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage CheckDegreeExitEligibility(int studentID)
+        {
+            try
+            {
+                var stdSemester = db.Students.Find(studentID).semester;
+                if (stdSemester == 8)
+                {
+                    var result = db.StudentSupervisors.Where(x => x.student_id == studentID).FirstOrDefault();
+                    if (result != null)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK, result);
+                    }
+                }
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "You are not eligible for degree exit evaluation yet");
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+            }
         }
 
         [HttpGet]

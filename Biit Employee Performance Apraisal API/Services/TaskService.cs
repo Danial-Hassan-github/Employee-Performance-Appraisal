@@ -35,6 +35,30 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return tasksWithEmployees.Cast<object>().ToList(); // Change object to appropriate type
         }
 
+        public List<object> GetEmployeeTasks(int employeeID)
+        {
+            // Assuming db is your DbContext instance
+            var tasksWithEmployees = db.Tasks
+                .Where(x => x.assigned_to_id == employeeID && x.status == 0)
+                .Join(db.Employees,
+                    task => task.assigned_to_id,
+                    assignedToEmployee => assignedToEmployee.id,
+                    (task, assignedToEmployee) => new { Task = task, AssignedToEmployee = assignedToEmployee })
+                .Join(db.Employees,
+                    taskAssigned => taskAssigned.Task.assigned_by_id,
+                    assignedByEmployee => assignedByEmployee.id,
+                    (taskAssigned, assignedByEmployee) => new
+                    {
+                        task = taskAssigned.Task,
+                        assigned_to = taskAssigned.AssignedToEmployee,
+                        assigned_by = assignedByEmployee
+                    })
+                .ToList();
+
+            // Return the result
+            return tasksWithEmployees.Cast<object>().ToList(); // Change object to appropriate type
+        }
+
         public bool AddTask(Task task)
         {
             if (ValidateTaskData(task))
@@ -152,7 +176,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                     if (task.score!=null)
                     {
                         t.score = task.score;
-                        t.status = 1;
+                        t.status = task.status;
                     }
                     db.SaveChanges();
                     setTaskScores(t);

@@ -9,7 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
-    using Newtonsoft.Json; using System;
+    using System; using Newtonsoft.Json;
     using System.Collections.Generic;
     
     public partial class Session
@@ -17,6 +17,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Session()
         {
+            this.DegreeExitEvaluations = new HashSet<DegreeExitEvaluation>();
             this.Enrollments = new HashSet<Enrollment>();
             this.EvaluationPins = new HashSet<EvaluationPin>();
             this.EvaluationTimes = new HashSet<EvaluationTime>();
@@ -24,16 +25,19 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
             this.KpiEmployeeScores = new HashSet<KpiEmployeeScore>();
             this.KpiWeightages = new HashSet<KpiWeightage>();
             this.PeerEvaluations = new HashSet<PeerEvaluation>();
-            this.TeacherJuniors = new HashSet<TeacherJunior>();
+            this.SeniorTeacherEvaluations = new HashSet<SeniorTeacherEvaluation>();
             this.StudentEvaluations = new HashSet<StudentEvaluation>();
             this.SubKpiWeightages = new HashSet<SubKpiWeightage>();
             this.SubkpiEmployeeScores = new HashSet<SubkpiEmployeeScore>();
             this.Tasks = new HashSet<Task>();
+            this.TeacherJuniors = new HashSet<TeacherJunior>();
         }
     
         public int id { get; set; }
         public string title { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<DegreeExitEvaluation> DegreeExitEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<Enrollment> Enrollments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -49,7 +53,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore] public virtual ICollection<TeacherJunior> TeacherJuniors { get; set; }
+        [JsonIgnore] public virtual ICollection<SeniorTeacherEvaluation> SeniorTeacherEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -58,5 +62,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [JsonIgnore] public virtual ICollection<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<Task> Tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<TeacherJunior> TeacherJuniors { get; set; }
     }
 }

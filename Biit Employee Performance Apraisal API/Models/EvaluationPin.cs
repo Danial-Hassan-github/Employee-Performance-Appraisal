@@ -9,7 +9,7 @@
 
 namespace Biit_Employee_Performance_Apraisal_API.Models
 {
-    using Newtonsoft.Json; using System;
+    using System; using Newtonsoft.Json;
     using System.Collections.Generic;
     
     public partial class EvaluationPin
@@ -17,8 +17,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public int id { get; set; }
         public string pin { get; set; }
         public int session_id { get; set; }
-        public Nullable<System.DateTime> start_time { get; set; }
-        public Nullable<System.DateTime> end_time { get; set; }
     
         [JsonIgnore] public virtual Session Session { get; set; }
     }

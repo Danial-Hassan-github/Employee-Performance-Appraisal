@@ -19,6 +19,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             {
                 try
                 {
+                    employee.doj = DateTime.Now;
                     db.Employees.Add(employee);
                     int i = db.SaveChanges();
                     return true;
@@ -47,7 +48,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                         emp.salary = employee.salary;
                         emp.department_id = employee.department_id;
                         emp.employee_type_id = employee.employee_type_id;
-                        emp.doj = employee.doj;
                         db.SaveChanges();
                         return true;
                     }
@@ -80,21 +80,17 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 else
                     message = "Password should be of 6 to 12 characters";
             }
-            else if (employee.designation_id != null)
+            else if (employee.designation_id == null)
             {
                 message = "Please Select Designation";
             }
-            else if (employee.department_id != null)
+            else if (employee.department_id == null)
             {
                 message = "Please Select Department";
             }
             else if (employee.salary == null)
             {
                 message = "Please Enter Salary";
-            }
-            else if (employee.doj == null)
-            {
-                message = "Please Enter Date of Joining";
             }
 
             if (message==string.Empty)

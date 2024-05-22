@@ -24,7 +24,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Employees.ToList());
+                var directorDesgId = db.Designations.Where(y => y.name.Equals("director")).Select(y => y.id).FirstOrDefault();
+                var result = db.Employees.Where(x => x.designation_id != directorDesgId).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
@@ -37,7 +39,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                var employeesDetails = db.Employees
+                var directorDesgId = db.Designations.Where(y => y.name.Equals("director")).Select(y => y.id).FirstOrDefault();
+                var employeesDetails = db.Employees.Where(x => x.designation_id != directorDesgId)
                     .Join(db.Designations,
                         emp => emp.designation_id,
                         desig => desig.id,
@@ -62,7 +65,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -72,7 +75,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                var employeesWithScores = db.Employees
+                var directorDesgId = db.Designations.Where(y => y.name.Equals("director")).Select(y => y.id).FirstOrDefault();
+                var employeesWithScores = db.Employees.Where(x => x.designation_id != directorDesgId)
                     .Join(db.Designations,
                         emp => emp.designation_id,
                         desig => desig.id,
@@ -134,7 +138,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.OK, employee);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, EmployeeService.message);
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, EmployeeService.message);
+            }
         }
 
         [HttpPut]
@@ -142,9 +149,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             if (EmployeeService.UpdateEmployee(employee))
             {
-                return Request.CreateResponse(HttpStatusCode.OK, db.Employees);
+                return Request.CreateResponse(HttpStatusCode.OK, employee);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, EmployeeService.message);
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, EmployeeService.message);
+            }
         }
 
         [HttpDelete]
