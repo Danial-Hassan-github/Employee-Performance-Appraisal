@@ -93,7 +93,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                      item.empScore.kpi_id,
                                      kpi_title = item.kpi != null ? item.kpi.name : null,
                                      item.empScore.score,
-                                     weightage_weightage = item.weightage != null ? item.weightage.weightage : (decimal?)null
+                                     weightage = item.weightage != null ? item.weightage.weightage : (decimal?)null
                                  })
                              };
 

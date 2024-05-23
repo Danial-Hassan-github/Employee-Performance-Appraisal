@@ -71,7 +71,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 
         [HttpGet]
         [Route("api/Employee/GetEmployeesWithKpiScores")]
-        public HttpResponseMessage GetEmployeesWithKpiScores()
+        public HttpResponseMessage GetEmployeesWithKpiScores(int sessionID)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                             dep = empDesigDept.Department,
                             empType1 = empType
                         })
-                    .GroupJoin(db.KpiEmployeeScores,
+                    .GroupJoin(db.KpiEmployeeScores.Where(k => k.session_id == sessionID),
                         emp => emp.emp.id,
                         score => score.employee_id,
                         (emp, scores) => new
@@ -165,7 +165,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 var employee = db.Employees.Find(id);
                 employee.deleted = true;
                 db.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.OK, "Deleted Successfully");
+                return Request.CreateResponse(HttpStatusCode.OK, employee);
             }
             catch (Exception ex)
             {
