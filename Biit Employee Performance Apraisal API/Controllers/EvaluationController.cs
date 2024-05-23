@@ -31,10 +31,20 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 var evaluationType = evaluationService.GetEvaluationType(peerEvaluations.First().question_id);
                 var subKpiID = subKpiService.getSubKpiID(evaluationType);
 
-                var sum = evaluationService.GetSumOfEvaluations(employeeID, sessionID);
+                var sum = evaluationService.GetSumOfPeerEvaluations(employeeID, sessionID);
                 var obtained = evaluationService.GetObtainedPeerEvaluationScore(employeeID, sessionID);
                 var subKpiWeightage = subKpiService.getSubKpiWeightage(subKpiID, sessionID);
                 var average = ((double)obtained / sum) * subKpiWeightage;
+
+                // Ensure the average is within the Int32 range before conversion
+                if (average > int.MaxValue)
+                {
+                    average = int.MaxValue;
+                }
+                else if (average < int.MinValue)
+                {
+                    average = int.MinValue;
+                }
 
                 if (empScoreService.AddEvaluationScores(sessionID, subKpiID, employeeID, Convert.ToInt32(average)))
                 {
@@ -74,9 +84,19 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 {
                     sub_kpi_id = subKpiService.getSubKpiID("confidential evaluation");
                 }
-                int sum = evaluationService.GetSumOfEvaluations(employeeID, sessionID);
+                int sum = evaluationService.GetSumOfStudentEvaluations(employeeID, sessionID);
                 int obtained = db.StudentEvaluations.Where(p => p.teacher_id == employeeID && p.session_id == sessionID).Sum(x => x.score);
                 double average = ((double)obtained / sum) * subKpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
+
+                // Ensure the average is within the Int32 range before conversion
+                if (average > int.MaxValue)
+                {
+                    average = int.MaxValue;
+                }
+                else if (average < int.MinValue)
+                {
+                    average = int.MinValue;
+                }
 
                 bool check=empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
                 if (check)
@@ -110,10 +130,20 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 var evaluationType = evaluationService.GetEvaluationType(degreeExitEvaluations.First().question_id);
                 var subKpiID = subKpiService.getSubKpiID(evaluationType);
 
-                var sum = evaluationService.GetSumOfEvaluations(employeeID, sessionID);
+                var sum = evaluationService.GetSumOfDegreeExitEvaluations(employeeID, sessionID);
                 var obtained = evaluationService.GetObtainedDegreeExitEvaluationScore(employeeID, sessionID);
                 var subKpiWeightage = subKpiService.getSubKpiWeightage(subKpiID, sessionID);
                 var average = ((double)obtained / sum) * subKpiWeightage;
+
+                // Ensure the average is within the Int32 range before conversion
+                if (average > int.MaxValue)
+                {
+                    average = int.MaxValue;
+                }
+                else if (average < int.MinValue)
+                {
+                    average = int.MinValue;
+                }
 
                 if (empScoreService.AddEvaluationScores(sessionID, subKpiID, employeeID, Convert.ToInt32(average)))
                 {
@@ -146,15 +176,25 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 var evaluationType = evaluationService.GetEvaluationType(seniorTeacherEvaluations.First().question_id);
                 var subKpiID = subKpiService.getSubKpiID(evaluationType);
 
-                var sum = evaluationService.GetSumOfEvaluations(employeeID, sessionID);
+                var sum = evaluationService.GetSumOfSeniorTeacherEvaluations(employeeID, sessionID);
                 var obtained = evaluationService.GetObtainedSeniorTeacherEvaluationScore(employeeID, sessionID);
                 var subKpiWeightage = subKpiService.getSubKpiWeightage(subKpiID, sessionID);
-                var average = ((double)obtained / sum) * subKpiWeightage;
+                var average = ((double) obtained / sum) * subKpiWeightage;
+
+                // Ensure the average is within the Int32 range before conversion
+                if (average > int.MaxValue)
+                {
+                    average = int.MaxValue;
+                }
+                else if (average < int.MinValue)
+                {
+                    average = int.MinValue;
+                }
 
                 if (empScoreService.AddEvaluationScores(sessionID, subKpiID, employeeID, Convert.ToInt32(average)))
                 {
                     db.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK, db.PeerEvaluations.Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID));
+                    return Request.CreateResponse(HttpStatusCode.OK, db.SeniorTeacherEvaluations.Where(p => p.junior_teacher_id == employeeID && p.session_id == sessionID));
                 }
                 else
                 {
@@ -163,7 +203,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
 

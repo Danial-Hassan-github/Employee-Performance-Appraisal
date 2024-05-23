@@ -22,7 +22,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 .FirstOrDefault();
         }
 
-        public int GetSumOfEvaluations(int employeeID, int sessionID)
+        public int GetSumOfPeerEvaluations(int employeeID, int sessionID)
         {
             int maxWeightage = (int)db.OptionsWeightages
                 .OrderByDescending(x => x.id)
@@ -33,25 +33,61 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                 .Count() * maxWeightage;
         }
 
+        public int GetSumOfStudentEvaluations(int employeeID, int sessionID)
+        {
+            int maxWeightage = (int)db.OptionsWeightages
+                .OrderByDescending(x => x.id)
+                .Select(y => y.weightage)
+                .First();
+            return db.StudentEvaluations
+                .Where(p => p.teacher_id == employeeID && p.session_id == sessionID)
+                .Count() * maxWeightage;
+        }
+
+        public int GetSumOfDegreeExitEvaluations(int employeeID, int sessionID)
+        {
+            int maxWeightage = (int)db.OptionsWeightages
+                .OrderByDescending(x => x.id)
+                .Select(y => y.weightage)
+                .First();
+            return db.DegreeExitEvaluations
+                .Where(p => p.teacher_id == employeeID && p.session_id == sessionID)
+                .Count() * maxWeightage;
+        }
+
+        public int GetSumOfSeniorTeacherEvaluations(int employeeID, int sessionID)
+        {
+            int maxWeightage = (int)db.OptionsWeightages
+                .OrderByDescending(x => x.id)
+                .Select(y => y.weightage)
+                .First();
+            return db.SeniorTeacherEvaluations
+                .Where(p => p.junior_teacher_id == employeeID && p.session_id == sessionID)
+                .Count() * maxWeightage;
+        }
+
         public int GetObtainedPeerEvaluationScore(int employeeID, int sessionID)
         {
-            return db.PeerEvaluations
+            var result = db.PeerEvaluations
                 .Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID)
                 .Sum(x => x.score);
+            return result;
         }
 
         public int GetObtainedDegreeExitEvaluationScore(int employeeID, int sessionID)
         {
-            return (int)db.DegreeExitEvaluations
+            var result = db.DegreeExitEvaluations
                 .Where(d => d.teacher_id == employeeID && d.session_id == sessionID)
                 .Sum(x => x.score);
+            return result == null ? 0 : (int)result;
         }
 
         public int GetObtainedSeniorTeacherEvaluationScore(int employeeID, int sessionID)
         {
-            return (int)db.SeniorTeacherEvaluations
+            var result = db.SeniorTeacherEvaluations
                 .Where(p => p.junior_teacher_id == employeeID && p.session_id == sessionID)
                 .Sum(x => x.score);
+            return result == null ? 0 : (int) result;
         }
     }
 }

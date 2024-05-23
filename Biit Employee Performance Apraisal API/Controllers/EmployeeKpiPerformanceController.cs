@@ -14,17 +14,40 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
         EmployeeScoreService service = new EmployeeScoreService();
 
+        public GroupKpi getGroup(int employeeID)
+        {
+            var employee = db.Employees.FirstOrDefault(e => e.id == employeeID);
+
+            // Get all GroupKpis and calculate match score based on criteria
+            var groupKpiMatches = db.GroupKpis.Select(g => new
+            {
+                GroupKpi = g,
+                MatchScore = (g.designation_id == employee.designation_id ? 1 : 0) +
+                             (g.department_id == employee.department_id ? 1 : 0) +
+                             (g.employee_type_id == employee.employee_type_id ? 1 : 0) +
+                             (g.employee_id == employee.id ? 1 : 0)
+            });
+
+            // Find the best matching GroupKpi instance
+            var bestGroupKpi = groupKpiMatches.OrderByDescending(g => g.MatchScore).FirstOrDefault()?.GroupKpi;
+
+            return bestGroupKpi;
+        }
+
         [HttpGet]
         public HttpResponseMessage GetKpiEmployeePerformance(int employeeID, int sessionID)
         {
             try
             {
+                var empKpiGroup = getGroup(employeeID);
+                int groupID = empKpiGroup.id;
+
                 var result = from empScore in db.KpiEmployeeScores
                              where empScore.employee_id == employeeID && empScore.session_id == sessionID
                              from kpi in db.Kpis.Where(k => k.id == empScore.kpi_id).DefaultIfEmpty()
                              where kpi != null
                              from weightage in db.KpiWeightages
-                                 .Where(w => w.kpi_id == empScore.kpi_id && w.session_id == empScore.session_id)
+                                 .Where(w => w.kpi_id == empScore.kpi_id && w.session_id == empScore.session_id && w.group_kpi_id == groupID)
                                  .DefaultIfEmpty()
                              select new
                              {
@@ -32,13 +55,14 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                  empScore.kpi_id,
                                  kpi_title = kpi.name,
                                  empScore.score,
-                                 weightage.weightage
+                                 weightage = weightage != null ? weightage.weightage : (double?)null
                              };
+
                 return Request.CreateResponse(HttpStatusCode.OK, result.ToList());
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 

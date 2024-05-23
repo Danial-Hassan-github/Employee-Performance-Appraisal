@@ -21,7 +21,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     .Where(x => x.senior_teacher_id == teacherID && x.session_id == sessionID)
                     .Select(x => new
                     {
-                        employee = x, // This will include the entire TeacherJunior object
+                        employee = db.Employees.Where(y => y.id == x.junior_teacher_id).FirstOrDefault(), // This will include the entire TeacherJunior object
                         course = db.Courses.FirstOrDefault(c => c.id == x.course_id) // Fetch the corresponding course
                     })
                     .ToList();
@@ -42,7 +42,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, "");
             }catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }
