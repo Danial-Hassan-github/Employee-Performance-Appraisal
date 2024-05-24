@@ -163,7 +163,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         [HttpPost]
         public HttpResponseMessage PostQuestion([FromBody] Questionaire question)
         {
-            if (questionaireService.AddQuestion(question))
+            var q = questionaireService.AddQuestion(question);
+            if (q != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, question);
             }
@@ -173,7 +174,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         [HttpPut]
         public HttpResponseMessage PutQuestion([FromBody] Questionaire question)
         {
-            if (questionaireService.UpdateQuestion(question))
+            var q = questionaireService.UpdateQuestion(question);
+            if (q != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, question);
             }
@@ -188,7 +190,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 var qs=db.Questionaires.Find(id);
                 qs.deleted=true;
                 db.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.OK, "Deleted");
+                return Request.CreateResponse(HttpStatusCode.OK, qs);
             }
             catch (Exception ex)
             {

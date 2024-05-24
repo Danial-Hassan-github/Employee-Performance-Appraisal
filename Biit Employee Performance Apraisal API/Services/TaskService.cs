@@ -16,6 +16,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         {
             // Assuming db is your DbContext instance
             var tasksWithEmployees = db.Tasks
+                .Where(t => t.status < 2)
                 .Join(db.Employees,
                     task => task.assigned_to_id,
                     assignedToEmployee => assignedToEmployee.id,
@@ -134,31 +135,23 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             return false;
         }
 
-        public bool DeleteTask(int id)
+        public Task DeleteTask(int id)
         {
             try
             {
                 Task task = db.Tasks.Find(id);
                 if(task != null)
                 {
-                    if (task.status == 0)
-                    {
-                        db.Tasks.Remove(task);
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        task.status = 2;
-                        db.SaveChanges();
-                    }
-                    return true;
+                    task.status = 2;
+                    db.SaveChanges();
+                    return task;
                 }
             }
             catch (Exception ex) 
             {
                 message = ex.Message;
             }
-            return false;
+            return null;
         }
 
         public bool UpdateTask(Task task)

@@ -127,9 +127,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         [HttpDelete]
         public HttpResponseMessage DeleteTask(int id)
         {
-            if (taskService.DeleteTask(id))
+            var t = taskService.DeleteTask(id);
+            if (t != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "Deleted Succesfully"); ;
+                return Request.CreateResponse(HttpStatusCode.OK, t); ;
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError, taskService.message);
         }

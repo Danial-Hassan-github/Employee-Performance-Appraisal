@@ -11,25 +11,25 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
         public string message=string.Empty;
 
-        public bool AddQuestion(Questionaire question)
+        public Questionaire AddQuestion(Questionaire question)
         {
             if (ValidateQuestionData(question))
             {
                 try
                 {
-                    db.Questionaires.Add(question);
+                    var q = db.Questionaires.Add(question);
                     int i = db.SaveChanges();
-                    return true;
+                    return q;
                 }
                 catch (Exception ex)
                 {
                     message = ex.Message;
                 }
             }
-            return false;
+            return null;
         }
 
-        public bool UpdateQuestion(Questionaire question)
+        public Questionaire UpdateQuestion(Questionaire question)
         {
             if (ValidateQuestionData(question))
             {
@@ -40,14 +40,14 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
                     qs.type_id = question.type_id;
                     qs.deleted = question.deleted;
                     db.SaveChanges();
-                    return true;
+                    return qs;
                 }
                 catch (Exception ex)
                 {
                     message = ex.Message;
                 }
             }
-            return false;
+            return null;
         }
 
         public int getQuestionTypeID(string type)
