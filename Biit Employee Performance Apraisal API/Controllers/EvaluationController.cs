@@ -28,28 +28,17 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 
                 var sessionID = peerEvaluations.First().session_id;
                 var employeeID = peerEvaluations.First().evaluatee_id;
-                var evaluationType = evaluationService.GetEvaluationType(peerEvaluations.First().question_id);
-                var subKpiID = subKpiService.getSubKpiID(evaluationType);
+                var subKpiID = subKpiService.getSubKpiID("Peer Evaluation");
 
                 var sum = evaluationService.GetSumOfPeerEvaluations(employeeID, sessionID);
                 var obtained = evaluationService.GetObtainedPeerEvaluationScore(employeeID, sessionID);
                 var subKpiWeightage = subKpiService.getSubKpiWeightage(subKpiID, sessionID);
                 var average = ((double)obtained / sum) * subKpiWeightage;
 
-                // Ensure the average is within the Int32 range before conversion
-                if (average > int.MaxValue)
-                {
-                    average = int.MaxValue;
-                }
-                else if (average < int.MinValue)
-                {
-                    average = int.MinValue;
-                }
-
                 if (empScoreService.AddEvaluationScores(sessionID, subKpiID, employeeID, Convert.ToInt32(average)))
                 {
                     db.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK, db.PeerEvaluations.Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID));
+                    return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
                 }
                 else
                 {
@@ -62,8 +51,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
-
-
         [HttpPost]
         [Route("api/Evaluation/PostStudentEvaluation")]
         public HttpResponseMessage PostStudentEvaluation(List<StudentEvaluation> studentEvaluations)
@@ -75,28 +62,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 int sessionID = studentEvaluations.First().session_id;
                 int employeeID = studentEvaluations.First().teacher_id;
                 int questionID = studentEvaluations.First().question_id;
-                bool isConfidential = db.Questionaires.Find(questionID).type_id==db.QuestionaireTypes.Where(q => q.name=="confidential")
-                    .Select(x => x.id)
-                    .FirstOrDefault();
-                int sub_kpi_id = subKpiService.getSubKpiID("student evaluation");
+                int sub_kpi_id = subKpiService.getSubKpiID("Student Evaluation");
 
-                if (isConfidential)
-                {
-                    sub_kpi_id = subKpiService.getSubKpiID("confidential evaluation");
-                }
                 int sum = evaluationService.GetSumOfStudentEvaluations(employeeID, sessionID);
-                int obtained = db.StudentEvaluations.Where(p => p.teacher_id == employeeID && p.session_id == sessionID).Sum(x => x.score);
+                int obtained = evaluationService.GetObtainedStudentEvaluationScore(employeeID, sessionID);
                 double average = ((double)obtained / sum) * subKpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
-
-                // Ensure the average is within the Int32 range before conversion
-                if (average > int.MaxValue)
-                {
-                    average = int.MaxValue;
-                }
-                else if (average < int.MinValue)
-                {
-                    average = int.MinValue;
-                }
 
                 bool check=empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
                 if (check)
@@ -115,6 +85,39 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/Evaluation/PostConfidentialEvaluation")]
+        public HttpResponseMessage PostConfidentialEvaluation(List<ConfidentialEvaluation> confidentialEvaluations)
+        {
+            try
+            {
+                db.ConfidentialEvaluations.AddRange(confidentialEvaluations);
+                db.SaveChanges();
+                int sessionID = confidentialEvaluations.First().session_id;
+                int employeeID = confidentialEvaluations.First().teacher_id;
+                int questionID = confidentialEvaluations.First().question_id;
+                int sub_kpi_id = subKpiService.getSubKpiID("Confidential Evaluation");
+
+                int sum = evaluationService.GetSumOfConfidentialEvaluations(employeeID, sessionID);
+                int obtained = evaluationService.GetObtainedConfidentialEvaluationScore(employeeID, sessionID);
+                double average = ((double)obtained / sum) * subKpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
+
+                bool check = empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
+                if (check)
+                {
+                    db.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "something went wrong");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
         [HttpPost]
         [Route("api/Evaluation/PostDegreeExitEvaluation")]
@@ -126,29 +129,18 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 db.SaveChanges();
 
                 var sessionID = degreeExitEvaluations.First().session_id;
-                var employeeID = degreeExitEvaluations.First().teacher_id;
-                var evaluationType = evaluationService.GetEvaluationType(degreeExitEvaluations.First().question_id);
-                var subKpiID = subKpiService.getSubKpiID(evaluationType);
+                var employeeID = degreeExitEvaluations.First().supervisor_id;
+                var subKpiID = subKpiService.getSubKpiID("Degree Exit Evaluation");
 
                 var sum = evaluationService.GetSumOfDegreeExitEvaluations(employeeID, sessionID);
                 var obtained = evaluationService.GetObtainedDegreeExitEvaluationScore(employeeID, sessionID);
                 var subKpiWeightage = subKpiService.getSubKpiWeightage(subKpiID, sessionID);
                 var average = ((double)obtained / sum) * subKpiWeightage;
 
-                // Ensure the average is within the Int32 range before conversion
-                if (average > int.MaxValue)
-                {
-                    average = int.MaxValue;
-                }
-                else if (average < int.MinValue)
-                {
-                    average = int.MinValue;
-                }
-
                 if (empScoreService.AddEvaluationScores(sessionID, subKpiID, employeeID, Convert.ToInt32(average)))
                 {
                     db.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK, db.PeerEvaluations.Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID));
+                    return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
                 }
                 else
                 {
@@ -161,7 +153,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
-
         [HttpPost]
         [Route("api/Evaluation/PostSeniorTeacherEvaluation")]
         public HttpResponseMessage PostSeniorTeacherEvaluation(List<SeniorTeacherEvaluation> seniorTeacherEvaluations)
@@ -173,28 +164,17 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 
                 var sessionID = seniorTeacherEvaluations.First().session_id;
                 var employeeID = seniorTeacherEvaluations.First().junior_teacher_id;
-                var evaluationType = evaluationService.GetEvaluationType(seniorTeacherEvaluations.First().question_id);
-                var subKpiID = subKpiService.getSubKpiID(evaluationType);
+                var subKpiID = subKpiService.getSubKpiID("Senior Evaluation");
 
                 var sum = evaluationService.GetSumOfSeniorTeacherEvaluations(employeeID, sessionID);
                 var obtained = evaluationService.GetObtainedSeniorTeacherEvaluationScore(employeeID, sessionID);
                 var subKpiWeightage = subKpiService.getSubKpiWeightage(subKpiID, sessionID);
                 var average = ((double) obtained / sum) * subKpiWeightage;
 
-                // Ensure the average is within the Int32 range before conversion
-                if (average > int.MaxValue)
-                {
-                    average = int.MaxValue;
-                }
-                else if (average < int.MinValue)
-                {
-                    average = int.MinValue;
-                }
-
                 if (empScoreService.AddEvaluationScores(sessionID, subKpiID, employeeID, Convert.ToInt32(average)))
                 {
                     db.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK, db.SeniorTeacherEvaluations.Where(p => p.junior_teacher_id == employeeID && p.session_id == sessionID));
+                    return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
                 }
                 else
                 {
@@ -207,92 +187,79 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/Evaluation/PostSupervisorEvaluation")]
+        public HttpResponseMessage PostSupervisorEvaluation(List<SupervisorEvaluation> supervisorEvaluations)
+        {
+            try
+            {
+                db.SupervisorEvaluations.AddRange(supervisorEvaluations);
+                db.SaveChanges();
+                int sessionID = supervisorEvaluations.First().session_id;
+                int employeeID = supervisorEvaluations.First().subordinate_id;
 
-        /* [HttpPost]
-         [Route("api/Evaluation/PostSupervisorEvaluation")]
-         public HttpResponseMessage PostSupervisorEvaluation(List<SupervisorEvaluation> supervisorEvaluations)
-         {
-             try
-             {
-                 db.SupervisorEvaluations.AddRange(supervisorEvaluations);
-                 db.SaveChanges();
-                 int sessionID = supervisorEvaluations.Select(p => p.session_id).FirstOrDefault();
-                 int employeeID = supervisorEvaluations.Select(p => p.subordinate_id).FirstOrDefault();
-
-                 int sub_kpi_id = kpiService.getSubKpiID("supervisor evaluation");
-                 int sum = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Count() * 12;
-                 int obtained = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Sum(x => x.score);
-                 *//*double totalScore = supervisorEvaluations.Count() * 12;
-                 double obtainedScore = 0;
-                 foreach (var item in supervisorEvaluations)
-                 {
-                     obtainedScore += item.score;
-                 }*//*
-                 double average = ((double)obtained / sum) * kpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
-
-                 bool check = empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
-                 if (check)
-                 {
-                     db.SaveChanges();
-                     return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
-                 }
-                 else
-                 {
-                     return Request.CreateResponse(HttpStatusCode.OK, "something went wrong");
-                 }
-             }
-             catch (Exception ex)
-             {
-                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-             }
-         }*/
-
-
-        /*
-                [HttpPost]
-                [Route("api/Evaluation/PostSeniorTeacherEvaluation")]
-                public HttpResponseMessage PostSeniorTeacherEvaluation(List<SupervisorEvaluation> supervisorEvaluations)
+                int sub_kpi_id = subKpiService.getSubKpiID("Supervisor Evaluation");
+                int sum = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Count() * 12;
+                int obtained = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Sum(x => x.score);
+                double totalScore = supervisorEvaluations.Count() * 12;
+                double obtainedScore = 0;
+                foreach (var item in supervisorEvaluations)
                 {
-                    try
-                    {
-                        db.SupervisorEvaluations.AddRange(supervisorEvaluations);
-                        db.SaveChanges();
-                        int sessionID = supervisorEvaluations.Select(p => p.session_id).FirstOrDefault();
-                        int employeeID = supervisorEvaluations.Select(p => p.subordinate_id).FirstOrDefault();
-                        int questionID = supervisorEvaluations.Select(p => p.question_id).FirstOrDefault();
-                        bool isSenior = db.Questionaires.Find(questionID).type_id == db.QuestionaireTypes.Where(q => q.name == "senior").Select(x => x.id).FirstOrDefault();
-                        int sub_kpi_id = kpiService.getSubKpiID("senior evaluation");
-                        *//*int sub_kpi_id = kpiService.getSubKpiID("peer evaluation");
-                        if (isSenior)
-                        {
-                            sub_kpi_id = kpiService.getSubKpiID("senior evaluation");
-                        }*//*
-                        int sum = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Count() * 12;
-                        int obtained = db.SupervisorEvaluations.Where(p => p.subordinate_id == employeeID && p.session_id == sessionID).Sum(x => x.score);
-                        *//*double totalScore = supervisorEvaluations.Count() * 12;
-                        double obtainedScore = 0;
-                        foreach (var item in supervisorEvaluations)
-                        {
-                            obtainedScore += item.score;
-                        }*//*
-                        double average = ((double)obtained / sum) * kpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
+                    obtainedScore += item.score;
+                }
+                double average = ((double)obtained / sum) * subKpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
 
-                        bool check = empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
-                        if (check)
-                        {
-                            db.SaveChanges();
-                            return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
-                        }
-                        else
-                        {
-                            return Request.CreateResponse(HttpStatusCode.OK, "something went wrong");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-                    }
-                }*/
+                bool check = empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
+                if (check)
+                {
+                    db.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "something went wrong");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Evaluation/PostDirectorEvaluation")]
+        public HttpResponseMessage PostDirectorEvaluation(List<DirectorEvaluation> directorEvaluations)
+        {
+            try
+            {
+                db.DirectorEvaluations.AddRange(directorEvaluations);
+                db.SaveChanges();
+                int sessionID = directorEvaluations.First().session_id;
+                int employeeID = directorEvaluations.First().evaluatee_id;
+
+                int sub_kpi_id = subKpiService.getSubKpiID("Director Evaluation");
+                int sum = evaluationService.GetSumOfDirectorEvaluations(employeeID, sessionID);
+                int obtained = evaluationService.GetObtainedDirectorEvaluationScore(employeeID, sessionID);
+                // double totalScore = directorEvaluations.Count() * 12;
+                
+                double average = ((double)obtained / sum) * subKpiService.getSubKpiWeightage(sub_kpi_id, sessionID);
+
+                bool check = empScoreService.AddEvaluationScores(sessionID, sub_kpi_id, employeeID, Convert.ToInt32(average));
+                if (check)
+                {
+                    db.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.OK, "Submitted");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "something went wrong");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
         [HttpGet]
         [Route("api/Evaluation/isEvaluated")]
@@ -334,8 +301,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
-
 
     }
 }

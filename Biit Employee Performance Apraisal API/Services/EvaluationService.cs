@@ -8,6 +8,14 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 {
     public class EvaluationService
     {
+        int maxWeightage = 0;
+        public EvaluationService()
+        {
+            maxWeightage = (int)db.OptionsWeightages
+                .OrderByDescending(x => x.id)
+                .Select(y => y.weightage)
+                .First();
+        }
         Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
         public string GetEvaluationType(int questionID)
         {
@@ -24,10 +32,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 
         public int GetSumOfPeerEvaluations(int employeeID, int sessionID)
         {
-            int maxWeightage = (int)db.OptionsWeightages
-                .OrderByDescending(x => x.id)
-                .Select(y => y.weightage)
-                .First();
             return db.PeerEvaluations
                 .Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID)
                 .Count() * maxWeightage;
@@ -35,10 +39,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 
         public int GetSumOfStudentEvaluations(int employeeID, int sessionID)
         {
-            int maxWeightage = (int)db.OptionsWeightages
-                .OrderByDescending(x => x.id)
-                .Select(y => y.weightage)
-                .First();
             return db.StudentEvaluations
                 .Where(p => p.teacher_id == employeeID && p.session_id == sessionID)
                 .Count() * maxWeightage;
@@ -46,23 +46,36 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 
         public int GetSumOfDegreeExitEvaluations(int employeeID, int sessionID)
         {
-            int maxWeightage = (int)db.OptionsWeightages
-                .OrderByDescending(x => x.id)
-                .Select(y => y.weightage)
-                .First();
             return db.DegreeExitEvaluations
-                .Where(p => p.teacher_id == employeeID && p.session_id == sessionID)
+                .Where(p => p.supervisor_id == employeeID && p.session_id == sessionID)
                 .Count() * maxWeightage;
         }
 
         public int GetSumOfSeniorTeacherEvaluations(int employeeID, int sessionID)
         {
-            int maxWeightage = (int)db.OptionsWeightages
-                .OrderByDescending(x => x.id)
-                .Select(y => y.weightage)
-                .First();
             return db.SeniorTeacherEvaluations
                 .Where(p => p.junior_teacher_id == employeeID && p.session_id == sessionID)
+                .Count() * maxWeightage;
+        }
+        
+        public int GetSumOfDirectorEvaluations(int employeeID, int sessionID)
+        {
+            return db.DirectorEvaluations
+                .Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID)
+                .Count() * maxWeightage;
+        }
+
+        public int GetSumOfConfidentialEvaluations(int employeeID, int sessionID)
+        {
+            return db.ConfidentialEvaluations
+                .Where(p => p.teacher_id == employeeID && p.session_id == sessionID)
+                .Count() * maxWeightage;
+        }
+
+        public int GetSumOfSupervisorEvaluations(int employeeID, int sessionID)
+        {
+            return db.SupervisorEvaluations
+                .Where(p => p.subordinate_id == employeeID && p.session_id == sessionID)
                 .Count() * maxWeightage;
         }
 
@@ -77,6 +90,30 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         public int GetObtainedDegreeExitEvaluationScore(int employeeID, int sessionID)
         {
             var result = db.DegreeExitEvaluations
+                .Where(d => d.supervisor_id == employeeID && d.session_id == sessionID)
+                .Sum(x => x.score);
+            return result == null ? 0 : (int)result;
+        }
+
+        public int GetObtainedDirectorEvaluationScore(int employeeID, int sessionID)
+        {
+            var result = db.DirectorEvaluations
+                .Where(p => p.evaluatee_id == employeeID && p.session_id == sessionID)
+                .Sum(x => x.score);
+            return result == null ? 0 : (int) result;
+        }
+
+        public int GetObtainedSupervisorEvaluationScore(int employeeID, int sessionID)
+        {
+            var result = db.SupervisorEvaluations
+                .Where(p => p.subordinate_id == employeeID && p.session_id == sessionID)
+                .Sum(x => x.score);
+            return result;
+        }
+
+        public int GetObtainedStudentEvaluationScore(int employeeID, int sessionID)
+        {
+            var result = db.StudentEvaluations
                 .Where(d => d.teacher_id == employeeID && d.session_id == sessionID)
                 .Sum(x => x.score);
             return result == null ? 0 : (int)result;
@@ -87,7 +124,15 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             var result = db.SeniorTeacherEvaluations
                 .Where(p => p.junior_teacher_id == employeeID && p.session_id == sessionID)
                 .Sum(x => x.score);
-            return result == null ? 0 : (int) result;
+            return result == null ? 0 : (int)result;
+        }
+        
+        public int GetObtainedConfidentialEvaluationScore(int employeeID, int sessionID)
+        {
+            var result = db.ConfidentialEvaluations
+                .Where(p => p.teacher_id == employeeID && p.session_id == sessionID)
+                .Sum(x => x.score);
+            return result == null ? 0 : (int)result;
         }
     }
 }

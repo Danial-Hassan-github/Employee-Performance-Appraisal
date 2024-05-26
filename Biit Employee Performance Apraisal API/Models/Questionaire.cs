@@ -17,10 +17,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Questionaire()
         {
+            this.ConfidentialEvaluations = new HashSet<ConfidentialEvaluation>();
             this.DegreeExitEvaluations = new HashSet<DegreeExitEvaluation>();
+            this.DirectorEvaluations = new HashSet<DirectorEvaluation>();
             this.PeerEvaluations = new HashSet<PeerEvaluation>();
             this.SeniorTeacherEvaluations = new HashSet<SeniorTeacherEvaluation>();
             this.StudentEvaluations = new HashSet<StudentEvaluation>();
+            this.SupervisorEvaluations = new HashSet<SupervisorEvaluation>();
         }
     
         public int id { get; set; }
@@ -29,7 +32,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public Nullable<int> type_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<ConfidentialEvaluation> ConfidentialEvaluations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<DegreeExitEvaluation> DegreeExitEvaluations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<DirectorEvaluation> DirectorEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
         [JsonIgnore] public virtual QuestionaireType QuestionaireType { get; set; }
@@ -37,5 +44,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [JsonIgnore] public virtual ICollection<SeniorTeacherEvaluation> SeniorTeacherEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<SupervisorEvaluation> SupervisorEvaluations { get; set; }
     }
 }

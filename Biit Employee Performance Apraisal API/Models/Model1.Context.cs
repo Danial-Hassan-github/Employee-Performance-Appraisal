@@ -26,10 +26,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         }
     
         public virtual DbSet<ClassHeldReport> ClassHeldReports { get; set; }
+        public virtual DbSet<ConfidentialEvaluation> ConfidentialEvaluations { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<DegreeExitEvaluation> DegreeExitEvaluations { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Designation> Designations { get; set; }
+        public virtual DbSet<DirectorEvaluation> DirectorEvaluations { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<EmployeeType> EmployeeTypes { get; set; }
         public virtual DbSet<Enrollment> Enrollments { get; set; }
@@ -52,6 +54,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public virtual DbSet<SubKpi> SubKpis { get; set; }
         public virtual DbSet<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
         public virtual DbSet<SubKpiWeightage> SubKpiWeightages { get; set; }
+        public virtual DbSet<SupervisorEvaluation> SupervisorEvaluations { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TeacherJunior> TeacherJuniors { get; set; }

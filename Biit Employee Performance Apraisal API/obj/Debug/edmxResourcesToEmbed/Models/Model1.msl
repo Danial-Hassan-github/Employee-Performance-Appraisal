@@ -17,6 +17,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ConfidentialEvaluations">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.ConfidentialEvaluation">
+        <MappingFragment StoreEntitySet="ConfidentialEvaluation">
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="score" ColumnName="score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Courses">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.Course">
         <MappingFragment StoreEntitySet="Course">
@@ -29,11 +40,10 @@
     <EntitySetMapping Name="DegreeExitEvaluations">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.DegreeExitEvaluation">
         <MappingFragment StoreEntitySet="DegreeExitEvaluation">
-          <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="student_id" ColumnName="student_id" />
-          <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
-          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="supervisor_id" ColumnName="supervisor_id" />
           <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
           <ScalarProperty Name="score" ColumnName="score" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -51,6 +61,17 @@
         <MappingFragment StoreEntitySet="Designation">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DirectorEvaluations">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.DirectorEvaluation">
+        <MappingFragment StoreEntitySet="DirectorEvaluation">
+          <ScalarProperty Name="evaluator_id" ColumnName="evaluator_id" />
+          <ScalarProperty Name="evaluatee_id" ColumnName="evaluatee_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="score" ColumnName="score" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -200,12 +221,11 @@
     <EntitySetMapping Name="SeniorTeacherEvaluations">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SeniorTeacherEvaluation">
         <MappingFragment StoreEntitySet="SeniorTeacherEvaluation">
-          <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="senior_teacher_id" ColumnName="senior_teacher_id" />
           <ScalarProperty Name="junior_teacher_id" ColumnName="junior_teacher_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
           <ScalarProperty Name="course_id" ColumnName="course_id" />
           <ScalarProperty Name="session_id" ColumnName="session_id" />
-          <ScalarProperty Name="question_id" ColumnName="question_id" />
           <ScalarProperty Name="score" ColumnName="score" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -281,6 +301,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SupervisorEvaluations">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.SupervisorEvaluation">
+        <MappingFragment StoreEntitySet="SupervisorEvaluation">
+          <ScalarProperty Name="supervisor_id" ColumnName="supervisor_id" />
+          <ScalarProperty Name="subordinate_id" ColumnName="subordinate_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="score" ColumnName="score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.sysdiagram">
         <MappingFragment StoreEntitySet="sysdiagrams">
@@ -311,11 +342,11 @@
     <EntitySetMapping Name="TeacherJuniors">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.TeacherJunior">
         <MappingFragment StoreEntitySet="TeacherJunior">
-          <ScalarProperty Name="session_id" ColumnName="session_id" />
-          <ScalarProperty Name="course_id" ColumnName="course_id" />
-          <ScalarProperty Name="junior_teacher_id" ColumnName="junior_teacher_id" />
-          <ScalarProperty Name="senior_teacher_id" ColumnName="senior_teacher_id" />
           <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="senior_teacher_id" ColumnName="senior_teacher_id" />
+          <ScalarProperty Name="junior_teacher_id" ColumnName="junior_teacher_id" />
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -17,6 +17,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Student()
         {
+            this.ConfidentialEvaluations = new HashSet<ConfidentialEvaluation>();
             this.DegreeExitEvaluations = new HashSet<DegreeExitEvaluation>();
             this.Enrollments = new HashSet<Enrollment>();
             this.StudentEvaluations = new HashSet<StudentEvaluation>();
@@ -32,6 +33,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public string discipline { get; set; }
         public string password { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<ConfidentialEvaluation> ConfidentialEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<DegreeExitEvaluation> DegreeExitEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

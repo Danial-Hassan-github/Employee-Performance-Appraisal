@@ -20,7 +20,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
         public int getSubKpiID(string sub_kpi_title)
         {
             int id = db.SubKpis
-                .Where(kpi => kpi.name.StartsWith(sub_kpi_title))
+                .Where(kpi => kpi.name.Equals(sub_kpi_title))
                 .FirstOrDefault().id;
             return id;
         }

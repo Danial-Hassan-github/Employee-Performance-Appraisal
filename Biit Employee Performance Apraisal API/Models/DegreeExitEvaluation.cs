@@ -14,12 +14,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     
     public partial class DegreeExitEvaluation
     {
-        public int id { get; set; }
         public int student_id { get; set; }
-        public int teacher_id { get; set; }
-        public int session_id { get; set; }
+        public int supervisor_id { get; set; }
         public int question_id { get; set; }
-        public Nullable<int> score { get; set; }
+        public int session_id { get; set; }
+        public int score { get; set; }
     
         [JsonIgnore] public virtual Questionaire Questionaire { get; set; }
         [JsonIgnore] public virtual Session Session { get; set; }

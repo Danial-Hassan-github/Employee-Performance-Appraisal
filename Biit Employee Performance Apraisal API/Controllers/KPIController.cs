@@ -226,7 +226,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             catch (Exception ex)
             {
                 // Log the exception
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, "An error occurred while processing the request.");
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
