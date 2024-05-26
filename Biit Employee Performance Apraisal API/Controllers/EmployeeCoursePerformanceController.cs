@@ -1,5 +1,6 @@
 ﻿using Biit_Employee_Performance_Apraisal_API.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -21,8 +22,9 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
 
                 var response = new
                 {
-                    AveragePerformance = average,
-                    EvaluationWithQuestions = evaluationWithQuestions
+                    employee = db.Employees.Where(x => x.id == employeeID).First(),
+                    average = average,
+                    employeeQuestionScores = evaluationWithQuestions
                 };
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);
@@ -45,21 +47,24 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
                 double average1 = CalculateEmployeePerformance(employeeID1, sessionID, courseID);
                 double average2 = CalculateEmployeePerformance(employeeID2, sessionID, courseID);
 
-                var response = new
+                var employee1Data = new
                 {
-                    employee1 = new
-                    {
-                        AveragePerformance = average1,
-                        EvaluationWithQuestions1 = evaluationWithQuestions1,
-                    },
-                    employee2 = new 
-                    {
-                        SecondEmployeeAverage = average2,
-                        SecondEmployeeEvaluation = evaluationWithQuestions2
-                    }
+                    employee = db.Employees.Where(x => x.id == employeeID1).First(),
+                    average = average1,
+                    employeeQuestionScores = evaluationWithQuestions1
                 };
 
+                var employee2Data = new
+                {
+                    employee = db.Employees.Where(x => x.id == employeeID2).First(),
+                    average = average2,
+                    employeeQuestionScores = evaluationWithQuestions2
+                };
+
+                var response = new List<object> { employee1Data, employee2Data };
+
                 return Request.CreateResponse(HttpStatusCode.OK, response);
+
             }
             catch (Exception ex)
             {
