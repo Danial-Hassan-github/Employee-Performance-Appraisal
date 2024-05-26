@@ -19,7 +19,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             try
             {
                 var questionnaireType = db.QuestionaireTypes.Where(x => x.id == evaluationTypeID).FirstOrDefault();
-                var result = db.Questionaires.Join(db.StudentEvaluations, x => x.id, y => y.question_id, (x,y) => new { x,y }).Where(combined => combined.x.type_id == evaluationTypeID);
+                /*var result = db.Questionaires
+                    .Join(db.StudentEvaluations, x => x.id, y => y.question_id, (x,y) => new { x,y })
+                    .Where(combined => combined.x.type_id == evaluationTypeID);*/
                 if (questionnaireType != null)
                 {
                     if (questionnaireType.name.ToLower().Equals("student"))
@@ -192,7 +194,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     }
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, result);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Evaluation type not found");
             }catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);

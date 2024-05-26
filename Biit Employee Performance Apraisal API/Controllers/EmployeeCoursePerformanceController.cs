@@ -16,9 +16,16 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
         {
             try
             {
+                var evaluationWithQuestions = GetEvaluationWithQuestions(employeeID, sessionID, courseID);
                 double average = CalculateEmployeePerformance(employeeID, sessionID, courseID);
-                
-                return Request.CreateResponse(HttpStatusCode.OK, average);
+
+                var response = new
+                {
+                    AveragePerformance = average,
+                    EvaluationWithQuestions = evaluationWithQuestions
+                };
+
+                return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
@@ -32,13 +39,24 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
         {
             try
             {
+                var evaluationWithQuestions1 = GetEvaluationWithQuestions(employeeID1, sessionID, courseID);
+                var evaluationWithQuestions2 = GetEvaluationWithQuestions(employeeID2, sessionID, courseID);
+
                 double average1 = CalculateEmployeePerformance(employeeID1, sessionID, courseID);
                 double average2 = CalculateEmployeePerformance(employeeID2, sessionID, courseID);
 
                 var response = new
                 {
-                    firstEmpAverage = average1,
-                    secondEmpAverage = average2
+                    employee1 = new
+                    {
+                        AveragePerformance = average1,
+                        EvaluationWithQuestions1 = evaluationWithQuestions1,
+                    },
+                    employee2 = new 
+                    {
+                        SecondEmployeeAverage = average2,
+                        SecondEmployeeEvaluation = evaluationWithQuestions2
+                    }
                 };
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);
@@ -49,7 +67,34 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
             }
         }
 
-        [NonAction]
+        private object GetEvaluationWithQuestions(int employeeID, int sessionID, int courseID)
+        {
+            var maxWeightage = db.OptionsWeightages.OrderByDescending(x => x.weightage).FirstOrDefault()?.weightage ?? 0;
+            int evaluationTypeID = db.QuestionaireTypes.Where(x => x.name.Equals("Student")).First().id;
+
+            var evaluationsWithQuestions = db.StudentEvaluations
+                .Where(e => e.teacher_id == employeeID && e.session_id == sessionID && e.course_id == courseID)
+                .GroupBy(e => e.question_id)
+                .Select(g => new
+                {
+                    QuestionId = g.Key,
+                    ObtainedScore = g.Sum(e => e.score),
+                    TotalScore = g.Count() * maxWeightage
+                })
+                .Join(db.Questionaires.Where(q => q.type_id == evaluationTypeID),
+                    eval => eval.QuestionId,
+                    question => question.id,
+                    (eval, question) => new
+                    {
+                        question = question,
+                        obtainedScore = eval.ObtainedScore,
+                        totalScore = eval.TotalScore
+                    })
+                .ToList();
+
+            return evaluationsWithQuestions;
+        }
+
         private double CalculateEmployeePerformance(int employeeID, int sessionID, int courseID)
         {
             var result = db.StudentEvaluations
