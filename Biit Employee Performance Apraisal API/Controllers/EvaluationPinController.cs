@@ -17,6 +17,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             try
             {
                 var pin = db.EvaluationPins.Add(evaluationPin);
+                db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, pin);
             }catch (Exception ex)
             {

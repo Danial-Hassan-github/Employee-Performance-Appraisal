@@ -58,7 +58,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                  weightage = weightage != null ? weightage.weightage : (double?)null
                              };
 
-                return Request.CreateResponse(HttpStatusCode.OK, result.ToList());
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
@@ -136,6 +136,46 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             var result = db.KpiEmployeeScores.Find(employeeScore.kpi_id, employeeScore.employee_id, employeeScore.session_id);
             return Request.CreateResponse(HttpStatusCode.OK,result);
         }
+        [HttpPost]
+        [Route("api/EmployeeKpiPerformance/CompareKpiEmployeePerformance")]
+        public HttpResponseMessage CompareKpiEmployeePerformance([FromBody] EmployeeIdsWithSession employeeIdsWithSession)
+        {
+            try
+            {
+                var comparisonResult = new List<object>();
+
+                foreach (var employeeId in employeeIdsWithSession.employeeIds)
+                {
+                    var employeeKpiGroup = getGroup(employeeId);
+
+                    var result = (from empScore in db.KpiEmployeeScores
+                                  where empScore.employee_id == employeeId && empScore.session_id == employeeIdsWithSession.session_id
+                                  from kpi in db.Kpis.Where(k => k.id == empScore.kpi_id).DefaultIfEmpty()
+                                  where kpi != null
+                                  from weightage in db.KpiWeightages
+                                      .Where(w => w.kpi_id == empScore.kpi_id && w.session_id == empScore.session_id && w.group_kpi_id == employeeKpiGroup.id)
+                                      .DefaultIfEmpty()
+                                  select new
+                                  {
+                                      employee_id = empScore.employee_id,
+                                      kpi_id = empScore.kpi_id,
+                                      kpi_title = kpi.name,
+                                      score = empScore.score,
+                                      weightage = weightage != null ? weightage.weightage : (double?)null
+                                  }).ToList();
+
+                    comparisonResult.Add(result.ToList());
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, comparisonResult);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
 
         /*[HttpPost]
         public HttpResponseMessage FreeKpiEmployeeScore(KpiEmployeeScore kpiEmployeeScore)

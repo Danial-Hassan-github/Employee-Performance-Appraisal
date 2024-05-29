@@ -142,24 +142,25 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
          for adding new kpi
         */
         [HttpPost]
-        [Route("api/KPI/PostKPI")]
-        public HttpResponseMessage PostKPI([FromBody] Kpi kPI, int weightage, int sessionID, int employeeTypeID)
+        [Route("api/KPI/PostGeneralKpi")]
+        public HttpResponseMessage PostGeneralKpi([FromBody] KpiWithSubKpis kpiWithSubKpis)
         {
             try
             {
-                if (weightage > 100)
+                if (kpiWithSubKpis.weightage.weightage > 100)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage caannot be more than 100");
                 }
-                var k = db.Kpis.Add(kPI);
-                // db.SaveChanges();
-                kpiService.adjustKpiWeightages(weightage, sessionID, k.id, employeeTypeID);
-                //kpiService.adjustKpiWeigtage(weightage, sessionID);
-                KpiWeightage kpiWeightage = new KpiWeightage();
+                var k = db.Kpis.Add(kpiWithSubKpis.kpi);
+                KpiWeightage kpiWeightage = kpiWithSubKpis.weightage;
                 kpiWeightage.kpi_id = k.id;
-                kpiWeightage.weightage = weightage;
-                kpiWeightage.session_id = sessionID;
-                db.KpiWeightages.Add(kpiWeightage);
+                db.KpiWeightages.Add(kpiWithSubKpis.weightage);
+                List<SubKpiWeightage> subKpiWeightages = kpiWithSubKpis.subKpiWeightages;
+                for(int i = 0; i < subKpiWeightages.Count; i++)
+                {
+                    subKpiWeightages[i].kpi_id = k.id;
+                }
+                db.SubKpiWeightages.AddRange(subKpiWeightages);
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, k);
             }
@@ -200,9 +201,26 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/KPI/PostGroupKpi")]
+        public HttpResponseMessage PostGroupKpi(GroupKpiDetails groupKpiDetails)
+        {
+            try
+            {
+                db.GroupKpis.Add(groupKpiDetails.groupKpi);
+                db.Kpis.Add(groupKpiDetails.kpi);
+                db.SubKpiWeightages.AddRange(groupKpiDetails.subKpiWeightages);
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "Group Kpi Added Successfully");
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("api/KPI/GetKpiGroup")]
-        public HttpResponseMessage GetKpiGroup(int groupID)
+        public HttpResponseMessage GetKpiGroup(int groupID, int sessionID)
         {
             try
             {
@@ -213,7 +231,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 }
                 var kpiWeightages = from kw in db.KpiWeightages
                                     join k in db.Kpis on kw.kpi_id equals k.id
-                                    where kw.group_kpi_id == id // Use id here
+                                    where kw.group_kpi_id == id && kw.session_id == sessionID // Use id here
                                     select new
                                     {
                                         k.id,
@@ -240,7 +258,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, kpiService.GetKpiWeightages(groupKpiEntity, sessionId));
             }catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
