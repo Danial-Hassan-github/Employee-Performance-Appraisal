@@ -170,6 +170,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EmployeeCoursePerformanceController.cs" />
     <Compile Include="Controllers\EmployeeKpiPerformanceController.cs" />
+    <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\EvaluationPinController.cs" />
     <Compile Include="Controllers\EvaluationScoresController.cs" />
@@ -214,6 +215,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeIdsWithSession.cs" />
+    <Compile Include="Models\EmployeeKpi.cs" />
     <Compile Include="Models\EmployeeKpiScore.cs" />
     <Compile Include="Models\EmployeeType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -244,6 +246,7 @@
     <Compile Include="Models\KpiWeightage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GroupKpiWithWeightage.cs" />
     <Compile Include="Models\KpiWithSubKpis.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -407,6 +410,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="CHR_Excel_Sheet\" />
     <Folder Include="Course Assignment Excel Sheet\" />
+    <Folder Include="Enrollment_excel_sheet\" />
     <Folder Include="Views\OptionsWeightage\" />
   </ItemGroup>
   <ItemGroup>

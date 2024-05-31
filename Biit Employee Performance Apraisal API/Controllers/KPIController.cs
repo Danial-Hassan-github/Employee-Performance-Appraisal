@@ -137,6 +137,131 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }*/
 
+        [HttpPost]
+        [Route("api/KPI/PostGroupKpi")]
+        public HttpResponseMessage PostGroupKpi(GroupKpiWithWeightage groupKpiWithWeightage)
+        {
+            try
+            {
+                var kpi = db.Kpis.Add(groupKpiWithWeightage.kpi);
+                var kpiGroup = db.GroupKpis.Where(x => x.department_id == groupKpiWithWeightage.department_id &&
+                                                    x.designation_id == groupKpiWithWeightage.designation_id &&
+                                                    x.employee_type_id == groupKpiWithWeightage.employee_type_id).FirstOrDefault();
+
+                KpiWeightage kpiWeightage = new KpiWeightage();
+                kpiWeightage.session_id = groupKpiWithWeightage.session_id;
+                kpiWeightage.kpi_id = kpi.id;
+                kpiWeightage.weightage = groupKpiWithWeightage.weightage;
+
+                // if kpis for that specific group already exists
+                if (kpiGroup != null)
+                {
+                    kpiWeightage.group_kpi_id = kpiGroup.id;
+                    db.KpiWeightages.Add(kpiWeightage);
+                }
+                else
+                {
+                    GroupKpi groupKpi = new GroupKpi();
+                    groupKpi.kpi_id = kpi.id;
+                    groupKpi.department_id = groupKpiWithWeightage.department_id;
+                    groupKpi.designation_id = groupKpiWithWeightage.designation_id;
+                    groupKpi.employee_type_id = groupKpiWithWeightage.employee_type_id;
+
+                    var newKpiGroup = db.GroupKpis.Add(groupKpi);
+                    var commonKpis = db.KpiWeightages.Where(x => x.group_kpi_id == null);
+
+                    foreach (KpiWeightage weightage in commonKpis)
+                    {
+                        weightage.group_kpi_id = groupKpi.id;
+                        db.KpiWeightages.Add(weightage);
+                    }
+                    kpiWeightage.group_kpi_id = newKpiGroup.id;
+                    db.KpiWeightages.Add(kpiWeightage);
+                }
+
+                if (groupKpiWithWeightage.subKpiWeightages.Any())
+                {
+                    List<SubKpiWeightage> subKpiWeightages = groupKpiWithWeightage.subKpiWeightages;
+                    for (int i = 0; i < subKpiWeightages.Count; i++)
+                    {
+                        subKpiWeightages[i].kpi_id = kpi.id;
+                    }
+                    db.SubKpiWeightages.AddRange(subKpiWeightages);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, "Group kpi Added successfully");
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/KPI/PostEmployeeKpi")]
+        public HttpResponseMessage PostEmployeeKpi(EmployeeKpi employeeKpi)
+        {
+            try
+            {
+                var employee = employeeKpi.employee;
+                var kpi = employeeKpi.kpi;
+                var empKpiGroup = db.GroupKpis.Where(x => x.department_id == employee.department_id &&
+                                                    x.designation_id == employee.designation_id &&
+                                                    x.employee_type_id == employee.employee_type_id &&
+                                                    x.employee_id == employee.id).FirstOrDefault();
+
+                KpiWeightage kpiWeightage = new KpiWeightage();
+                kpiWeightage.session_id = employeeKpi.session_id;
+                kpiWeightage.kpi_id = kpi.id;
+                kpiWeightage.weightage = employeeKpi.weightage;
+
+                // if kpis for that specific employee already exists
+                if (empKpiGroup != null)
+                {
+                    kpiWeightage.group_kpi_id = empKpiGroup.id;
+                    // check whether the kpi is already available or not
+                    var check = db.KpiWeightages.Where(x => x.kpi_id == kpi.id && 
+                                                        x.group_kpi_id == kpiWeightage.group_kpi_id &&
+                                                        x.session_id == kpiWeightage.session_id).FirstOrDefault();
+                    if (check == null)
+                    {
+                        db.KpiWeightages.Add(kpiWeightage);
+                    }
+                    else
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Employee kpi already exists for this employee");
+                    }
+
+                }
+                // if we are add kpi first time for that employee
+                else
+                {
+                    GroupKpi groupKpi = new GroupKpi();
+                    groupKpi.kpi_id = kpi.id;
+                    groupKpi.employee_id = employee.id;
+                    groupKpi.department_id = employee.department_id;
+                    groupKpi.designation_id = employee.designation_id;
+                    groupKpi.employee_type_id = employee.employee_type_id;
+
+                    var newKpiGroup = db.GroupKpis.Add(groupKpi);
+                    var commonKpis = db.KpiWeightages.Where(x => x.group_kpi_id == null);
+
+                    foreach(KpiWeightage weightage in commonKpis)
+                    {
+                        weightage.group_kpi_id = groupKpi.id;
+                        db.KpiWeightages.Add(weightage);
+                    }
+                    kpiWeightage.group_kpi_id = newKpiGroup.id;
+                    db.KpiWeightages.Add(kpiWeightage);
+                }
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "Kpi Added Successfully");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
 
         /*
          for adding new kpi
@@ -155,12 +280,15 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 KpiWeightage kpiWeightage = kpiWithSubKpis.weightage;
                 kpiWeightage.kpi_id = k.id;
                 db.KpiWeightages.Add(kpiWithSubKpis.weightage);
-                List<SubKpiWeightage> subKpiWeightages = kpiWithSubKpis.subKpiWeightages;
-                for(int i = 0; i < subKpiWeightages.Count; i++)
+                if (kpiWithSubKpis.subKpiWeightages.Any())
                 {
-                    subKpiWeightages[i].kpi_id = k.id;
+                    List<SubKpiWeightage> subKpiWeightages = kpiWithSubKpis.subKpiWeightages;
+                    for (int i = 0; i < subKpiWeightages.Count; i++)
+                    {
+                        subKpiWeightages[i].kpi_id = k.id;
+                    }
+                    db.SubKpiWeightages.AddRange(subKpiWeightages);
                 }
-                db.SubKpiWeightages.AddRange(subKpiWeightages);
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, k);
             }
