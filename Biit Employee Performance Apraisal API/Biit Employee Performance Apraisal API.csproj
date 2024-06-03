@@ -214,6 +214,7 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeCoursesPerformanceRequest.cs" />
     <Compile Include="Models\EmployeeIdsWithSession.cs" />
     <Compile Include="Models\EmployeeKpi.cs" />
     <Compile Include="Models\EmployeeKpiScore.cs" />
@@ -263,6 +264,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\MultiEmployeeCoursePerformanceRequest.cs" />
     <Compile Include="Models\OptionsWeightage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

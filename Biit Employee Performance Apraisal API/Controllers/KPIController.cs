@@ -185,6 +185,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     for (int i = 0; i < subKpiWeightages.Count; i++)
                     {
                         subKpiWeightages[i].kpi_id = kpi.id;
+                        subKpiWeightages[i].deleted = false;
                     }
                     db.SubKpiWeightages.AddRange(subKpiWeightages);
                 }
@@ -286,6 +287,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     for (int i = 0; i < subKpiWeightages.Count; i++)
                     {
                         subKpiWeightages[i].kpi_id = k.id;
+                        subKpiWeightages[i].deleted = false;
                     }
                     db.SubKpiWeightages.AddRange(subKpiWeightages);
                 }

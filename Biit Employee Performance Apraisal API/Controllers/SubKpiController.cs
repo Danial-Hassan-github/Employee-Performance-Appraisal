@@ -51,12 +51,16 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                         subKpi => subKpi.id,
                         subKpiWeightage => subKpiWeightage.sub_kpi_id,
                         (subKpi, subKpiWeightages) => new { subKpi, subKpiWeightages })
-                    .Where(combined => !combined.subKpiWeightages.Any())
+                    .SelectMany(
+                        combined => combined.subKpiWeightages.DefaultIfEmpty(),
+                        (combined, subKpiWeightage) => new { combined.subKpi, subKpiWeightage })
+                    .Where(combined => combined.subKpiWeightage == null || combined.subKpiWeightage.deleted == false)
                     .Select(combined => new
                     {
                         combined.subKpi.id,
                         combined.subKpi.name
                     })
+                    .Distinct()
                     .ToList();
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
@@ -68,6 +72,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         }
 
 
+
         [HttpGet]
         [Route("api/SubKpi/GetSubKPIsOfKpi")]
         public HttpResponseMessage GetSubKPIsOfKpi(int kpi_id, int sessionID)
@@ -76,7 +81,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 var result = db.SubKpiWeightages
                     .Join(db.SubKpis, x => x.sub_kpi_id, y => y.id, (x, y) => new { x, y })
-                    .Where(combined => combined.x.session_id == sessionID && combined.x.kpi_id == kpi_id)
+                    .Where(combined => combined.x.session_id == sessionID && combined.x.kpi_id == kpi_id && combined.x.deleted == false)
                     .Select(combined => new
                     {
                         combined.y.id,

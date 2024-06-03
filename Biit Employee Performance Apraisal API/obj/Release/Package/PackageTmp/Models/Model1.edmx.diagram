@@ -33,7 +33,6 @@
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.StudentSupervisor" Width="1.5" PointX="5.25" PointY="35.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubKpi" Width="1.5" PointX="6" PointY="16.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubkpiEmployeeScore" Width="1.5" PointX="8.25" PointY="21.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubKpiWeightage" Width="1.5" PointX="11.25" PointY="12.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SupervisorEvaluation" Width="1.5" PointX="8.25" PointY="35.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.sysdiagram" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Task" Width="1.5" PointX="11.25" PointY="19.5" IsExpanded="true" />
@@ -87,7 +86,6 @@
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KpiWeight__group__664B26CC" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__KPI_I__7720AD13" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KpiWeight__kpi_i__68336F3E" ManuallyRouted="false" />
-        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SubKpiWei__kpi_i__7F16D496" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__Sessi__7814D14C" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KpiWeight__sessi__673F4B05" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Superviso__quest__3AA1AEB8" ManuallyRouted="false" />
@@ -98,15 +96,17 @@
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Superviso__quest__5303482E" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SeniorTea__sessi__5D80D6A1" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__STUDENT_E__Sessi__12FDD1B2" ManuallyRouted="false" />
-        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUB_KPI_W__Sessi__55BFB948" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__Sessi__0FEC5ADD" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Superviso__sessi__520F23F5" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Task__session_id__24B26D99" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__TeacherJu__sessi__36670980" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__STUDENT_E__Stude__1209AD79" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__StudentSu__stude__0B7CAB7B" ManuallyRouted="false" />
-        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUB_KPI_W__SUB_K__56B3DD81" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__SUBKP__0EF836A4" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubKpiWeightage" Width="1.5" PointX="11.25" PointY="12" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SubKpiWei__kpi_i__7F16D496" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUB_KPI_W__Sessi__55BFB948" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUB_KPI_W__SUB_K__56B3DD81" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

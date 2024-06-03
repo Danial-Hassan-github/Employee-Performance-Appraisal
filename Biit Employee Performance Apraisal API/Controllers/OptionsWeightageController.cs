@@ -70,7 +70,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }catch(Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }

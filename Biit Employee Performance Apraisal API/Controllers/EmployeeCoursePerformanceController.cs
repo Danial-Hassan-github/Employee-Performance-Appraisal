@@ -11,6 +11,65 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
     public class EmployeeCoursePerformanceController : ApiController
     {
         private Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
+        [HttpPost]
+        [Route("api/EmployeeCoursePerformance/GetEmployeeCoursesPerformance")]
+        public HttpResponseMessage GetEmployeeCoursesPerformance(EmployeeCoursesPerformanceRequest employeeCoursesPerformanceRequest)
+        {
+            try
+            {
+                var comparisonResult = new List<object>();
+
+                foreach (var course_id in employeeCoursesPerformanceRequest.coursesIds)
+                {
+                    var evaluationWithQuestions = GetEvaluationWithQuestions(employeeCoursesPerformanceRequest.employeeID, employeeCoursesPerformanceRequest.sessionID, course_id);
+                    double average = CalculateEmployeePerformance(employeeCoursesPerformanceRequest.employeeID, employeeCoursesPerformanceRequest.sessionID, course_id);
+
+                    var response = new
+                    {
+                        course = db.Courses.Where(x => x.id == course_id).FirstOrDefault(),
+                        average = average,
+                        employeeQuestionScores = evaluationWithQuestions
+                    };
+                    comparisonResult.Add(response);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, comparisonResult);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/EmployeeCoursePerformance/GetMultiEmployeeCoursePerformance")]
+        public HttpResponseMessage GetMultiEmployeeCoursePerformance(MultiEmployeeCoursePerformanceRequest multiEmployeeCoursePerformanceRequest)
+        {
+            try
+            {
+                var comparisonResult = new List<object>();
+
+                foreach (var employee_id in multiEmployeeCoursePerformanceRequest.employeeIds)
+                {
+                    var evaluationWithQuestions = GetEvaluationWithQuestions(employee_id, multiEmployeeCoursePerformanceRequest.sessionId, multiEmployeeCoursePerformanceRequest.courseId);
+                    double average = CalculateEmployeePerformance(employee_id, multiEmployeeCoursePerformanceRequest.sessionId, multiEmployeeCoursePerformanceRequest.courseId);
+
+                    var response = new
+                    {
+                        employee = db.Employees.Where(x => x.id == employee_id).FirstOrDefault(),
+                        average = average,
+                        employeeQuestionScores = evaluationWithQuestions
+                    };
+                    comparisonResult.Add(response);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, comparisonResult);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
         [HttpGet]
         public HttpResponseMessage GetEmployeeCoursePerformance(int employeeID, int sessionID, int courseID)

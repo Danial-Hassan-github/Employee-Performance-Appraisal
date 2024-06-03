@@ -24,13 +24,19 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        // Created By SHAISTA CHANNA
         [HttpGet]
         [Route("api/Course/GetTeacherCourses")]
-        public HttpResponseMessage GetTeacherCourses(int teacherID)
+        public HttpResponseMessage GetTeacherCourses(int teacherID,int sessionID)
         {
             try
             {
-                var result = db.Courses.Join(db.Enrollments, course => course.id, enrollment => enrollment.course_id, (course, enrollment) => new { course, enrollment }).Where(combined => combined.enrollment.teacher_id == teacherID).Select(c => c.course).Distinct().ToList();
+                var result = db.Courses
+                    .Join(db.Enrollments, course => course.id, enrollment => enrollment.course_id, (course, enrollment) => new { course, enrollment })
+                    .Where(combined => combined.enrollment.teacher_id == teacherID && combined.enrollment.session_id==sessionID)
+                    .Select(c => c.course)
+                    .Distinct()
+                    .ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)

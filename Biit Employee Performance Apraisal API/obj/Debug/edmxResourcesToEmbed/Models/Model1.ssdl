@@ -294,13 +294,14 @@
   </EntityType>
   <EntityType Name="SubKpiWeightage">
     <Key>
-      <PropertyRef Name="sub_kpi_id" />
-      <PropertyRef Name="session_id" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Name="kpi_id" Type="int" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kpi_id" Type="int" Nullable="false" />
     <Property Name="sub_kpi_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="weightage" Type="int" Nullable="false" />
+    <Property Name="deleted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="SupervisorEvaluation">
     <Key>
@@ -987,7 +988,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__SubKpiWei__kpi_i__7F16D496">
-    <End Role="Kpi" Type="Self.Kpi" Multiplicity="0..1" />
+    <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
     <End Role="SubKpiWeightage" Type="Self.SubKpiWeightage" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Kpi">

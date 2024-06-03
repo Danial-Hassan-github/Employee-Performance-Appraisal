@@ -53,10 +53,10 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public virtual DbSet<StudentSupervisor> StudentSupervisors { get; set; }
         public virtual DbSet<SubKpi> SubKpis { get; set; }
         public virtual DbSet<SubkpiEmployeeScore> SubkpiEmployeeScores { get; set; }
-        public virtual DbSet<SubKpiWeightage> SubKpiWeightages { get; set; }
         public virtual DbSet<SupervisorEvaluation> SupervisorEvaluations { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TeacherJunior> TeacherJuniors { get; set; }
+        public virtual DbSet<SubKpiWeightage> SubKpiWeightages { get; set; }
     }
 }
