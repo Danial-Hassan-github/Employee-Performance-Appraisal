@@ -142,7 +142,7 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
                 .Select(g => new
                 {
                     QuestionId = g.Key,
-                    ObtainedScore = g.Sum(e => e.score),
+                    ObtainedScore = g.Sum(e => e.score) / g.Count() * maxWeightage,
                     TotalScore = g.Count() * maxWeightage
                 })
                 .Join(db.Questionaires.Where(q => q.type_id == evaluationTypeID),
@@ -151,8 +151,8 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
                     (eval, question) => new
                     {
                         question = question,
-                        obtainedScore = eval.ObtainedScore,
-                        totalScore = eval.TotalScore
+                        average = ((double)eval.ObtainedScore / eval.TotalScore) * 100
+                        // totalScore = eval.TotalScore
                     })
                 .ToList();
 

@@ -42,8 +42,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                 (eval, question) => new
                                 {
                                     question = question,
-                                    obtainedScore = eval.ObtainedScore,
-                                    totalScore = eval.totalScore
+                                    average = ((double)eval.ObtainedScore / eval.totalScore) * 100
                                 })
                             .ToList();
                         return Request.CreateResponse(HttpStatusCode.OK, evaluationsWithQuestions);
@@ -66,8 +65,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                 (eval, question) => new
                                 {
                                     question = question,
-                                    obtainedScore = eval.ObtainedScore,
-                                    totalScore = eval.totalScore
+                                    average = ((double)eval.ObtainedScore / eval.totalScore) * 100
                                 })
                             .ToList();
                         return Request.CreateResponse(HttpStatusCode.OK, evaluationsWithQuestions);
@@ -90,8 +88,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                 (eval, question) => new
                                 {
                                     question = question,
-                                    obtainedScore = eval.ObtainedScore,
-                                    totalScore = eval.totalScore
+                                    average = ((double)eval.ObtainedScore / eval.totalScore) * 100
                                 })
                             .ToList();
                         return Request.CreateResponse(HttpStatusCode.OK, evaluationsWithQuestions);
@@ -114,8 +111,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                 (eval, question) => new
                                 {
                                     question = question,
-                                    obtainedScore = eval.ObtainedScore,
-                                    totalScore = eval.totalScore
+                                    average = ((double)eval.ObtainedScore / eval.totalScore) * 100
                                 })
                             .ToList();
                         return Request.CreateResponse(HttpStatusCode.OK, evaluationsWithQuestions);
@@ -138,8 +134,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                 (eval, question) => new
                                 {
                                     question = question,
-                                    obtainedScore = eval.ObtainedScore,
-                                    totalScore = eval.totalScore
+                                    average = ((double)eval.ObtainedScore / eval.totalScore) * 100
                                 })
                             .ToList();
                         return Request.CreateResponse(HttpStatusCode.OK, evaluationsWithQuestions);
@@ -162,8 +157,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                 (eval, question) => new
                                 {
                                     question = question,
-                                    obtainedScore = eval.ObtainedScore,
-                                    totalScore = eval.totalScore
+                                    average = ((double)eval.ObtainedScore / eval.totalScore) * 100
                                 })
                             .ToList();
                         return Request.CreateResponse(HttpStatusCode.OK, evaluationsWithQuestions);
@@ -186,8 +180,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                 (eval, question) => new
                                 {
                                     question = question,
-                                    obtainedScore = eval.ObtainedScore,
-                                    totalScore = eval.totalScore
+                                    average = ((double)eval.ObtainedScore / eval.totalScore) * 100
                                 })
                             .ToList();
                         return Request.CreateResponse(HttpStatusCode.OK, evaluationsWithQuestions);
@@ -200,5 +193,20 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        /*[HttpGet]
+        public HttpResponseMessage GetEvaluationsScores(int employeeID, int sessionID)
+        {
+            try
+            {
+                var result = db.
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }*/
+    
     }
 }

@@ -25,7 +25,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             try
             {
                 var directorDesgId = db.Designations.Where(y => y.name.Equals("director")).Select(y => y.id).FirstOrDefault();
-                var result = db.Employees.Where(x => x.designation_id != directorDesgId).ToList();
+                var result = db.Employees.Where(x => x.designation_id != directorDesgId).OrderBy(x => x.name).ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }catch (Exception ex)
             {

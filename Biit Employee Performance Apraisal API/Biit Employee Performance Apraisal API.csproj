@@ -182,6 +182,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OptionsWeightageController.cs" />
     <Compile Include="Controllers\QuestionnaireController.cs" />
+    <Compile Include="Controllers\QuestionsScoresController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SubKpiController.cs" />
@@ -238,12 +239,14 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GroupKpiDetails.cs" />
+    <Compile Include="Models\GroupKpiDetailsPutRequest.cs" />
     <Compile Include="Models\Kpi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\KpiEmployeeScore.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KpiPutRequest.cs" />
     <Compile Include="Models\KpiWeightage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

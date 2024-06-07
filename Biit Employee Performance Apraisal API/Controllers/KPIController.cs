@@ -79,7 +79,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                             grp.groupKpi.kpi_id,
                             department = db.Departments.FirstOrDefault(d => d.id == grp.groupKpi.department_id),
                             designation = db.Designations.FirstOrDefault(d => d.id == grp.groupKpi.designation_id),
-                            dmployeeType = db.EmployeeTypes.FirstOrDefault(e => e.id == grp.groupKpi.employee_type_id),
+                            employeeType = db.EmployeeTypes.FirstOrDefault(e => e.id == grp.groupKpi.employee_type_id),
                             employee = db.Employees.FirstOrDefault(e => e.id == grp.groupKpi.employee_id)
                         },
                         kpiList = grp.records
@@ -146,7 +146,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 var kpi = db.Kpis.Add(groupKpiWithWeightage.kpi);
                 var kpiGroup = db.GroupKpis.Where(x => x.department_id == groupKpiWithWeightage.department_id &&
                                                     x.designation_id == groupKpiWithWeightage.designation_id &&
-                                                    x.employee_type_id == groupKpiWithWeightage.employee_type_id).FirstOrDefault();
+                                                    x.employee_type_id == groupKpiWithWeightage.employee_type_id &&
+                                                    x.employee_id == groupKpiWithWeightage.employee_id).FirstOrDefault();
 
                 KpiWeightage kpiWeightage = new KpiWeightage();
                 kpiWeightage.session_id = groupKpiWithWeightage.session_id;
@@ -189,7 +190,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     }
                     db.SubKpiWeightages.AddRange(subKpiWeightages);
                 }
-
+                db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, "Group kpi Added successfully");
             }catch (Exception ex)
             {
@@ -331,18 +332,41 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("api/KPI/PostGroupKpi")]
-        public HttpResponseMessage PostGroupKpi(GroupKpiDetails groupKpiDetails)
+        public HttpResponseMessage PostGroupKpi(GroupKpiWithWeightage groupKpiWithWeightage)
         {
             try
             {
-                db.GroupKpis.Add(groupKpiDetails.groupKpi);
-                db.Kpis.Add(groupKpiDetails.kpi);
-                db.SubKpiWeightages.AddRange(groupKpiDetails.subKpiWeightages);
+                GroupKpi group = new GroupKpi();
+                group.department_id = groupKpiWithWeightage.department_id;
+                group.designation_id = groupKpiWithWeightage.designation_id;
+                group.employee_type_id = groupKpiWithWeightage.employee_type_id;
+                db.GroupKpis.Add(group);
+                db.Kpis.Add(groupKpiWithWeightage.kpi);
+                db.SubKpiWeightages.AddRange(groupKpiWithWeightage.subKpiWeightages);
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, "Group Kpi Added Successfully");
             }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }*/
+
+        [HttpGet]
+        [Route("api/KPI/GetKpiGroupId")]
+        public HttpResponseMessage GetKpiGroupId(int department_id, int designation_id, int employee_type_id, int employee_id)
+        {
+            try
+            {
+                var group = db.GroupKpis.Where(x => x.employee_type_id == employee_type_id && x.designation_id == designation_id && x.department_id == department_id && x.employee_id == employee_id).FirstOrDefault();
+                if (group == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, 0);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, group.id);
+            }
+            catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
@@ -378,6 +402,103 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("api/KPI/PutGeneralKpi")]
+        public HttpResponseMessage PutGeneralKpi(List<KpiPutRequest> kpiPutRequests)
+        {
+            try
+            {
+                foreach (KpiPutRequest k in kpiPutRequests)
+                {
+                    var kpi = db.Kpis.Where(x => x.id == k.id).FirstOrDefault();
+                    kpi.name = k.name;
+                    var kpiWeightage = db.KpiWeightages.Where(x => x.kpi_id == k.id).FirstOrDefault();
+                    kpiWeightage.weightage = k.kpiWeightage.weightage;
+                    if(k.subKpiWeightages != null)
+                    {
+                        foreach (var item in k.subKpiWeightages)
+                        {
+                            var subKpiWeightage = db.SubKpiWeightages.Where(x => x.id == item.id && x.deleted == false).FirstOrDefault();
+                            if (subKpiWeightage != null)
+                            {
+                                subKpiWeightage.weightage = item.weightage;
+                            }
+                            else
+                            {
+                                item.deleted = false;
+                                db.SubKpiWeightages.Add(item);
+                            }
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "General kpi Updated Successfully");
+            }catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [HttpPut]
+        [Route("api/KPI/PutGroupKpi")]
+        public HttpResponseMessage PutGroupKpi(List<KpiPutRequest> kpiPutRequests)
+        {
+            try
+            {
+                foreach (KpiPutRequest k in kpiPutRequests)
+                {
+                    var kpi = db.Kpis.Where(x => x.id == k.id).FirstOrDefault();
+                    kpi.name = k.name;
+                    var kpiWeightage = db.KpiWeightages.Where(x => x.kpi_id == k.id && x.group_kpi_id == k.kpiWeightage.group_kpi_id).FirstOrDefault();
+                    kpiWeightage.weightage = k.kpiWeightage.weightage;
+                    if (k.subKpiWeightages != null)
+                    {
+                        foreach (var item in k.subKpiWeightages)
+                        {
+                            var subKpiWeightage = db.SubKpiWeightages.Where(x => x.id == item.id && x.deleted == false).FirstOrDefault();
+                            if (subKpiWeightage != null)
+                            {
+                                subKpiWeightage.weightage = item.weightage;
+                            }
+                            else
+                            {
+                                item.deleted = false;
+                                db.SubKpiWeightages.Add(item);
+                            }
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "Group kpi Updated Successfully");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [HttpPut]
+        [Route("api/KPI/PutEmployeeKpi")]
+        public HttpResponseMessage PutEmployeeKpi(List<KpiPutRequest> employeeKpis)
+        {
+            try
+            {
+                foreach (var item in employeeKpis)
+                {
+                    var record = db.KpiWeightages
+                        .Where(x => x.group_kpi_id == item.kpiWeightage.group_kpi_id && x.session_id == item.kpiWeightage.session_id && x.kpi_id == item.id)
+                        .FirstOrDefault();
+                    record.kpi_id = item.id;
+                    record.weightage = item.kpiWeightage.weightage;
+                }
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "Employee kpi Updated Successfully");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
 
         [HttpGet]
         [Route("api/KPI/GetKpiWeightages")]
