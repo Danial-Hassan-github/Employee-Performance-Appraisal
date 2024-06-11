@@ -11,22 +11,23 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
     public class EmployeeCoursePerformanceController : ApiController
     {
         private Biit_Employee_Performance_AppraisalEntities db = new Biit_Employee_Performance_AppraisalEntities();
-        [HttpPost]
+        [HttpGet]
         [Route("api/EmployeeCoursePerformance/GetEmployeeCoursesPerformance")]
-        public HttpResponseMessage GetEmployeeCoursesPerformance(EmployeeCoursesPerformanceRequest employeeCoursesPerformanceRequest)
+        public HttpResponseMessage GetEmployeeCoursesPerformance(int teacherID, int sessionID)
         {
             try
             {
                 var comparisonResult = new List<object>();
+                var courses_ids = db.Courses.Join(db.Enrollments, course => course.id, enrollment => enrollment.course_id, (course, enrollment) => new { course, enrollment }).Where(combined => combined.enrollment.teacher_id == teacherID && combined.enrollment.session_id == sessionID).Select(c => c.course.id).Distinct().ToList();
 
-                foreach (var course_id in employeeCoursesPerformanceRequest.coursesIds)
+                foreach (var id in courses_ids)
                 {
-                    var evaluationWithQuestions = GetEvaluationWithQuestions(employeeCoursesPerformanceRequest.employeeID, employeeCoursesPerformanceRequest.sessionID, course_id);
-                    double average = CalculateEmployeePerformance(employeeCoursesPerformanceRequest.employeeID, employeeCoursesPerformanceRequest.sessionID, course_id);
+                    var evaluationWithQuestions = GetEvaluationWithQuestions(teacherID, sessionID, id);
+                    double average = CalculateEmployeePerformance(teacherID, sessionID, id);
 
                     var response = new
                     {
-                        course = db.Courses.Where(x => x.id == course_id).FirstOrDefault(),
+                        course = db.Courses.Where(x => x.id == id).FirstOrDefault(),
                         average = average,
                         employeeQuestionScores = evaluationWithQuestions
                     };
@@ -51,15 +52,33 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
 
                 foreach (var employee_id in multiEmployeeCoursePerformanceRequest.employeeIds)
                 {
-                    var evaluationWithQuestions = GetEvaluationWithQuestions(employee_id, multiEmployeeCoursePerformanceRequest.sessionId, multiEmployeeCoursePerformanceRequest.courseId);
-                    double average = CalculateEmployeePerformance(employee_id, multiEmployeeCoursePerformanceRequest.sessionId, multiEmployeeCoursePerformanceRequest.courseId);
+                    var employeePerformance = new List<object>();
+
+                    foreach (var course_id in multiEmployeeCoursePerformanceRequest.courseIds)
+                    {
+                        var evaluationWithQuestions = GetEvaluationWithQuestions(employee_id, multiEmployeeCoursePerformanceRequest.sessionId, course_id);
+                        double average = CalculateEmployeePerformance(employee_id, multiEmployeeCoursePerformanceRequest.sessionId, course_id);
+
+                        var course = db.Courses.Where(x => x.id == course_id).FirstOrDefault();
+
+                        var coursePerformance = new
+                        {
+                            course = course,
+                            average = average,
+                            employeeQuestionScores = evaluationWithQuestions
+                        };
+
+                        employeePerformance.Add(coursePerformance);
+                    }
+
+                    var employee = db.Employees.Where(x => x.id == employee_id).FirstOrDefault();
 
                     var response = new
                     {
-                        employee = db.Employees.Where(x => x.id == employee_id).FirstOrDefault(),
-                        average = average,
-                        employeeQuestionScores = evaluationWithQuestions
+                        employee = employee,
+                        performance = employeePerformance
                     };
+
                     comparisonResult.Add(response);
                 }
 
@@ -71,7 +90,9 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
             }
         }
 
-        [HttpGet]
+
+
+        /*[HttpGet]
         public HttpResponseMessage GetEmployeeCoursePerformance(int employeeID, int sessionID, int courseID)
         {
             try
@@ -129,7 +150,7 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }
+        }*/
 
         private object GetEvaluationWithQuestions(int employeeID, int sessionID, int courseID)
         {
@@ -142,7 +163,7 @@ namespace Biit_Employee_Performance_Appraisal_API.Controllers
                 .Select(g => new
                 {
                     QuestionId = g.Key,
-                    ObtainedScore = g.Sum(e => e.score) / g.Count() * maxWeightage,
+                    ObtainedScore = g.Sum(e => e.score),
                     TotalScore = g.Count() * maxWeightage
                 })
                 .Join(db.Questionaires.Where(q => q.type_id == evaluationTypeID),

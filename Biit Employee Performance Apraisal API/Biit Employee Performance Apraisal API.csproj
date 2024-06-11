@@ -170,6 +170,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EmployeeCoursePerformanceController.cs" />
     <Compile Include="Controllers\EmployeeKpiPerformanceController.cs" />
+    <Compile Include="Controllers\EmployeeSubKpiPerformanceController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\EvaluationPinController.cs" />
