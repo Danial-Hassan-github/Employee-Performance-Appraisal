@@ -39,15 +39,15 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         {
             try
             {
-                var empKpiGroup = getGroup(employeeID);
-                int groupID = empKpiGroup.id;
+                // var empKpiGroup = getGroup(employeeID);
+                // int groupID = empKpiGroup.id;
 
                 var result = from empScore in db.KpiEmployeeScores
                              where empScore.employee_id == employeeID && empScore.session_id == sessionID
                              from kpi in db.Kpis.Where(k => k.id == empScore.kpi_id).DefaultIfEmpty()
                              where kpi != null
                              from weightage in db.KpiWeightages
-                                 .Where(w => w.kpi_id == empScore.kpi_id && w.session_id == empScore.session_id && w.group_kpi_id == groupID)
+                                 .Where(w => w.kpi_id == empScore.kpi_id && w.session_id == empScore.session_id)
                                  .DefaultIfEmpty()
                              select new
                              {
@@ -129,25 +129,29 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 
                 foreach (var employeeId in employeeIdsWithSession.employeeIds)
                 {
-                    var employeeKpiGroup = getGroup(employeeId);
+                    // var employeeKpiGroup = getGroup(employeeId);
 
-                    var result = (from empScore in db.KpiEmployeeScores
-                                  where empScore.employee_id == employeeId && empScore.session_id == employeeIdsWithSession.session_id
-                                  from kpi in db.Kpis.Where(k => k.id == empScore.kpi_id).DefaultIfEmpty()
-                                  where kpi != null
-                                  from weightage in db.KpiWeightages
-                                      .Where(w => w.kpi_id == empScore.kpi_id && w.session_id == empScore.session_id && w.group_kpi_id == employeeKpiGroup.id)
-                                      .DefaultIfEmpty()
-                                  select new
-                                  {
-                                      employee_id = empScore.employee_id,
-                                      kpi_id = empScore.kpi_id,
-                                      kpi_title = kpi.name,
-                                      score = empScore.score,
-                                      weightage = weightage != null ? weightage.weightage : (double?)null
-                                  }).ToList();
+                    var employeePerformance = new
+                    {
+                        employee = db.Employees.Where(x => x.id == employeeId).FirstOrDefault(),
+                        kpiScores = (from empScore in db.KpiEmployeeScores
+                                          where empScore.employee_id == employeeId && empScore.session_id == employeeIdsWithSession.session_id
+                                          from kpi in db.Kpis.Where(k => k.id == empScore.kpi_id).DefaultIfEmpty()
+                                          where kpi != null
+                                          from weightage in db.KpiWeightages
+                                              .Where(w => w.kpi_id == empScore.kpi_id && w.session_id == empScore.session_id)
+                                              .DefaultIfEmpty()
+                                          select new
+                                          {
+                                              employee_id = empScore.employee_id,
+                                              kpi_id = empScore.kpi_id,
+                                              kpi_title = kpi.name,
+                                              score = empScore.score,
+                                              weightage = weightage != null ? weightage.weightage : (double?)null
+                                          }).ToList()
+                    };
 
-                    comparisonResult.Add(result.ToList());
+                    comparisonResult.Add(employeePerformance);
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, comparisonResult);
@@ -157,8 +161,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
-
 
         /*[HttpPost]
         public HttpResponseMessage FreeKpiEmployeeScore(KpiEmployeeScore kpiEmployeeScore)

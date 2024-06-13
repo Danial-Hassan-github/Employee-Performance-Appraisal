@@ -55,7 +55,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     // newRecord.id = 0;
                     KpiWeightage newKpiWeightage = new KpiWeightage()
                     {
-                        group_kpi_id = newRecord.group_kpi_id,
+                        // group_kpi_id = newRecord.group_kpi_id,
                         kpi_id = newRecord.kpi_id,
                         session_id = newSessionId,
                         weightage = newRecord.weightage,

@@ -48,8 +48,8 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                           weightage => weightage.kpi_id,
                           kpi => kpi.id,
                           (weightage, kpi) => new { Weightage = weightage, Kpi = kpi })
-                    .Where(combined => combined.Weightage.session_id == sessionID)
-                    .GroupBy(combined => combined.Weightage.group_kpi_id)
+                    .Where(combined => combined.Weightage.session_id == sessionID)      
+                    .GroupBy(combined => combined.Kpi.department_id)
                     .Select(group => new
                     {
                         GroupKpiId = group.Key,
@@ -119,6 +119,76 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/KPI/PostKpi")]
+        public HttpResponseMessage PostKpi([FromBody] KpiWithSubKpis kpiWithSubKpis)
+        {
+            try
+            {
+                if (kpiWithSubKpis.weightage.weightage > 100)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage cannot be more than 100");
+                }
+                var k = db.Kpis.Add(kpiWithSubKpis.kpi);
+                KpiWeightage kpiWeightage = kpiWithSubKpis.weightage;
+                kpiWeightage.kpi_id = k.id;
+                db.KpiWeightages.Add(kpiWithSubKpis.weightage);
+                if (kpiWithSubKpis.subKpiWeightages.Any())
+                {
+                    List<SubKpiWeightage> subKpiWeightages = kpiWithSubKpis.subKpiWeightages;
+                    for (int i = 0; i < subKpiWeightages.Count; i++)
+                    {
+                        subKpiWeightages[i].kpi_id = k.id;
+                        subKpiWeightages[i].deleted = false;
+                    }
+                    db.SubKpiWeightages.AddRange(subKpiWeightages);
+                }
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, k);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("api/KPI/PutKpi")]
+        public HttpResponseMessage PutKpi(List<KpiPutRequest> kpiPutRequests)
+        {
+            try
+            {
+                foreach (KpiPutRequest k in kpiPutRequests)
+                {
+                    var kpi = db.Kpis.Where(x => x.id == k.id).FirstOrDefault();
+                    kpi.name = k.name;
+                    var kpiWeightage = db.KpiWeightages.Where(x => x.kpi_id == k.id).FirstOrDefault();
+                    kpiWeightage.weightage = k.kpiWeightage.weightage;
+                    if (k.subKpiWeightages != null)
+                    {
+                        foreach (var item in k.subKpiWeightages)
+                        {
+                            var subKpiWeightage = db.SubKpiWeightages.Where(x => x.id == item.id && x.deleted == false).FirstOrDefault();
+                            if (subKpiWeightage != null)
+                            {
+                                subKpiWeightage.weightage = item.weightage;
+                            }
+                            else
+                            {
+                                item.deleted = false;
+                                db.SubKpiWeightages.Add(item);
+                            }
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "General kpi Updated Successfully");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
 
         /*
          GetEEmployeeTypeKPIs is being used to fetch kpi's availbe in specific session for specific type of employees
@@ -137,7 +207,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }*/
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("api/KPI/PostGroupKpi")]
         public HttpResponseMessage PostGroupKpi(GroupKpiWithWeightage groupKpiWithWeightage)
         {
@@ -196,9 +266,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }
+        }*/
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("api/KPI/PostEmployeeKpi")]
         public HttpResponseMessage PostEmployeeKpi(EmployeeKpi employeeKpi)
         {
@@ -262,7 +332,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }
+        }*/
 
 
         /*
@@ -276,7 +346,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 if (kpiWithSubKpis.weightage.weightage > 100)
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage caannot be more than 100");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Weightage cannot be more than 100");
                 }
                 var k = db.Kpis.Add(kpiWithSubKpis.kpi);
                 KpiWeightage kpiWeightage = kpiWithSubKpis.weightage;
@@ -305,7 +375,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
         /*
          To update kpi settings
          */
-        [HttpPut]
+        /*[HttpPut]
         [Route("api/KPI/PutKPI")]
         public HttpResponseMessage PutKPI([FromBody] Kpi kPI, int weightage, int sessionID, int employeeTypeID)
         {
@@ -330,7 +400,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }
+        }*/
 
         /*[HttpPost]
         [Route("api/KPI/PostGroupKpi")]
@@ -353,7 +423,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }*/
 
-        [HttpGet]
+        /*[HttpGet]
         [Route("api/KPI/GetKpiGroupId")]
         public HttpResponseMessage GetKpiGroupId(int department_id, int designation_id, int employee_type_id, int employee_id)
         {
@@ -370,9 +440,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }
+        }*/
 
-        [HttpGet]
+        /*[HttpGet]
         [Route("api/KPI/GetKpiGroup")]
         public HttpResponseMessage GetKpiGroup(int groupID, int sessionID)
         {
@@ -400,9 +470,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 // Log the exception
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }
+        }*/
 
-        [HttpPut]
+        /*[HttpPut]
         [Route("api/KPI/PutGeneralKpi")]
         public HttpResponseMessage PutGeneralKpi(List<KpiPutRequest> kpiPutRequests)
         {
@@ -437,9 +507,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
-        }
+        }*/
 
-        [HttpPut]
+        /*[HttpPut]
         [Route("api/KPI/PutGroupKpi")]
         public HttpResponseMessage PutGroupKpi(List<KpiPutRequest> kpiPutRequests)
         {
@@ -475,9 +545,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
-        }
+        }*/
 
-        [HttpPut]
+        /*[HttpPut]
         [Route("api/KPI/PutEmployeeKpi")]
         public HttpResponseMessage PutEmployeeKpi(List<KpiPutRequest> employeeKpis)
         {
@@ -498,7 +568,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
-        }
+        }*/
 
         [HttpGet]
         [Route("api/KPI/GetKpiWeightages")]

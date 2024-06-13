@@ -4,39 +4,40 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="46ee79bf8e754b018a715f142debf8ab" Name="Diagram1">
+      <Diagram DiagramId="de1e25f7d27d452d9ec6718a41f306e8" Name="Diagram1">
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.ClassHeldReport" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.ConfidentialEvaluation" Width="1.5" PointX="5.25" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Course" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.DegreeExitEvaluation" Width="1.5" PointX="8.25" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Department" Width="1.5" PointX="6" PointY="38.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Designation" Width="1.5" PointX="6" PointY="40.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.DirectorEvaluation" Width="1.5" PointX="5.25" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Employee" Width="1.5" PointX="3" PointY="25.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.EmployeeType" Width="1.5" PointX="0.75" PointY="28.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Enrollment" Width="1.5" PointX="5.25" PointY="32" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.EvaluationPin" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.ConfidentialEvaluation" Width="1.5" PointX="5.25" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Course" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.DegreeExitEvaluation" Width="1.5" PointX="8.25" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Department" Width="1.5" PointX="6.75" PointY="40.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Designation" Width="1.5" PointX="6" PointY="43.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.DirectorEvaluation" Width="1.5" PointX="5.25" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Employee" Width="1.5" PointX="3" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.EmployeeType" Width="1.5" PointX="0.75" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Enrollment" Width="1.5" PointX="5.25" PointY="31.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.EvaluationPin" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.EvaluationTime" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Evaluator" Width="1.5" PointX="8.25" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Evaluator" Width="1.5" PointX="8.25" PointY="24.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.GroupKpi" Width="1.5" PointX="8.25" PointY="31.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Kpi" Width="1.5" PointX="9" PointY="17.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.KpiEmployeeScore" Width="1.5" PointX="11.25" PointY="28" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.KpiWeightage" Width="1.5" PointX="13.5" PointY="32" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Kpi" Width="1.5" PointX="9" PointY="39.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.KpiEmployeeScore" Width="1.5" PointX="11.25" PointY="27.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.KpiWeightage" Width="1.5" PointX="14.25" PointY="23.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.OptionsWeightage" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.PeerEvaluation" Width="1.5" PointX="11.25" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Questionaire" Width="1.5" PointX="3" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.QuestionaireType" Width="1.5" PointX="0.75" PointY="17.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SeniorTeacherEvaluation" Width="1.5" PointX="11.25" PointY="31.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Session" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Student" Width="1.5" PointX="3" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.StudentEvaluation" Width="1.5" PointX="5.25" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.StudentSupervisor" Width="1.5" PointX="5.25" PointY="35.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubKpi" Width="1.5" PointX="6" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubkpiEmployeeScore" Width="1.5" PointX="8.25" PointY="21.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SupervisorEvaluation" Width="1.5" PointX="8.25" PointY="35.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.PeerEvaluation" Width="1.5" PointX="11.25" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Questionaire" Width="1.5" PointX="3" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.QuestionaireType" Width="1.5" PointX="0.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SeniorTeacherEvaluation" Width="1.5" PointX="11.25" PointY="31.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Session" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Student" Width="1.5" PointX="3" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.StudentEvaluation" Width="1.5" PointX="5.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.StudentSupervisor" Width="1.5" PointX="5.25" PointY="35.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubKpi" Width="1.5" PointX="6" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubkpiEmployeeScore" Width="1.5" PointX="8.25" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubKpiWeightage" Width="1.5" PointX="14.25" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SupervisorEvaluation" Width="1.5" PointX="8.25" PointY="35.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.sysdiagram" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Task" Width="1.5" PointX="11.25" PointY="19.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.TeacherJunior" Width="1.5" PointX="11.25" PointY="35.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.Task" Width="1.5" PointX="11.25" PointY="19.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.TeacherJunior" Width="1.5" PointX="11.25" PointY="35.75" IsExpanded="true" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Confident__quest__4D4A6ED8" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Confident__sessi__4C564A9F" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Confident__stude__4A6E022D" ManuallyRouted="false" />
@@ -50,6 +51,7 @@
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__DegreeExi__stude__55DFB4D9" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__DegreeExi__super__56D3D912" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__GroupKpi__depart__4F67C174" ManuallyRouted="false" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.fk_department_id" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__GroupKpi__design__4E739D3B" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__DirectorE__evalu__44B528D7" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__DirectorE__evalu__45A94D10" ManuallyRouted="false" />
@@ -83,9 +85,9 @@
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Evaluatio__sessi__63A3C44B" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__EVALUATOR__Sessi__1A9EF37A" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__GroupKpi__kpi_id__4D7F7902" ManuallyRouted="false" />
-        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KpiWeight__group__664B26CC" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__KPI_I__7720AD13" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KpiWeight__kpi_i__68336F3E" ManuallyRouted="false" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SubKpiWei__kpi_i__7F16D496" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KPI_EMPLO__Sessi__7814D14C" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__KpiWeight__sessi__673F4B05" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Superviso__quest__3AA1AEB8" ManuallyRouted="false" />
@@ -96,17 +98,15 @@
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Superviso__quest__5303482E" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SeniorTea__sessi__5D80D6A1" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__STUDENT_E__Sessi__12FDD1B2" ManuallyRouted="false" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUB_KPI_W__Sessi__55BFB948" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__Sessi__0FEC5ADD" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Superviso__sessi__520F23F5" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Task__session_id__24B26D99" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__TeacherJu__sessi__36670980" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__STUDENT_E__Stude__1209AD79" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__StudentSu__stude__0B7CAB7B" ManuallyRouted="false" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUB_KPI_W__SUB_K__56B3DD81" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__SUBKP__0EF836A4" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.SubKpiWeightage" Width="1.5" PointX="11.25" PointY="12" />
-        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SubKpiWei__kpi_i__7F16D496" />
-        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUB_KPI_W__Sessi__55BFB948" />
-        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUB_KPI_W__SUB_K__56B3DD81" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

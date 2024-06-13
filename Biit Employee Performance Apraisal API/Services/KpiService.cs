@@ -157,13 +157,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
 
                     GroupKpi groupKpiEntity = db.GroupKpis.Add(groupKpi);
                     kpiWeightage.kpi_id = kpiEntity.id;
-                    kpiWeightage.group_kpi_id = groupKpiEntity.id;
+                    // kpiWeightage.group_kpi_id = groupKpiEntity.id;
                     db.KpiWeightages.Add(kpiWeightage);
 
                     List<KpiWeightage> kpiWeightages = GetKpiWeightages(groupKpiEntity, sessionID);
                 }
 
-                List<KpiWeightage> unGroupKpiWeightages = db.KpiWeightages.Where(x => x.group_kpi_id == null && x.session_id == sessionID).ToList();
+                // List<KpiWeightage> unGroupKpiWeightages = db.KpiWeightages.Where(x => x.group_kpi_id == null && x.session_id == sessionID).ToList();
 
                 db.SaveChanges();
             }
@@ -212,12 +212,12 @@ namespace Biit_Employee_Performance_Apraisal_API.Services
             }
             else
             {
-                return db.KpiWeightages.Where(x => x.group_kpi_id == null && x.session_id == sessionId).ToList();
+                return db.KpiWeightages.Where(x => x.session_id == sessionId).ToList();
             }
 
             List<int> groupKpiIds = query.Select(y => y.id).Distinct().ToList();
             return db.KpiWeightages
-                     .Where(k => groupKpiIds.Contains((int)k.group_kpi_id) && k.session_id == sessionId)
+                     .Where(k => k.session_id == sessionId)
                      .ToList();
         }
     }

@@ -248,10 +248,10 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\KpiPutRequest.cs" />
+    <Compile Include="Models\GroupKpiWithWeightage.cs" />
     <Compile Include="Models\KpiWeightage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\GroupKpiWithWeightage.cs" />
     <Compile Include="Models\KpiWithSubKpis.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>

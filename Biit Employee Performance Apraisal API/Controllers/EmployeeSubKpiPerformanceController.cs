@@ -39,5 +39,38 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/EmployeeSubKpiPerformance/GetSubKpiMultiEmployeePerformance")]
+        public HttpResponseMessage GetSubKpiMultiEmployeePerformance([FromUri] List<int> employeeIDs, int sessionID)
+        {
+            try
+            {
+                // Retrieve the sub-KPI scores with related sub-KPI data for multiple employees
+                var result = db.SubkpiEmployeeScores
+                               .Where(emp => employeeIDs.Contains(emp.employee_id) && emp.session_id == sessionID)
+                               .GroupBy(emp => emp.employee_id)
+                               .Select(g => new
+                               {
+                                   employee = db.Employees.Where(x => x.id == g.Key).FirstOrDefault(),
+                                   subKpiPerformances = g.Select(empScore => new
+                                   {
+                                       empScore.subkpi_id,
+                                       empScore.SubKpi.name,
+                                       empScore.score,
+                                       // weightage = empScore.weightage != null ? empScore.weightage : (double?)null
+                                   }).ToList()
+                               })
+                               .ToList();
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
     }
 }

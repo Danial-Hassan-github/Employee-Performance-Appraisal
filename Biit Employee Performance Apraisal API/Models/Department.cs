@@ -18,6 +18,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public Department()
         {
             this.GroupKpis = new HashSet<GroupKpi>();
+            this.Kpis = new HashSet<Kpi>();
         }
     
         public int id { get; set; }
@@ -25,5 +26,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<GroupKpi> GroupKpis { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<Kpi> Kpis { get; set; }
     }
 }

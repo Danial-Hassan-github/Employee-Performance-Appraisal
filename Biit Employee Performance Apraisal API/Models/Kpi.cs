@@ -25,7 +25,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     
         public int id { get; set; }
         public string name { get; set; }
+        public Nullable<int> department_id { get; set; }
     
+        [JsonIgnore] public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<GroupKpi> GroupKpis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

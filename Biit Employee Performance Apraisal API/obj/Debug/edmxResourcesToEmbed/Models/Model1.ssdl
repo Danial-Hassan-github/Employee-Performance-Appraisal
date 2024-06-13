@@ -156,6 +156,7 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="department_id" Type="int" />
   </EntityType>
   <EntityType Name="KpiEmployeeScore">
     <Key>
@@ -174,7 +175,6 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="group_kpi_id" Type="int" />
     <Property Name="kpi_id" Type="int" Nullable="false" />
     <Property Name="session_id" Type="int" Nullable="false" />
     <Property Name="weightage" Type="int" Nullable="false" />
@@ -735,18 +735,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__KpiWeight__group__664B26CC">
-    <End Role="GroupKpi" Type="Self.GroupKpi" Multiplicity="0..1" />
-    <End Role="KpiWeightage" Type="Self.KpiWeightage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="GroupKpi">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="KpiWeightage">
-        <PropertyRef Name="group_kpi_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__KpiWeight__kpi_i__68336F3E">
     <End Role="Kpi" Type="Self.Kpi" Multiplicity="1" />
     <End Role="KpiWeightage" Type="Self.KpiWeightage" Multiplicity="*" />
@@ -1179,6 +1167,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_department_id">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Kpi" Type="Self.Kpi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Kpi">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="Biit_Employee_Performance_AppraisalModelStoreContainer">
     <EntitySet Name="ClassHeldReport" EntityType="Self.ClassHeldReport" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ConfidentialEvaluation" EntityType="Self.ConfidentialEvaluation" Schema="dbo" store:Type="Tables" />
@@ -1341,10 +1341,6 @@
       <End Role="Session" EntitySet="Session" />
       <End Role="KpiEmployeeScore" EntitySet="KpiEmployeeScore" />
     </AssociationSet>
-    <AssociationSet Name="FK__KpiWeight__group__664B26CC" Association="Self.FK__KpiWeight__group__664B26CC">
-      <End Role="GroupKpi" EntitySet="GroupKpi" />
-      <End Role="KpiWeightage" EntitySet="KpiWeightage" />
-    </AssociationSet>
     <AssociationSet Name="FK__KpiWeight__kpi_i__68336F3E" Association="Self.FK__KpiWeight__kpi_i__68336F3E">
       <End Role="Kpi" EntitySet="Kpi" />
       <End Role="KpiWeightage" EntitySet="KpiWeightage" />
@@ -1488,6 +1484,10 @@
     <AssociationSet Name="FK__TeacherJu__sessi__36670980" Association="Self.FK__TeacherJu__sessi__36670980">
       <End Role="Session" EntitySet="Session" />
       <End Role="TeacherJunior" EntitySet="TeacherJunior" />
+    </AssociationSet>
+    <AssociationSet Name="fk_department_id" Association="Self.fk_department_id">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Kpi" EntitySet="Kpi" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
