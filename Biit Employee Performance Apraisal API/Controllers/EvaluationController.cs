@@ -263,31 +263,126 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
 
         [HttpGet]
         [Route("api/Evaluation/isEvaluated")]
-        public HttpResponseMessage IsEvaluated(int studentId, int teacherId, int courseId, int sessionId, string evaluationType)
+        public HttpResponseMessage IsEvaluated(int evaluatorId, int evaluateeId, int courseId, int sessionId, string evaluationType)
         {
             try
             {
-                var typeExists = db.QuestionaireTypes.Any(t => t.name == evaluationType);
+                // Validate evaluation type
+                var evaluationTypeRecord = db.QuestionaireTypes.FirstOrDefault(t => t.name == evaluationType);
 
-                if (!typeExists)
+                if (evaluationTypeRecord == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid evaluation type");
                 }
 
-                var a = db.QuestionaireTypes.FirstOrDefault(t => t.name == evaluationType).id;
-                var isEvaluated = db.StudentEvaluations
-                                    .Join(db.Questionaires,
-                                        se => se.question_id,
-                                        q => q.id,
-                                        (se, q) => new { se, q })
-                                    .Where(joined => joined.se.student_id == studentId &&
-                                joined.se.teacher_id == teacherId &&
-                                joined.se.course_id == courseId &&
-                                joined.se.session_id == sessionId &&
-                                joined.q.type_id == a)
-                                    .ToList();
+                // Get evaluation type ID
+                var evaluationTypeId = evaluationTypeRecord.id;
 
-                if (isEvaluated.Any())
+                // Initialize the evaluation check flag
+                bool isEvaluated = false;
+
+                // Check based on the evaluation type
+                switch (evaluationType.ToLower())
+                {
+                    case "student":
+                        isEvaluated = db.StudentEvaluations
+                                        .Join(db.Questionaires,
+                                            se => se.question_id,
+                                            q => q.id,
+                                            (se, q) => new { se, q })
+                                        .Any(joined => joined.se.student_id == evaluatorId &&
+                                                    joined.se.teacher_id == evaluateeId &&
+                                                    joined.se.course_id == courseId &&
+                                                    joined.se.session_id == sessionId &&
+                                                    joined.q.type_id == evaluationTypeId);
+                        break;
+
+                    case "peer":
+                        // Assuming there is a PeerEvaluations table
+                        isEvaluated = db.PeerEvaluations
+                                        .Join(db.Questionaires,
+                                            pe => pe.question_id,
+                                            q => q.id,
+                                            (pe, q) => new { pe, q })
+                                        .Any(joined => joined.pe.evaluator_id == evaluatorId &&
+                                                    joined.pe.evaluatee_id == evaluateeId &&
+                                                    joined.pe.course_id == courseId &&
+                                                    joined.pe.session_id == sessionId &&
+                                                    joined.q.type_id == evaluationTypeId);
+                        break;
+
+                    case "confidential":
+                        // Assuming there is a ConfidentialEvaluations table
+                        isEvaluated = db.ConfidentialEvaluations
+                                        .Join(db.Questionaires,
+                                            ce => ce.question_id,
+                                            q => q.id,
+                                            (ce, q) => new { ce, q })
+                                        .Any(joined => joined.ce.student_id == evaluatorId &&
+                                                    joined.ce.teacher_id == evaluateeId &&
+                                                    joined.ce.session_id == sessionId &&
+                                                    joined.q.type_id == evaluationTypeId);
+                        break;
+
+                    case "supervisor":
+                        // Assuming there is a SupervisorEvaluations table
+                        isEvaluated = db.SupervisorEvaluations
+                                        .Join(db.Questionaires,
+                                            sue => sue.question_id,
+                                            q => q.id,
+                                            (sue, q) => new { sue, q })
+                                        .Any(joined => joined.sue.supervisor_id == evaluatorId &&
+                                                    joined.sue.subordinate_id == evaluateeId &&
+                                                    joined.sue.session_id == sessionId &&
+                                                    joined.q.type_id == evaluationTypeId);
+                        break;
+
+                    case "director":
+                        // Assuming there is a DirectorEvaluations table
+                        isEvaluated = db.DirectorEvaluations
+                                        .Join(db.Questionaires,
+                                            de => de.question_id,
+                                            q => q.id,
+                                            (de, q) => new { de, q })
+                                        .Any(joined => joined.de.evaluator_id == evaluatorId &&
+                                                    joined.de.evaluatee_id == evaluateeId &&
+                                                    joined.de.session_id == sessionId &&
+                                                    joined.q.type_id == evaluationTypeId);
+                        break;
+
+                    case "senior":
+                        // Assuming there is a SeniorEvaluations table
+                        isEvaluated = db.SeniorTeacherEvaluations
+                                        .Join(db.Questionaires,
+                                            se => se.question_id,
+                                            q => q.id,
+                                            (se, q) => new { se, q })
+                                        .Any(joined => joined.se.senior_teacher_id == evaluatorId &&
+                                                    joined.se.junior_teacher_id == evaluateeId &&
+                                                    joined.se.course_id == courseId &&
+                                                    joined.se.session_id == sessionId &&
+                                                    joined.q.type_id == evaluationTypeId);
+                        break;
+
+                    case "degree exit":
+                        // Assuming there is a DegreeExitEvaluations table
+                        isEvaluated = db.DegreeExitEvaluations
+                                        .Join(db.Questionaires,
+                                            dee => dee.question_id,
+                                            q => q.id,
+                                            (dee, q) => new { dee, q })
+                                        .Any(joined => joined.dee.student_id == evaluatorId &&
+                                                    joined.dee.supervisor_id == evaluateeId &&
+                                                    joined.dee.session_id == sessionId &&
+                                                    joined.q.type_id == evaluationTypeId);
+                        break;
+
+                    default:
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Unknown evaluation type");
+                }
+
+                // Return the appropriate response
+                if (isEvaluated)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Already Evaluated");
                 }
@@ -301,6 +396,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
 
     }
 }

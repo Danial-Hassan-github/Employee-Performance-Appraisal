@@ -192,6 +192,7 @@
     <EntitySetMapping Name="PeerEvaluations">
       <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.PeerEvaluation">
         <MappingFragment StoreEntitySet="PeerEvaluation">
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
           <ScalarProperty Name="evaluator_id" ColumnName="evaluator_id" />
           <ScalarProperty Name="evaluatee_id" ColumnName="evaluatee_id" />
           <ScalarProperty Name="session_id" ColumnName="session_id" />
@@ -349,6 +350,15 @@
           <ScalarProperty Name="junior_teacher_id" ColumnName="junior_teacher_id" />
           <ScalarProperty Name="course_id" ColumnName="course_id" />
           <ScalarProperty Name="session_id" ColumnName="session_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConfidentialEvaluatorStudents">
+      <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.ConfidentialEvaluatorStudent">
+        <MappingFragment StoreEntitySet="ConfidentialEvaluatorStudent">
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="session_id" ColumnName="session_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

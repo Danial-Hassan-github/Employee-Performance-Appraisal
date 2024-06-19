@@ -21,6 +21,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
             this.SeniorTeacherEvaluations = new HashSet<SeniorTeacherEvaluation>();
             this.StudentEvaluations = new HashSet<StudentEvaluation>();
             this.TeacherJuniors = new HashSet<TeacherJunior>();
+            this.PeerEvaluations = new HashSet<PeerEvaluation>();
         }
     
         public int id { get; set; }
@@ -35,5 +36,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         [JsonIgnore] public virtual ICollection<StudentEvaluation> StudentEvaluations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore] public virtual ICollection<TeacherJunior> TeacherJuniors { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore] public virtual ICollection<PeerEvaluation> PeerEvaluations { get; set; }
     }
 }

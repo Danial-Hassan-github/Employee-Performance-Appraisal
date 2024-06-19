@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices.ComTypes;
 using System.Web.Http;
 
 namespace Biit_Employee_Performance_Apraisal_API.Controllers
@@ -28,7 +29,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                    empScore.subkpi_id,
                                    name = empScore.SubKpi.name,
                                    empScore.score,
-                                   // weightage = empScore. weightage != null ? weightage.weightage : (double?)null
+                                   weightage = 0
                                })
                                .ToList();
 
@@ -55,10 +56,11 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                                    employee = db.Employees.Where(x => x.id == g.Key).FirstOrDefault(),
                                    subKpiPerformances = g.Select(empScore => new
                                    {
+                                       empScore.employee_id,
                                        empScore.subkpi_id,
                                        empScore.SubKpi.name,
                                        empScore.score,
-                                       // weightage = empScore.weightage != null ? empScore.weightage : (double?)null
+                                       weightage = 0
                                    }).ToList()
                                })
                                .ToList();

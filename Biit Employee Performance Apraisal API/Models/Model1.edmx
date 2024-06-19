@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Biit_Employee_Performance_AppraisalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Biit_Employee_Performance_AppraisalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ClassHeldReport">
           <Key>
             <PropertyRef Name="id" />
@@ -32,6 +32,16 @@
           <Property Name="question_id" Type="int" Nullable="false" />
           <Property Name="session_id" Type="int" Nullable="false" />
           <Property Name="score" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConfidentialEvaluatorStudent">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="session_id" />
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="session_id" Type="int" Nullable="false" />
+          <Property Name="student_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Course">
           <Key>
@@ -197,11 +207,13 @@
             <PropertyRef Name="evaluator_id" />
             <PropertyRef Name="evaluatee_id" />
             <PropertyRef Name="session_id" />
+            <PropertyRef Name="course_id" />
             <PropertyRef Name="question_id" />
           </Key>
           <Property Name="evaluator_id" Type="int" Nullable="false" />
           <Property Name="evaluatee_id" Type="int" Nullable="false" />
           <Property Name="session_id" Type="int" Nullable="false" />
+          <Property Name="course_id" Type="int" Nullable="false" />
           <Property Name="question_id" Type="int" Nullable="false" />
           <Property Name="score" Type="int" Nullable="false" />
         </EntityType>
@@ -368,6 +380,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Confident__sessi__11007AA7">
+          <End Role="Session" Type="Self.Session" Multiplicity="1" />
+          <End Role="ConfidentialEvaluatorStudent" Type="Self.ConfidentialEvaluatorStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Session">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ConfidentialEvaluatorStudent">
+              <PropertyRef Name="session_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Confident__sessi__4C564A9F">
           <End Role="Session" Type="Self.Session" Multiplicity="1" />
           <End Role="ConfidentialEvaluation" Type="Self.ConfidentialEvaluation" Multiplicity="*" />
@@ -377,6 +401,18 @@
             </Principal>
             <Dependent Role="ConfidentialEvaluation">
               <PropertyRef Name="session_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Confident__stude__11F49EE0">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="ConfidentialEvaluatorStudent" Type="Self.ConfidentialEvaluatorStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ConfidentialEvaluatorStudent">
+              <PropertyRef Name="student_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -764,6 +800,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__PeerEvalu__cours__17AD7836">
+          <End Role="Course" Type="Self.Course" Multiplicity="1" />
+          <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PeerEvaluation">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PeerEvalu__evalu__14D10B8B">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PeerEvaluation">
+              <PropertyRef Name="evaluator_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PeerEvalu__evalu__15C52FC4">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PeerEvaluation">
+              <PropertyRef Name="evaluatee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PeerEvalu__quest__18A19C6F">
+          <End Role="Questionaire" Type="Self.Questionaire" Multiplicity="1" />
+          <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questionaire">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PeerEvaluation">
+              <PropertyRef Name="question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PeerEvalu__sessi__16B953FD">
+          <End Role="Session" Type="Self.Session" Multiplicity="1" />
+          <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Session">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PeerEvaluation">
+              <PropertyRef Name="session_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Questiona__type___33F4B129">
           <End Role="QuestionaireType" Type="Self.QuestionaireType" Multiplicity="0..1" />
           <End Role="Questionaire" Type="Self.Questionaire" Multiplicity="*" />
@@ -992,18 +1088,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Superviso__quest__3AA1AEB8">
-          <End Role="Questionaire" Type="Self.Questionaire" Multiplicity="1" />
-          <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Questionaire">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PeerEvaluation">
-              <PropertyRef Name="question_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Superviso__quest__5303482E">
           <End Role="Questionaire" Type="Self.Questionaire" Multiplicity="1" />
           <End Role="SupervisorEvaluation" Type="Self.SupervisorEvaluation" Multiplicity="*" />
@@ -1013,18 +1097,6 @@
             </Principal>
             <Dependent Role="SupervisorEvaluation">
               <PropertyRef Name="question_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Superviso__sessi__38B96646">
-          <End Role="Session" Type="Self.Session" Multiplicity="1" />
-          <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Session">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PeerEvaluation">
-              <PropertyRef Name="session_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1040,18 +1112,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Superviso__subor__39AD8A7F">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PeerEvaluation">
-              <PropertyRef Name="evaluatee_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Superviso__subor__511AFFBC">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="SupervisorEvaluation" Type="Self.SupervisorEvaluation" Multiplicity="*" />
@@ -1061,18 +1121,6 @@
             </Principal>
             <Dependent Role="SupervisorEvaluation">
               <PropertyRef Name="subordinate_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Superviso__super__37C5420D">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="PeerEvaluation" Type="Self.PeerEvaluation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PeerEvaluation">
-              <PropertyRef Name="evaluator_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1187,6 +1235,7 @@
         <EntityContainer Name="Biit_Employee_Performance_AppraisalModelStoreContainer">
           <EntitySet Name="ClassHeldReport" EntityType="Self.ClassHeldReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConfidentialEvaluation" EntityType="Self.ConfidentialEvaluation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConfidentialEvaluatorStudent" EntityType="Self.ConfidentialEvaluatorStudent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DegreeExitEvaluation" EntityType="Self.DegreeExitEvaluation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
@@ -1222,9 +1271,17 @@
             <End Role="Questionaire" EntitySet="Questionaire" />
             <End Role="ConfidentialEvaluation" EntitySet="ConfidentialEvaluation" />
           </AssociationSet>
+          <AssociationSet Name="FK__Confident__sessi__11007AA7" Association="Self.FK__Confident__sessi__11007AA7">
+            <End Role="Session" EntitySet="Session" />
+            <End Role="ConfidentialEvaluatorStudent" EntitySet="ConfidentialEvaluatorStudent" />
+          </AssociationSet>
           <AssociationSet Name="FK__Confident__sessi__4C564A9F" Association="Self.FK__Confident__sessi__4C564A9F">
             <End Role="Session" EntitySet="Session" />
             <End Role="ConfidentialEvaluation" EntitySet="ConfidentialEvaluation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Confident__stude__11F49EE0" Association="Self.FK__Confident__stude__11F49EE0">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="ConfidentialEvaluatorStudent" EntitySet="ConfidentialEvaluatorStudent" />
           </AssociationSet>
           <AssociationSet Name="FK__Confident__stude__4A6E022D" Association="Self.FK__Confident__stude__4A6E022D">
             <End Role="Student" EntitySet="Student" />
@@ -1354,6 +1411,26 @@
             <End Role="Session" EntitySet="Session" />
             <End Role="KpiWeightage" EntitySet="KpiWeightage" />
           </AssociationSet>
+          <AssociationSet Name="FK__PeerEvalu__cours__17AD7836" Association="Self.FK__PeerEvalu__cours__17AD7836">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PeerEvalu__evalu__14D10B8B" Association="Self.FK__PeerEvalu__evalu__14D10B8B">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PeerEvalu__evalu__15C52FC4" Association="Self.FK__PeerEvalu__evalu__15C52FC4">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PeerEvalu__quest__18A19C6F" Association="Self.FK__PeerEvalu__quest__18A19C6F">
+            <End Role="Questionaire" EntitySet="Questionaire" />
+            <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PeerEvalu__sessi__16B953FD" Association="Self.FK__PeerEvalu__sessi__16B953FD">
+            <End Role="Session" EntitySet="Session" />
+            <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
+          </AssociationSet>
           <AssociationSet Name="FK__Questiona__type___33F4B129" Association="Self.FK__Questiona__type___33F4B129">
             <End Role="QuestionaireType" EntitySet="QuestionaireType" />
             <End Role="Questionaire" EntitySet="Questionaire" />
@@ -1430,33 +1507,17 @@
             <End Role="Kpi" EntitySet="Kpi" />
             <End Role="SubKpiWeightage" EntitySet="SubKpiWeightage" />
           </AssociationSet>
-          <AssociationSet Name="FK__Superviso__quest__3AA1AEB8" Association="Self.FK__Superviso__quest__3AA1AEB8">
-            <End Role="Questionaire" EntitySet="Questionaire" />
-            <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
-          </AssociationSet>
           <AssociationSet Name="FK__Superviso__quest__5303482E" Association="Self.FK__Superviso__quest__5303482E">
             <End Role="Questionaire" EntitySet="Questionaire" />
             <End Role="SupervisorEvaluation" EntitySet="SupervisorEvaluation" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Superviso__sessi__38B96646" Association="Self.FK__Superviso__sessi__38B96646">
-            <End Role="Session" EntitySet="Session" />
-            <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
           </AssociationSet>
           <AssociationSet Name="FK__Superviso__sessi__520F23F5" Association="Self.FK__Superviso__sessi__520F23F5">
             <End Role="Session" EntitySet="Session" />
             <End Role="SupervisorEvaluation" EntitySet="SupervisorEvaluation" />
           </AssociationSet>
-          <AssociationSet Name="FK__Superviso__subor__39AD8A7F" Association="Self.FK__Superviso__subor__39AD8A7F">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
-          </AssociationSet>
           <AssociationSet Name="FK__Superviso__subor__511AFFBC" Association="Self.FK__Superviso__subor__511AFFBC">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="SupervisorEvaluation" EntitySet="SupervisorEvaluation" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Superviso__super__37C5420D" Association="Self.FK__Superviso__super__37C5420D">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="PeerEvaluation" EntitySet="PeerEvaluation" />
           </AssociationSet>
           <AssociationSet Name="FK__Superviso__super__5026DB83" Association="Self.FK__Superviso__super__5026DB83">
             <End Role="Employee" EntitySet="Employee" />
@@ -1495,8 +1556,7 @@
             <End Role="Kpi" EntitySet="Kpi" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Biit_Employee_Performance_AppraisalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1543,6 +1603,7 @@
           <NavigationProperty Name="SeniorTeacherEvaluations" Relationship="Self.FK__SeniorTea__cours__5E74FADA" FromRole="Course" ToRole="SeniorTeacherEvaluation" />
           <NavigationProperty Name="StudentEvaluations" Relationship="Self.FK__StudentEv__cours__2F2FFC0C" FromRole="Course" ToRole="StudentEvaluation" />
           <NavigationProperty Name="TeacherJuniors" Relationship="Self.FK__TeacherJu__cours__3572E547" FromRole="Course" ToRole="TeacherJunior" />
+          <NavigationProperty Name="PeerEvaluations" Relationship="Biit_Employee_Performance_AppraisalModel.FK__PeerEvalu__cours__17AD7836" FromRole="Course" ToRole="PeerEvaluation" />
         </EntityType>
         <EntityType Name="DegreeExitEvaluation">
           <Key>
@@ -1765,6 +1826,7 @@
             <PropertyRef Name="evaluatee_id" />
             <PropertyRef Name="session_id" />
             <PropertyRef Name="question_id" />
+            <PropertyRef Name="course_id" />
           </Key>
           <Property Name="evaluator_id" Type="Int32" Nullable="false" />
           <Property Name="evaluatee_id" Type="Int32" Nullable="false" />
@@ -1775,6 +1837,8 @@
           <NavigationProperty Name="Employee1" Relationship="Self.FK__Superviso__super__37C5420D" FromRole="PeerEvaluation" ToRole="Employee" />
           <NavigationProperty Name="Questionaire" Relationship="Self.FK__Superviso__quest__3AA1AEB8" FromRole="PeerEvaluation" ToRole="Questionaire" />
           <NavigationProperty Name="Session" Relationship="Self.FK__Superviso__sessi__38B96646" FromRole="PeerEvaluation" ToRole="Session" />
+          <Property Name="course_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Course" Relationship="Biit_Employee_Performance_AppraisalModel.FK__PeerEvalu__cours__17AD7836" FromRole="PeerEvaluation" ToRole="Course" />
         </EntityType>
         <EntityType Name="Questionaire">
           <Key>
@@ -1844,6 +1908,7 @@
           <NavigationProperty Name="SupervisorEvaluations" Relationship="Self.FK__Superviso__sessi__520F23F5" FromRole="Session" ToRole="SupervisorEvaluation" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK__Task__session_id__24B26D99" FromRole="Session" ToRole="Task" />
           <NavigationProperty Name="TeacherJuniors" Relationship="Self.FK__TeacherJu__sessi__36670980" FromRole="Session" ToRole="TeacherJunior" />
+          <NavigationProperty Name="ConfidentialEvaluatorStudents" Relationship="Biit_Employee_Performance_AppraisalModel.FK__Confident__sessi__11007AA7" FromRole="Session" ToRole="ConfidentialEvaluatorStudent" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -1862,6 +1927,7 @@
           <NavigationProperty Name="Enrollments" Relationship="Self.FK__ENROLLMEN__Stude__662B2B3B" FromRole="Student" ToRole="Enrollment" />
           <NavigationProperty Name="StudentEvaluations" Relationship="Self.FK__STUDENT_E__Stude__1209AD79" FromRole="Student" ToRole="StudentEvaluation" />
           <NavigationProperty Name="StudentSupervisors" Relationship="Self.FK__StudentSu__stude__0B7CAB7B" FromRole="Student" ToRole="StudentSupervisor" />
+          <NavigationProperty Name="ConfidentialEvaluatorStudents" Relationship="Biit_Employee_Performance_AppraisalModel.FK__Confident__stude__11F49EE0" FromRole="Student" ToRole="ConfidentialEvaluatorStudent" />
         </EntityType>
         <EntityType Name="StudentEvaluation">
           <Key>
@@ -3127,7 +3193,68 @@
             <End Role="SubKpi" EntitySet="SubKpis" />
             <End Role="SubkpiEmployeeScore" EntitySet="SubkpiEmployeeScores" />
           </AssociationSet>
+          <EntitySet Name="ConfidentialEvaluatorStudents" EntityType="Biit_Employee_Performance_AppraisalModel.ConfidentialEvaluatorStudent" />
+          <AssociationSet Name="FK__Confident__sessi__11007AA7" Association="Biit_Employee_Performance_AppraisalModel.FK__Confident__sessi__11007AA7">
+            <End Role="Session" EntitySet="Sessions" />
+            <End Role="ConfidentialEvaluatorStudent" EntitySet="ConfidentialEvaluatorStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Confident__stude__11F49EE0" Association="Biit_Employee_Performance_AppraisalModel.FK__Confident__stude__11F49EE0">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="ConfidentialEvaluatorStudent" EntitySet="ConfidentialEvaluatorStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PeerEvalu__cours__17AD7836" Association="Biit_Employee_Performance_AppraisalModel.FK__PeerEvalu__cours__17AD7836">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="PeerEvaluation" EntitySet="PeerEvaluations" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ConfidentialEvaluatorStudent">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="session_id" />
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="session_id" Type="Int32" Nullable="false" />
+          <Property Name="student_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Session" Relationship="Biit_Employee_Performance_AppraisalModel.FK__Confident__sessi__11007AA7" FromRole="ConfidentialEvaluatorStudent" ToRole="Session" />
+          <NavigationProperty Name="Student" Relationship="Biit_Employee_Performance_AppraisalModel.FK__Confident__stude__11F49EE0" FromRole="ConfidentialEvaluatorStudent" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK__Confident__sessi__11007AA7">
+          <End Type="Biit_Employee_Performance_AppraisalModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="Biit_Employee_Performance_AppraisalModel.ConfidentialEvaluatorStudent" Role="ConfidentialEvaluatorStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Session">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ConfidentialEvaluatorStudent">
+              <PropertyRef Name="session_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Confident__stude__11F49EE0">
+          <End Type="Biit_Employee_Performance_AppraisalModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="Biit_Employee_Performance_AppraisalModel.ConfidentialEvaluatorStudent" Role="ConfidentialEvaluatorStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ConfidentialEvaluatorStudent">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PeerEvalu__cours__17AD7836">
+          <End Type="Biit_Employee_Performance_AppraisalModel.Course" Role="Course" Multiplicity="1" />
+          <End Type="Biit_Employee_Performance_AppraisalModel.PeerEvaluation" Role="PeerEvaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PeerEvaluation">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3325,6 +3452,7 @@
           <EntitySetMapping Name="PeerEvaluations">
             <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.PeerEvaluation">
               <MappingFragment StoreEntitySet="PeerEvaluation">
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
                 <ScalarProperty Name="evaluator_id" ColumnName="evaluator_id" />
                 <ScalarProperty Name="evaluatee_id" ColumnName="evaluatee_id" />
                 <ScalarProperty Name="session_id" ColumnName="session_id" />
@@ -3482,6 +3610,15 @@
                 <ScalarProperty Name="junior_teacher_id" ColumnName="junior_teacher_id" />
                 <ScalarProperty Name="course_id" ColumnName="course_id" />
                 <ScalarProperty Name="session_id" ColumnName="session_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConfidentialEvaluatorStudents">
+            <EntityTypeMapping TypeName="Biit_Employee_Performance_AppraisalModel.ConfidentialEvaluatorStudent">
+              <MappingFragment StoreEntitySet="ConfidentialEvaluatorStudent">
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="session_id" ColumnName="session_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

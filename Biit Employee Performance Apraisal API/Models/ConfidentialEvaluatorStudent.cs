@@ -12,19 +12,13 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
     using System; using Newtonsoft.Json;
     using System.Collections.Generic;
     
-    public partial class PeerEvaluation
+    public partial class ConfidentialEvaluatorStudent
     {
-        public int evaluator_id { get; set; }
-        public int evaluatee_id { get; set; }
+        public int id { get; set; }
         public int session_id { get; set; }
-        public int question_id { get; set; }
-        public int score { get; set; }
-        public int course_id { get; set; }
+        public int student_id { get; set; }
     
-        [JsonIgnore] public virtual Employee Employee { get; set; }
-        [JsonIgnore] public virtual Employee Employee1 { get; set; }
-        [JsonIgnore] public virtual Questionaire Questionaire { get; set; }
         [JsonIgnore] public virtual Session Session { get; set; }
-        [JsonIgnore] public virtual Course Course { get; set; }
+        [JsonIgnore] public virtual Student Student { get; set; }
     }
 }

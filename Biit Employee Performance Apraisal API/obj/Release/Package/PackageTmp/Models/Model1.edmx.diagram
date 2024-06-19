@@ -107,6 +107,10 @@
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__StudentSu__stude__0B7CAB7B" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUB_KPI_W__SUB_K__56B3DD81" ManuallyRouted="false" />
         <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__SUBKPI_EM__SUBKP__0EF836A4" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Biit_Employee_Performance_AppraisalModel.ConfidentialEvaluatorStudent" Width="1.5" PointX="5.25" PointY="12.875" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Confident__sessi__11007AA7" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__Confident__stude__11F49EE0" />
+        <AssociationConnector Association="Biit_Employee_Performance_AppraisalModel.FK__PeerEvalu__cours__17AD7836" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

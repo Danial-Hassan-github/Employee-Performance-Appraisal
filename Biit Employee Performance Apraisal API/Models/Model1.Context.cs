@@ -58,5 +58,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TeacherJunior> TeacherJuniors { get; set; }
+        public virtual DbSet<ConfidentialEvaluatorStudent> ConfidentialEvaluatorStudents { get; set; }
     }
 }
