@@ -48,45 +48,21 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                           weightage => weightage.kpi_id,
                           kpi => kpi.id,
                           (weightage, kpi) => new { Weightage = weightage, Kpi = kpi })
-                    .Where(combined => combined.Weightage.session_id == sessionID)      
+                    .Where(combined => combined.Weightage.session_id == sessionID)
                     .GroupBy(combined => combined.Kpi.department_id)
                     .Select(group => new
                     {
-                        GroupKpiId = group.Key,
-                        Records = group.Select(g => new
+                        departmentId = group.Key,
+                        kpiList = group.Select(g => new
                         {
-                                g.Kpi.id,
-                                g.Kpi.name,
-                                kpiWeightage = g.Weightage
+                            g.Kpi.id,
+                            g.Kpi.name,
+                            kpiWeightage = g.Weightage
                         }).ToList()
                     })
                     .ToList();
 
-                var enrichedResult = result
-                    .GroupJoin(db.GroupKpis,
-                               grouped => grouped.GroupKpiId,
-                               groupKpi => groupKpi.id,
-                               (grouped, groupKpi) => new
-                               {
-                                   groupKpi = groupKpi.FirstOrDefault(), // Default to null if no match
-                                   records = grouped.Records
-                               })
-                    .Select(grp => new
-                    {
-                        groupKpi = grp.groupKpi == null ? null : new
-                        {
-                            grp.groupKpi.id,
-                            grp.groupKpi.kpi_id,
-                            department = db.Departments.FirstOrDefault(d => d.id == grp.groupKpi.department_id),
-                            designation = db.Designations.FirstOrDefault(d => d.id == grp.groupKpi.designation_id),
-                            employeeType = db.EmployeeTypes.FirstOrDefault(e => e.id == grp.groupKpi.employee_type_id),
-                            employee = db.Employees.FirstOrDefault(e => e.id == grp.groupKpi.employee_id)
-                        },
-                        kpiList = grp.records
-                    })
-                    .ToList();
-
-                return Request.CreateResponse(HttpStatusCode.OK, enrichedResult);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
