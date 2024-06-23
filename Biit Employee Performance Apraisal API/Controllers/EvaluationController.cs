@@ -217,7 +217,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "something went wrong");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "something went wrong");
                 }
             }
             catch (Exception ex)
@@ -257,7 +257,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
 

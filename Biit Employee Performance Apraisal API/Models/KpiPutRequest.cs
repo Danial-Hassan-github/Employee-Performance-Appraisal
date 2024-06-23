@@ -12,5 +12,6 @@ namespace Biit_Employee_Performance_Apraisal_API.Models
         public string name { get; set; }
         public KpiWeightage kpiWeightage { get; set; }
         public List<SubKpiWeightage> subKpiWeightages { get; set; }
+        public List<SubKpiWeightage> deletedSubKpis {  get; set; }
     }
 }
