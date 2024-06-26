@@ -145,7 +145,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     {
                         foreach (var item in k.subKpiWeightages)
                         {
-                            var subKpiWeightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == item.sub_kpi_id && x.session_id == item.session_id && x.deleted == false).FirstOrDefault();
+                            var subKpiWeightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == item.sub_kpi_id && x.kpi_id == k.id && x.session_id == item.session_id && x.deleted == false).FirstOrDefault();
                             if (subKpiWeightage != null)
                             {
                                 subKpiWeightage.weightage = item.weightage;

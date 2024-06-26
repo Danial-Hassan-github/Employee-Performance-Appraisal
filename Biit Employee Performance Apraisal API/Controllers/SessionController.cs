@@ -38,6 +38,27 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/Session/GetYears")]
+        public HttpResponseMessage GetYears()
+        {
+            try
+            {
+                // List<Session> sessions = db.Sessions.ToList();
+                List<String> years = new List<String>();
+                foreach (var item in db.Sessions.ToList())
+                {
+                    string[] y = item.title.Split('-');
+                    years.Add(y[1]);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, years.Distinct());
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse (HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage PostSession(Session session) {
             try

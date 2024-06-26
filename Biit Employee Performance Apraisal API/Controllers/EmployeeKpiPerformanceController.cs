@@ -105,6 +105,62 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/EmployeeKpiPerformance/CompareKpiEmployeePerformanceYearly")]
+        public HttpResponseMessage CompareKpiEmployeePerformanceYearly([FromUri] List<int> employeeIDs, string year, int kpi_id)
+        {
+            try
+            {
+                List<int> sessionIds = db.Sessions.Where(x => x.title.Contains(year)).Select(y => y.id).ToList();
+                var comparisonResult = new List<object>();
+
+                foreach (var employeeId in employeeIDs)
+                {
+                    var employee = db.Employees.Where(x => x.id == employeeId).FirstOrDefault();
+                    var kpiScores = new List<object>();
+
+                    foreach (var sessionId in sessionIds)
+                    {
+                        var sessionKpiScores = (from empScore in db.KpiEmployeeScores
+                                                where empScore.employee_id == employeeId && empScore.session_id == sessionId && empScore.kpi_id == kpi_id
+                                                join kpi in db.Kpis on empScore.kpi_id equals kpi.id into kpiJoin
+                                                from kpi in kpiJoin.DefaultIfEmpty()
+                                                join weightage in db.KpiWeightages on new { empScore.kpi_id, empScore.session_id } equals new { weightage.kpi_id, weightage.session_id } into weightageJoin
+                                                from weightage in weightageJoin.DefaultIfEmpty()
+                                                where kpi != null
+                                                select new
+                                                {
+                                                    employee_id = empScore.employee_id,
+                                                    kpi_id = empScore.kpi_id,
+                                                    kpi_title = kpi.name,
+                                                    session_id = empScore.session_id,
+                                                    session_title = db.Sessions.Where(s => s.id == empScore.session_id).Select(s => s.title).FirstOrDefault(),
+                                                    score = empScore.score,
+                                                    weightage = weightage != null ? weightage.weightage : (double?)null
+                                                }).ToList();
+
+                        kpiScores.AddRange(sessionKpiScores);
+                    }
+
+                    var employeePerformance = new
+                    {
+                        employee = employee,
+                        kpiScores = kpiScores
+                    };
+
+                    comparisonResult.Add(employeePerformance);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, comparisonResult);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
+
         [HttpPost]
         public HttpResponseMessage AddFreeKpiEmployeeScore(KpiEmployeeScore employeeScore)
         {
