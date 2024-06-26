@@ -138,8 +138,9 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 {
                     var kpi = db.Kpis.Where(x => x.id == k.id).FirstOrDefault();
                     kpi.name = k.name;
-                    var kpiWeightage = db.KpiWeightages.Where(x => x.kpi_id == k.id).FirstOrDefault();
+                    var kpiWeightage = db.KpiWeightages.Where(x => x.kpi_id == k.id && x.session_id == k.session_id).FirstOrDefault();
                     kpiWeightage.weightage = k.kpiWeightage.weightage;
+                    kpiWeightage.session_id = k.session_id;
                     if (k.subKpiWeightages != null)
                     {
                         foreach (var item in k.subKpiWeightages)
@@ -153,13 +154,14 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                             {
                                 item.deleted = false;
                                 item.kpi_id = k.id;
+                                // item.session_id = k.session_id;
                                 db.SubKpiWeightages.Add(item);
                             }
                         }
 
                         foreach (var item in k.deletedSubKpis)
                         {
-                            var subKpiWeightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == item.sub_kpi_id && x.kpi_id == k.id && x.session_id == item.session_id && x.deleted == false).FirstOrDefault();
+                            var subKpiWeightage = db.SubKpiWeightages.Where(x => x.sub_kpi_id == item.id && x.kpi_id == k.id && x.session_id == k.session_id && x.deleted == false).FirstOrDefault();
                             if (subKpiWeightage != null)
                             {
                                 subKpiWeightage.deleted = true;

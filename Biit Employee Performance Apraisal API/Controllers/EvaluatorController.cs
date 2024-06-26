@@ -32,7 +32,7 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }catch(Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -170,6 +170,143 @@ namespace Biit_Employee_Performance_Apraisal_API.Controllers
                     return Request.CreateResponse(HttpStatusCode.OK, students);
                 else
                     return Request.CreateResponse(HttpStatusCode.OK, employees);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/Evaluator/GetEmployeeEvaluators")]
+        public HttpResponseMessage GetEmployeeEvaluators(int employeeID, int evaluationTypeID, int sessionID, int courseID)
+        {
+            try
+            {
+                // Validate evaluation type
+                var evaluationTypeRecord = db.QuestionaireTypes.FirstOrDefault(t => t.id == evaluationTypeID);
+
+                if (evaluationTypeRecord == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid evaluation type");
+                }
+
+                var response = new
+                {
+                    students = new List<Student>(),
+                    employees = new List<Employee>()
+                };
+
+                // Check based on the evaluation type
+                switch (evaluationTypeRecord.name.ToLower())
+                {
+                    case "student":
+                        var students = db.StudentEvaluations
+                                        .Join(db.Students,
+                                            se => se.student_id,
+                                            s => s.id,
+                                            (se, s) => new { se, s })
+                                        .Where(joined => joined.se.session_id == sessionID &&
+                                                    joined.se.teacher_id == employeeID &&
+                                                    joined.se.course_id == courseID)
+                                        .Select(x => x.s)
+                                        .Distinct()
+                                        .ToList();
+                        response.students.AddRange(students);
+                        break;
+
+                    case "peer":
+                        // Assuming there is a PeerEvaluations table
+                        var employees = db.PeerEvaluations
+                                        .Join(db.Employees,
+                                            pe => pe.evaluator_id,
+                                            e => e.id,
+                                            (pe, e) => new { pe, e })
+                                        .Where(joined => joined.pe.session_id == sessionID &&
+                                                    joined.pe.evaluatee_id == employeeID &&
+                                                    joined.pe.course_id == courseID)
+                                        .Select(x => x.e)
+                                        .Distinct()
+                                        .ToList();
+                        response.employees.AddRange(employees);
+                        break;
+
+                    case "confidential":
+                        students = db.ConfidentialEvaluations
+                                        .Join(db.Students,
+                                            ce => ce.student_id,
+                                            s => s.id,
+                                            (ce, s) => new { ce, s })
+                                        .Where(joined => joined.ce.session_id == sessionID &&
+                                                    joined.ce.teacher_id == employeeID)
+                                        .Select(x => x.s)
+                                        .Distinct()
+                                        .ToList();
+                        response.students.AddRange(students);
+                        break;
+
+                    case "supervisor":
+                        employees = db.SupervisorEvaluations
+                                        .Join(db.Employees,
+                                            se => se.supervisor_id,
+                                            e => e.id,
+                                            (se, e) => new { se, e })
+                                        .Where(joined => joined.se.session_id == sessionID &&
+                                                    joined.se.subordinate_id == employeeID)
+                                        .Select(x => x.e)
+                                        .Distinct()
+                                        .ToList();
+                        response.employees.AddRange(employees);
+                        break;
+
+                    case "director":
+                        employees = db.DirectorEvaluations
+                                        .Join(db.Employees,
+                                            de => de.evaluator_id,
+                                            e => e.id,
+                                            (de, e) => new { de, e })
+                                        .Where(joined => joined.de.session_id == sessionID &&
+                                                    joined.de.evaluatee_id == employeeID)
+                                        .Select(x => x.e)
+                                        .Distinct()
+                                        .ToList();
+                        response.employees.AddRange(employees);
+                        break;
+
+                    case "senior":
+                        employees = db.SeniorTeacherEvaluations
+                                        .Join(db.Employees,
+                                            se => se.senior_teacher_id,
+                                            e => e.id,
+                                            (se, e) => new { se, e })
+                                        .Where(joined => joined.se.session_id == sessionID &&
+                                                    joined.se.junior_teacher_id == employeeID &&
+                                                    joined.se.course_id == courseID)
+                                        .Select(x => x.e)
+                                        .Distinct()
+                                        .ToList();
+                        response.employees.AddRange(employees);
+                        break;
+
+                    case "degree exit":
+                        students = db.DegreeExitEvaluations
+                                        .Join(db.Students,
+                                            de => de.student_id,
+                                            s => s.id,
+                                            (de, s) => new { de, s })
+                                        .Where(joined => joined.de.session_id == sessionID &&
+                                                    joined.de.supervisor_id == employeeID)
+                                        .Select(x => x.s)
+                                        .Distinct()
+                                        .ToList();
+                        response.students.AddRange(students);
+                        break;
+
+                    default:
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Unknown evaluation type");
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
